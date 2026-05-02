@@ -168,7 +168,7 @@ export default function BookAppointment() {
             </select>
           </div>
 
-          <div style={s.grid}>
+          <div className="mobile-grid-1" style={s.grid}>
             <div style={s.field}>
               <label style={s.label}>Fecha</label>
               <input type="date" 

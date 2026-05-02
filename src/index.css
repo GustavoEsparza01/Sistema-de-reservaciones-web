@@ -1,0 +1,88 @@
+/* Estilos base y variables */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* 
+  ========================================
+  CLASES DE UTILIDAD RESPONSIVAS
+  ========================================
+*/
+
+/* --- Ocultar en escritorio, mostrar en móvil --- */
+.mobile-only {
+  display: none !important;
+}
+
+/* --- Mostrar en escritorio, ocultar en móvil --- */
+.desktop-only {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: flex !important;
+  }
+  
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Flexbox: Cambiar de fila a columna */
+  .mobile-col {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  /* Grid: Cambiar a una sola columna */
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ajustes de espaciado general */
+  .mobile-padding {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Ajustes de tipografía */
+  .mobile-title {
+    font-size: 32px !important;
+  }
+  
+  .mobile-subtitle {
+    font-size: 14px !important;
+  }
+
+  /* Ajustes para tarjetas en lista (MyAppointments) */
+  .mobile-card-stack {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  
+  /* Evitar botones muy pequeños */
+  .mobile-btn-full {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    justify-content: center !important;
+  }
+  
+  /* Navbar móvil */
+  .nav-mobile-container {
+    padding: 0 16px !important;
+  }
+  
+  .nav-brand-text {
+    font-size: 13px !important;
+  }
+}

@@ -111,7 +111,7 @@ export default function MyAppointments() {
             const barberName = barber?.profiles?.full_name || 'Barbero asignado'
 
             return (
-              <div key={app.id} style={s.card}>
+              <div key={app.id} className="mobile-col mobile-card-stack" style={s.card}>
                 <div style={s.info}>
                   <div style={s.badge(app.status)}>
                     {app.status === 'pending' ? 'Pendiente' : app.status === 'cancelled' ? 'Cancelada' : 'Completada'}

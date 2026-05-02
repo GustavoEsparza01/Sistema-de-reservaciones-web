@@ -14,9 +14,9 @@ export default function Home() {
     <div style={{ minHeight: '100vh', background: C.bg, fontFamily: "'Georgia', serif", color: C.text }}>
 
       {/* Hero */}
-      <div style={{ textAlign: 'center', padding: '80px 24px 60px' }}>
+      <div className="mobile-padding" style={{ textAlign: 'center', padding: '80px 24px 60px' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>✂</div>
-        <h1 style={{ fontSize: 38, fontWeight: 700, color: '#e8dcc8', letterSpacing: 1, margin: 0 }}>
+        <h1 className="mobile-title" style={{ fontSize: 38, fontWeight: 700, color: '#e8dcc8', letterSpacing: 1, margin: 0 }}>
           Peludos Barber Shop
         </h1>
         <p style={{ fontSize: 14, color: C.muted, fontStyle: 'italic', letterSpacing: 2, margin: '10px 0 0' }}>
@@ -67,16 +67,16 @@ export default function Home() {
       </div>
 
       {/* Horarios */}
-      <div style={{ borderTop: `0.5px solid ${C.divider}`, padding: '48px 24px 64px', textAlign: 'center' }}>
+      <div className="mobile-padding" style={{ borderTop: `0.5px solid ${C.divider}`, padding: '48px 24px 64px', textAlign: 'center' }}>
         <h2 style={{ fontSize: 13, letterSpacing: 3, color: C.muted, textTransform: 'uppercase', marginBottom: 24 }}>
           Horarios
         </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
+        <div className="mobile-col" style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: 14, color: '#e8dcc8', marginBottom: 4 }}>Lunes – Sábado</div>
             <div style={{ fontSize: 22, color: C.gold, fontWeight: 700 }}>9:00 – 20:00</div>
           </div>
-          <div style={{ width: '0.5px', background: C.divider }} />
+          <div className="desktop-only" style={{ width: '0.5px', background: C.divider }} />
           <div>
             <div style={{ fontSize: 14, color: '#e8dcc8', marginBottom: 4 }}>Domingo</div>
             <div style={{ fontSize: 22, color: C.gold, fontWeight: 700 }}>10:00 – 16:00</div>

@@ -227,7 +227,7 @@ export default function Login() {
           {/* REGISTRO */}
           {tab === 'register' && (
             <form onSubmit={handleRegister}>
-              <div style={s.row2}>
+              <div className="mobile-grid-1" style={s.row2}>
                 <Field label="Nombre completo" type="text" value={regData.full_name}
                   onChange={v => setRegData(p => ({ ...p, full_name: v }))} placeholder="Juan Pérez" required />
                 <Field label="Teléfono" type="tel" value={regData.phone}
