@@ -171,7 +171,11 @@ export default function BookAppointment() {
           <div style={s.grid}>
             <div style={s.field}>
               <label style={s.label}>Fecha</label>
-              <input type="date" style={s.input} value={formData.date} onChange={e => handleChange('date', e.target.value)} 
+              <input type="date" 
+                style={{ ...s.input, colorScheme: 'dark', cursor: 'pointer' }} 
+                value={formData.date} 
+                onChange={e => handleChange('date', e.target.value)} 
+                onClick={e => e.target.showPicker && e.target.showPicker()}
                 min={new Date().toISOString().split('T')[0]} />
             </div>
 
