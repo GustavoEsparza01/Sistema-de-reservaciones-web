@@ -46,6 +46,7 @@ export default function Navbar() {
           <button style={linkStyle('/services')} onClick={() => navItemClick('/services')}>Servicios</button>
           {session && !isBarber && <button style={linkStyle('/book')} onClick={() => navItemClick('/book')}>Agendar</button>}
           {session && !isBarber && <button style={linkStyle('/my-appointments')} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {session && <button style={linkStyle('/profile')} onClick={() => navItemClick('/profile')}>Mi Perfil</button>}
           {isBarber && <button style={linkStyle('/barber-agenda')} onClick={() => navItemClick('/barber-agenda')}>Mi Agenda</button>}
           {isAdmin  && <button style={linkStyle('/admin')} onClick={() => navItemClick('/admin')}>Admin</button>}
         </div>
@@ -77,6 +78,7 @@ export default function Navbar() {
           <button style={{...linkStyle('/services'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/services')}>Servicios</button>
           {session && !isBarber && <button style={{...linkStyle('/book'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/book')}>Agendar</button>}
           {session && !isBarber && <button style={{...linkStyle('/my-appointments'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {session && <button style={{...linkStyle('/profile'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/profile')}>Mi Perfil</button>}
           {isBarber && <button style={{...linkStyle('/barber-agenda'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/barber-agenda')}>Mi Agenda</button>}
           {isAdmin  && <button style={{...linkStyle('/admin'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/admin')}>Admin</button>}
           <div style={{ height: '0.5px', background: C.border, margin: '8px 0' }} />

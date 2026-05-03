@@ -100,6 +100,11 @@ export default function ManageAppointments() {
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Filters
+  const [filterDate, setFilterDate] = useState('')
+  const [filterStatus, setFilterStatus] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+
   // Stats
   const [stats, setStats] = useState({
     todayRevenue: 0,
@@ -245,6 +250,42 @@ export default function ManageAppointments() {
 
       <h2 style={{ fontSize: 18, color: '#e8dcc8', marginBottom: 16 }}>Todas las Citas</h2>
       
+      {/* Filtros */}
+      <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+        <input 
+          type="text" 
+          placeholder="Buscar por cliente o teléfono..." 
+          style={{ padding: '8px 12px', background: C.card, border: `1px solid ${C.border}`, color: C.text, borderRadius: 6, width: 250, outline: 'none' }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <input 
+          type="date" 
+          style={{ padding: '8px 12px', background: C.card, border: `1px solid ${C.border}`, color: C.text, borderRadius: 6, colorScheme: 'dark', outline: 'none' }}
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+        />
+        <select 
+          style={{ padding: '8px 12px', background: C.card, border: `1px solid ${C.border}`, color: C.text, borderRadius: 6, outline: 'none' }}
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          <option value="">Todos los estados</option>
+          <option value="pending">Pendientes</option>
+          <option value="accepted">Confirmadas</option>
+          <option value="completed">Completadas</option>
+          <option value="cancelled">Canceladas</option>
+        </select>
+        {(filterDate || filterStatus || searchTerm) && (
+          <button 
+            style={{ padding: '8px 12px', background: 'transparent', border: `1px solid ${C.muted}`, color: C.text, borderRadius: 6, cursor: 'pointer' }}
+            onClick={() => { setFilterDate(''); setFilterStatus(''); setSearchTerm(''); }}
+          >
+            Limpiar Filtros
+          </button>
+        )}
+      </div>
+
       {/* Tabla */}
       <div style={{ ...s.tableWrapper, overflowX: 'auto' }}>
         <table style={s.table}>
@@ -259,12 +300,33 @@ export default function ManageAppointments() {
             </tr>
           </thead>
           <tbody>
-            {appointments.length === 0 ? (
-              <tr>
-                <td colSpan="6" style={{ ...s.td, textAlign: 'center', color: C.muted }}>No hay citas registradas.</td>
-              </tr>
-            ) : (
-              appointments.map(app => {
+            {(() => {
+              const filteredAppointments = appointments.filter(app => {
+                let match = true
+                if (filterDate) {
+                  const appDate = new Date(app.scheduled_at).toISOString().split('T')[0]
+                  if (appDate !== filterDate) match = false
+                }
+                if (filterStatus && app.status !== filterStatus) match = false
+                if (searchTerm) {
+                  const client = app.client || (Array.isArray(app.profiles) ? app.profiles[0] : app.profiles)
+                  const name = client?.full_name?.toLowerCase() || ''
+                  const phone = client?.phone?.toLowerCase() || ''
+                  const term = searchTerm.toLowerCase()
+                  if (!name.includes(term) && !phone.includes(term)) match = false
+                }
+                return match
+              })
+
+              if (filteredAppointments.length === 0) {
+                return (
+                  <tr>
+                    <td colSpan="6" style={{ ...s.td, textAlign: 'center', color: C.muted }}>No se encontraron citas.</td>
+                  </tr>
+                )
+              }
+
+              return filteredAppointments.map(app => {
                 const dateObj = new Date(app.scheduled_at)
                 const dateStr = dateObj.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' })
                 const timeStr = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
@@ -309,7 +371,7 @@ export default function ManageAppointments() {
                   </tr>
                 )
               })
-            )}
+            })()}
           </tbody>
         </table>
       </div>

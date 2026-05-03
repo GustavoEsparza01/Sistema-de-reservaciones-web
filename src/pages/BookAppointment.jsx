@@ -47,6 +47,8 @@ export default function BookAppointment() {
     date: '',
     time: ''
   })
+  
+  const [bookedSlots, setBookedSlots] = useState([])
 
   const [loadingData, setLoadingData] = useState(true)
   const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -69,6 +71,38 @@ export default function BookAppointment() {
     }
     loadData()
   }, [])
+
+  useEffect(() => {
+    async function checkAvailability() {
+      if (!formData.date || !formData.barberId) {
+        setBookedSlots([])
+        return
+      }
+
+      // Convertir fechas locales a ISO para buscar en la base de datos
+      const localStart = new Date(`${formData.date}T00:00:00`).toISOString()
+      const localEnd = new Date(`${formData.date}T23:59:59`).toISOString()
+
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('scheduled_at')
+        .eq('barber_id', formData.barberId)
+        .gte('scheduled_at', localStart)
+        .lte('scheduled_at', localEnd)
+        .neq('status', 'cancelled')
+
+      if (!error && data) {
+        const taken = data.map(app => {
+          const d = new Date(app.scheduled_at)
+          const hh = String(d.getHours()).padStart(2, '0')
+          const mm = String(d.getMinutes()).padStart(2, '0')
+          return `${hh}:${mm}`
+        })
+        setBookedSlots(taken)
+      }
+    }
+    checkAvailability()
+  }, [formData.date, formData.barberId])
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -183,9 +217,14 @@ export default function BookAppointment() {
               <label style={s.label}>Hora</label>
               <select style={s.select} value={formData.time} onChange={e => handleChange('time', e.target.value)}>
                 <option value="">-- Hora --</option>
-                {TIME_SLOTS.map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
+                {TIME_SLOTS.map(t => {
+                  const isTaken = bookedSlots.includes(t)
+                  return (
+                    <option key={t} value={t} disabled={isTaken}>
+                      {t} {isTaken ? '(Ocupado)' : ''}
+                    </option>
+                  )
+                })}
               </select>
             </div>
           </div>
