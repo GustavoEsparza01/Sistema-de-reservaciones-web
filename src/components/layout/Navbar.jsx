@@ -7,7 +7,7 @@ const C = { bg:'#0d0d0d', border:'#1e1e1e', gold:'#b8963e', text:'#d4c9b8', mute
 export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { session, isAdmin, signOut } = useAuth()
+  const { session, isAdmin, isBarber, signOut } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const active = (path) => location.pathname === path
@@ -44,8 +44,9 @@ export default function Navbar() {
         <div className="desktop-only" style={{ display:'flex', alignItems:'center', gap:28 }}>
           <button style={linkStyle('/')} onClick={() => navItemClick('/')}>Inicio</button>
           <button style={linkStyle('/services')} onClick={() => navItemClick('/services')}>Servicios</button>
-          {session && <button style={linkStyle('/book')} onClick={() => navItemClick('/book')}>Agendar</button>}
-          {session && <button style={linkStyle('/my-appointments')} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {session && !isBarber && <button style={linkStyle('/book')} onClick={() => navItemClick('/book')}>Agendar</button>}
+          {session && !isBarber && <button style={linkStyle('/my-appointments')} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {isBarber && <button style={linkStyle('/barber-agenda')} onClick={() => navItemClick('/barber-agenda')}>Mi Agenda</button>}
           {isAdmin  && <button style={linkStyle('/admin')} onClick={() => navItemClick('/admin')}>Admin</button>}
         </div>
 
@@ -74,8 +75,9 @@ export default function Navbar() {
         <div className="mobile-only mobile-col" style={{ display: 'none', position: 'absolute', top: 56, left: 0, right: 0, background: C.bg, borderBottom: `0.5px solid ${C.border}`, padding: '16px 24px', gap: '16px' }}>
           <button style={{...linkStyle('/'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/')}>Inicio</button>
           <button style={{...linkStyle('/services'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/services')}>Servicios</button>
-          {session && <button style={{...linkStyle('/book'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/book')}>Agendar</button>}
-          {session && <button style={{...linkStyle('/my-appointments'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {session && !isBarber && <button style={{...linkStyle('/book'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/book')}>Agendar</button>}
+          {session && !isBarber && <button style={{...linkStyle('/my-appointments'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/my-appointments')}>Mis citas</button>}
+          {isBarber && <button style={{...linkStyle('/barber-agenda'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/barber-agenda')}>Mi Agenda</button>}
           {isAdmin  && <button style={{...linkStyle('/admin'), textAlign: 'left', width: '100%'}} onClick={() => navItemClick('/admin')}>Admin</button>}
           <div style={{ height: '0.5px', background: C.border, margin: '8px 0' }} />
           {session ? (

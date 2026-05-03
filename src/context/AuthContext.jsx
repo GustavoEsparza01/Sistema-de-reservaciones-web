@@ -6,6 +6,8 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [session, setSession]   = useState(null)
   const [profile, setProfile]   = useState(null)
+  const [isBarber, setIsBarber] = useState(false)
+  const [barberId, setBarberId] = useState(null)
   const [loading, setLoading]   = useState(true)
 
   useEffect(() => {
@@ -31,6 +33,16 @@ export function AuthProvider({ children }) {
       .eq('id', userId)
       .single()
     setProfile(data)
+
+    const { data: barberData } = await supabase
+      .from('barbers')
+      .select('id')
+      .eq('profile_id', userId)
+      .eq('is_active', true)
+      .maybeSingle()
+    
+    setIsBarber(!!barberData)
+    setBarberId(barberData?.id || null)
     setLoading(false)
   }
 
@@ -39,6 +51,8 @@ export function AuthProvider({ children }) {
     profile,
     loading,
     isAdmin: profile?.role === 'admin',
+    isBarber,
+    barberId,
     signOut: () => supabase.auth.signOut(),
   }
 

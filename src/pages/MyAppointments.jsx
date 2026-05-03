@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../context/AuthContext'
 
@@ -12,6 +13,7 @@ const C = {
   error:   '#e05c5c',
   success: '#6db98a',
   badgePending: '#c9a84c',
+  badgeAccepted: '#4c9dc9',
   badgeCancelled: '#e05c5c',
   badgeCompleted: '#6db98a',
 }
@@ -20,7 +22,7 @@ const s = {
   page: { minHeight: '100vh', background: C.bg, padding: '40px 20px', fontFamily: "'Georgia', serif", color: C.text },
   container: { maxWidth: 800, margin: '0 auto' },
   title: { fontSize: 28, color: '#e8dcc8', marginBottom: 30, textAlign: 'center' },
-  card: { background: C.card, border: `0.5px solid ${C.border}`, borderRadius: 12, padding: 20, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 },
+  card: { background: C.card, border: `0.5px solid ${C.border}`, borderRadius: 12, padding: 20, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, cursor: 'pointer', transition: 'all 0.2s' },
   info: { flex: 1, minWidth: 200 },
   serviceName: { fontSize: 18, color: '#e8dcc8', fontWeight: 'bold', marginBottom: 6 },
   detail: { fontSize: 14, color: C.muted, marginBottom: 4 },
@@ -32,7 +34,7 @@ const s = {
     fontWeight: 'bold',
     textTransform: 'uppercase',
     color: '#000',
-    background: status === 'pending' ? C.badgePending : status === 'cancelled' ? C.badgeCancelled : C.badgeCompleted,
+    background: status === 'pending' ? C.badgePending : status === 'accepted' ? C.badgeAccepted : status === 'cancelled' ? C.badgeCancelled : C.badgeCompleted,
     marginBottom: 8
   }),
   btnCancel: { background: 'transparent', border: `1px solid ${C.error}`, color: C.error, padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontFamily: "'Georgia', serif", fontSize: 13, transition: 'all 0.2s' },
@@ -41,6 +43,7 @@ const s = {
 
 export default function MyAppointments() {
   const { session } = useAuth()
+  const navigate = useNavigate()
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -111,22 +114,23 @@ export default function MyAppointments() {
             const barberName = barber?.profiles?.full_name || 'Barbero asignado'
 
             return (
-              <div key={app.id} className="mobile-col mobile-card-stack" style={s.card}>
+              <div 
+                key={app.id} 
+                className="mobile-col mobile-card-stack hover-card" 
+                style={s.card}
+                onClick={() => navigate(`/my-appointments/${app.id}`)}
+              >
                 <div style={s.info}>
                   <div style={s.badge(app.status)}>
-                    {app.status === 'pending' ? 'Pendiente' : app.status === 'cancelled' ? 'Cancelada' : 'Completada'}
+                    {app.status === 'pending' ? 'Pendiente' : app.status === 'accepted' ? 'Confirmada' : app.status === 'cancelled' ? 'Cancelada' : 'Completada'}
                   </div>
                   <div style={s.serviceName}>{serviceName}</div>
                   <div style={s.detail}>📅 {dateStr} a las {timeStr}</div>
                   <div style={s.detail}>✂️ Con: {barberName}</div>
                 </div>
                 
-                <div>
-                  {app.status === 'pending' && (
-                    <button style={s.btnCancel} onClick={() => handleCancel(app.id)}>
-                      Cancelar cita
-                    </button>
-                  )}
+                <div style={{ color: C.gold, fontSize: 14 }}>
+                  Ver detalles ➔
                 </div>
               </div>
             )

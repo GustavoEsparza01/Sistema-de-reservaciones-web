@@ -11,6 +11,7 @@ const C = {
   error: '#e05c5c',
   success: '#6db98a',
   badgePending: '#c9a84c',
+  badgeAccepted: '#4c9dc9',
   badgeCancelled: '#e05c5c',
   badgeCompleted: '#6db98a',
 }
@@ -91,7 +92,7 @@ const s = {
     fontWeight: 'bold',
     textTransform: 'uppercase',
     color: '#000',
-    background: status === 'pending' ? C.badgePending : status === 'cancelled' ? C.badgeCancelled : C.badgeCompleted,
+    background: status === 'pending' ? C.badgePending : status === 'accepted' ? C.badgeAccepted : status === 'cancelled' ? C.badgeCancelled : C.badgeCompleted,
   })
 }
 
@@ -122,6 +123,7 @@ export default function ManageAppointments() {
         id,
         scheduled_at,
         status,
+        notes,
         services ( name, price ),
         barbers ( profiles ( full_name ) ),
         client:profiles!appointments_client_id_fkey ( full_name, phone )
@@ -288,11 +290,16 @@ export default function ManageAppointments() {
                     <td style={s.td}>{barber?.profiles?.full_name || 'Asignado'}</td>
                     <td style={s.td}>
                       <span style={s.badge(app.status)}>
-                        {app.status === 'pending' ? 'Pendiente' : app.status === 'completed' ? 'Completada' : 'Cancelada'}
+                        {app.status === 'pending' ? 'Pendiente' : app.status === 'accepted' ? 'Confirmada' : app.status === 'completed' ? 'Completada' : 'Cancelada'}
                       </span>
+                      {app.status === 'completed' && app.notes && (
+                        <div style={{ marginTop: 6, fontSize: 11, color: C.muted, fontStyle: 'italic', maxWidth: 150 }}>
+                          "{app.notes}"
+                        </div>
+                      )}
                     </td>
                     <td style={s.td}>
-                      {app.status === 'pending' && (
+                      {(app.status === 'pending' || app.status === 'accepted') && (
                         <div style={{ display: 'flex' }}>
                           <button style={s.btn('complete')} onClick={() => updateStatus(app.id, 'completed')}>✓</button>
                           <button style={s.btn('cancel')} onClick={() => updateStatus(app.id, 'cancelled')}>✕</button>

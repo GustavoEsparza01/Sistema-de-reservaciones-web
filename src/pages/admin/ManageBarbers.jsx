@@ -48,7 +48,7 @@ export default function ManageBarbers() {
 
     if (!profError && profilesData) {
       const merged = profilesData.map(p => {
-        const barberRecord = barbersData?.find(b => b.id === p.id)
+        const barberRecord = barbersData?.find(b => b.profile_id === p.id)
         return {
           ...p,
           isBarber: !!barberRecord,
@@ -68,14 +68,14 @@ export default function ManageBarbers() {
     if (user.isBarber) {
       // Ya es barbero, cambiamos su is_active
       const newStatus = !user.isActiveBarber
-      const { error } = await supabase.from('barbers').update({ is_active: newStatus }).eq('id', user.id)
+      const { error } = await supabase.from('barbers').update({ is_active: newStatus }).eq('profile_id', user.id)
       if (error) alert('Error: ' + error.message)
       else fetchUsers()
     } else {
       // No es barbero, lo agregamos a la tabla barbers
       if (!window.confirm(`¿Promover a ${user.full_name} como Barbero?`)) return
       
-      const { error } = await supabase.from('barbers').insert([{ id: user.id, is_active: true }])
+      const { error } = await supabase.from('barbers').insert([{ profile_id: user.id, is_active: true }])
       if (error) alert('Error: ' + error.message)
       else fetchUsers()
     }
