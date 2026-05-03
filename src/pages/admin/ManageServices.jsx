@@ -44,10 +44,12 @@ export default function ManageServices() {
   // Nuevo Servicio
   const [newName, setNewName] = useState('')
   const [newPrice, setNewPrice] = useState('')
+  const [newDuration, setNewDuration] = useState('60')
 
   // Edición
   const [editingId, setEditingId] = useState(null)
   const [editPrice, setEditPrice] = useState('')
+  const [editDuration, setEditDuration] = useState('')
 
   useEffect(() => {
     fetchServices()
@@ -62,12 +64,13 @@ export default function ManageServices() {
 
   async function handleAddService(e) {
     e.preventDefault()
-    if (!newName || !newPrice) return
-    const { error } = await supabase.from('services').insert([{ name: newName, price: Number(newPrice), is_active: true }])
+    if (!newName || !newPrice || !newDuration) return
+    const { error } = await supabase.from('services').insert([{ name: newName, price: Number(newPrice), duration_min: Number(newDuration), is_active: true }])
     if (error) alert('Error: ' + error.message)
     else {
       setNewName('')
       setNewPrice('')
+      setNewDuration('60')
       fetchServices()
     }
   }
@@ -79,8 +82,8 @@ export default function ManageServices() {
   }
 
   async function savePrice(id) {
-    if (!editPrice) return
-    const { error } = await supabase.from('services').update({ price: Number(editPrice) }).eq('id', id)
+    if (!editPrice || !editDuration) return
+    const { error } = await supabase.from('services').update({ price: Number(editPrice), duration_min: Number(editDuration) }).eq('id', id)
     if (error) alert('Error: ' + error.message)
     else {
       setEditingId(null)
@@ -110,6 +113,15 @@ export default function ManageServices() {
             onChange={e => setNewPrice(e.target.value)} 
             min="0"
           />
+          <input 
+            style={{ ...s.input, width: 100 }} 
+            type="number" 
+            placeholder="Duración (min)" 
+            value={newDuration} 
+            onChange={e => setNewDuration(e.target.value)} 
+            min="10"
+            step="5"
+          />
           <button type="submit" style={s.btn('add')}>+ Agregar Servicio</button>
         </form>
       </div>
@@ -123,6 +135,7 @@ export default function ManageServices() {
               <tr>
                 <th style={s.th}>Servicio</th>
                 <th style={s.th}>Precio ($)</th>
+                <th style={s.th}>Duración (min)</th>
                 <th style={s.th}>Estado</th>
                 <th style={s.th}>Acciones</th>
               </tr>
@@ -134,17 +147,34 @@ export default function ManageServices() {
                   
                   <td style={s.td}>
                     {editingId === srv.id ? (
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: 6 }}>
                         <input 
-                          style={{ ...s.input, width: 80, padding: 6 }} 
+                          style={{ ...s.input, width: 80, padding: 6, margin: 0 }} 
                           type="number" 
                           value={editPrice} 
                           onChange={e => setEditPrice(e.target.value)} 
                         />
-                        <button style={s.btn('toggle')} onClick={() => savePrice(srv.id)}>Guardar</button>
                       </div>
                     ) : (
                       <span>${srv.price}</span>
+                    )}
+                  </td>
+
+                  <td style={s.td}>
+                    {editingId === srv.id ? (
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        <input 
+                          style={{ ...s.input, width: 80, padding: 6, margin: 0 }} 
+                          type="number" 
+                          value={editDuration} 
+                          onChange={e => setEditDuration(e.target.value)} 
+                          min="10"
+                          step="5"
+                        />
+                        <button style={s.btn('toggle')} onClick={() => savePrice(srv.id)}>Guardar</button>
+                      </div>
+                    ) : (
+                      <span>{srv.duration_min} min</span>
                     )}
                   </td>
                   
@@ -157,8 +187,8 @@ export default function ManageServices() {
                   <td style={s.td}>
                     <div style={{ display: 'flex', gap: 8 }}>
                       {editingId !== srv.id && (
-                        <button style={s.btn('toggle')} onClick={() => { setEditingId(srv.id); setEditPrice(srv.price) }}>
-                          Editar Precio
+                        <button style={s.btn('toggle')} onClick={() => { setEditingId(srv.id); setEditPrice(srv.price); setEditDuration(srv.duration_min) }}>
+                          Editar Datos
                         </button>
                       )}
                       <button style={s.btn('toggle')} onClick={() => toggleServiceStatus(srv.id, srv.is_active)}>

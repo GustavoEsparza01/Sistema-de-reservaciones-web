@@ -41,11 +41,17 @@ const s = {
 export default function ManageClients() {
   const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
 
   // Edición
   const [editingId, setEditingId] = useState(null)
   const [editName, setEditName] = useState('')
   const [editPhone, setEditPhone] = useState('')
+
+  // Historial
+  const [selectedClientForHistory, setSelectedClientForHistory] = useState(null)
+  const [clientHistory, setClientHistory] = useState([])
+  const [loadingHistory, setLoadingHistory] = useState(false)
 
   useEffect(() => {
     fetchClients()
@@ -101,6 +107,20 @@ export default function ManageClients() {
     }
   }
 
+  async function openHistory(client) {
+    setSelectedClientForHistory(client)
+    setLoadingHistory(true)
+    const { data, error } = await supabase
+      .from('appointments')
+      .select('id, scheduled_at, status, services(name, price), barbers(profiles(full_name))')
+      .eq('client_id', client.id)
+      .order('scheduled_at', { ascending: false })
+    
+    if (error) alert('Error: ' + error.message)
+    else setClientHistory(data || [])
+    setLoadingHistory(false)
+  }
+
   if (loading) return <div style={{ color: C.gold }}>Cargando clientes...</div>
 
   return (
@@ -109,6 +129,16 @@ export default function ManageClients() {
       <p style={{ color: C.muted, fontSize: 14, marginBottom: 20 }}>
         Aquí puedes modificar los datos de contacto de tus clientes o suspender sus cuentas si es necesario. (Las altas las hacen los propios clientes al registrarse).
       </p>
+
+      <div style={{ marginBottom: 20 }}>
+        <input 
+          type="text" 
+          placeholder="Buscar cliente por nombre o teléfono..." 
+          style={{ ...s.input, width: '100%', maxWidth: '400px' }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       <div style={s.tableWrapper}>
         <table style={s.table}>
@@ -121,16 +151,26 @@ export default function ManageClients() {
             </tr>
           </thead>
           <tbody>
-            {clients.length === 0 && (
-              <tr><td colSpan="4" style={s.td}>No hay clientes registrados.</td></tr>
-            )}
-            
-            {clients.map(client => {
-              const isBanned = client.role === 'banned'
-              const isEditing = editingId === client.id
+            {(() => {
+              const filteredClients = clients.filter(c => {
+                const term = searchTerm.toLowerCase()
+                const name = (c.full_name || '').toLowerCase()
+                const phone = (c.phone || '').toLowerCase()
+                return name.includes(term) || phone.includes(term)
+              })
 
-              return (
-                <tr key={client.id} style={{ opacity: isBanned ? 0.6 : 1 }}>
+              if (filteredClients.length === 0) {
+                return (
+                  <tr><td colSpan="4" style={s.td}>No se encontraron clientes.</td></tr>
+                )
+              }
+
+              return filteredClients.map(client => {
+                const isBanned = client.role === 'banned'
+                const isEditing = editingId === client.id
+
+                return (
+                  <tr key={client.id} style={{ opacity: isBanned ? 0.6 : 1 }}>
                   
                   {/* Columna Nombre */}
                   <td style={s.td}>
@@ -180,6 +220,13 @@ export default function ManageClients() {
                         <>
                           <button 
                             style={s.btn('edit')} 
+                            onClick={() => openHistory(client)}
+                          >
+                            Ver Historial
+                          </button>
+
+                          <button 
+                            style={s.btn('edit')} 
                             onClick={() => { 
                               setEditingId(client.id); 
                               setEditName(client.full_name); 
@@ -200,12 +247,66 @@ export default function ManageClients() {
 
                     </div>
                   </td>
-                </tr>
-              )
-            })}
+                  </tr>
+                )
+              })
+            })()}
           </tbody>
         </table>
       </div>
+
+      {/* Modal Historial */}
+      {selectedClientForHistory && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 24, width: '100%', maxWidth: 700, maxHeight: '80vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h3 style={{ margin: 0, color: '#e8dcc8' }}>Historial de {selectedClientForHistory.full_name}</h3>
+              <button onClick={() => setSelectedClientForHistory(null)} style={{ background: 'transparent', border: 'none', color: C.muted, fontSize: 20, cursor: 'pointer' }}>✕</button>
+            </div>
+            
+            {loadingHistory ? <div style={{ color: C.gold }}>Cargando historial...</div> : (
+              clientHistory.length === 0 ? <p style={{ color: C.muted }}>Este cliente no tiene citas registradas.</p> : (
+                <table style={s.table}>
+                  <thead>
+                    <tr>
+                      <th style={s.th}>Fecha y Hora</th>
+                      <th style={s.th}>Servicio</th>
+                      <th style={s.th}>Barbero</th>
+                      <th style={s.th}>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {clientHistory.map(app => {
+                      const dateObj = new Date(app.scheduled_at)
+                      const dateStr = dateObj.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' })
+                      const timeStr = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+                      const service = Array.isArray(app.services) ? app.services[0] : app.services
+                      const barber = Array.isArray(app.barbers) ? app.barbers[0] : app.barbers
+                      
+                      return (
+                        <tr key={app.id}>
+                          <td style={s.td}>{dateStr} <span style={{ color: C.gold }}>{timeStr}</span></td>
+                          <td style={s.td}>{service?.name} (${service?.price})</td>
+                          <td style={s.td}>{barber?.profiles?.full_name || 'Asignado'}</td>
+                          <td style={s.td}>
+                            <span style={{ 
+                              padding: '4px 8px', borderRadius: 4, fontSize: 11, fontWeight: 'bold', color: '#000', textTransform: 'uppercase',
+                              background: app.status === 'pending' ? '#c9a84c' : app.status === 'accepted' ? '#4c9dc9' : app.status === 'completed' ? '#6db98a' : '#e05c5c'
+                            }}>
+                              {app.status === 'pending' ? 'Pendiente' : app.status === 'accepted' ? 'Confirmada' : app.status === 'completed' ? 'Completada' : 'Cancelada'}
+                            </span>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              )
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

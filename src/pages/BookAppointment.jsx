@@ -30,10 +30,6 @@ const s = {
   grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }
 }
 
-const TIME_SLOTS = [
-  '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
-]
-
 export default function BookAppointment() {
   const { session } = useAuth()
   const navigate = useNavigate()
@@ -45,7 +41,8 @@ export default function BookAppointment() {
     serviceId: '',
     barberId: '',
     date: '',
-    time: ''
+    time: '',
+    notes: ''
   })
   
   const [bookedSlots, setBookedSlots] = useState([])
@@ -62,15 +59,57 @@ export default function BookAppointment() {
       if (!srvError && srvData) setServices(srvData)
 
       // Cargar barberos
-      const { data: bData, error: bError } = await supabase.from('barbers').select('id, profiles(full_name)').eq('is_active', true)
+      const { data: bData, error: bError } = await supabase.from('barbers').select('id, schedule, profiles(full_name)').eq('is_active', true)
       if (!bError && bData) {
-        setBarbers(bData.map(b => ({ id: b.id, name: b.profiles?.full_name || 'Barbero' })))
+        setBarbers(bData.map(b => ({ id: b.id, schedule: b.schedule, name: b.profiles?.full_name || 'Barbero' })))
       }
 
       setLoadingData(false)
     }
     loadData()
   }, [])
+
+  const [timeSlots, setTimeSlots] = useState([])
+
+  // Generar Time Slots en base al horario
+  useEffect(() => {
+    if (!formData.date || !formData.barberId) {
+      setTimeSlots([])
+      return
+    }
+    const barber = barbers.find(b => b.id === formData.barberId)
+    if (!barber || !barber.schedule) {
+      setTimeSlots([])
+      return
+    }
+
+    const dateObj = new Date(formData.date + 'T00:00:00')
+    const dayOfWeek = dateObj.getDay() // 0 = Domingo
+    const scheduleForDay = barber.schedule[String(dayOfWeek)]
+
+    if (!scheduleForDay || !scheduleForDay.isWorking) {
+      setTimeSlots([])
+      setFormData(prev => ({ ...prev, time: '' }))
+      return
+    }
+
+    const startHour = parseInt(scheduleForDay.start.split(':')[0])
+    const endHour = parseInt(scheduleForDay.end.split(':')[0])
+    
+    const slots = []
+    for(let h = startHour; h < endHour; h++) {
+       slots.push(`${String(h).padStart(2, '0')}:00`)
+       slots.push(`${String(h).padStart(2, '0')}:30`)
+    }
+    setTimeSlots(slots)
+    
+    // Si la hora seleccionada ya no está disponible, quitarla
+    setFormData(prev => {
+      if (prev.time && !slots.includes(prev.time)) return { ...prev, time: '' }
+      return prev
+    })
+
+  }, [formData.date, formData.barberId, barbers])
 
   useEffect(() => {
     async function checkAvailability() {
@@ -85,20 +124,18 @@ export default function BookAppointment() {
 
       const { data, error } = await supabase
         .from('appointments')
-        .select('scheduled_at')
+        .select('scheduled_at, ends_at')
         .eq('barber_id', formData.barberId)
         .gte('scheduled_at', localStart)
         .lte('scheduled_at', localEnd)
         .neq('status', 'cancelled')
 
       if (!error && data) {
-        const taken = data.map(app => {
-          const d = new Date(app.scheduled_at)
-          const hh = String(d.getHours()).padStart(2, '0')
-          const mm = String(d.getMinutes()).padStart(2, '0')
-          return `${hh}:${mm}`
-        })
-        setBookedSlots(taken)
+        const intervals = data.map(app => ({
+          start: new Date(app.scheduled_at).getTime(),
+          end: new Date(app.ends_at).getTime()
+        }))
+        setBookedSlots(intervals)
       }
     }
     checkAvailability()
@@ -122,8 +159,11 @@ export default function BookAppointment() {
 
     // Crear fechas (agregando la hora local)
     const scheduledAt = new Date(`${formData.date}T${formData.time}:00`)
-    // Asumimos 60 minutos de duración
-    const endsAt = new Date(scheduledAt.getTime() + 60 * 60000)
+    
+    // Obtener la duración real del servicio
+    const service = services.find(s => s.id === formData.serviceId)
+    const duration = service?.duration_min || 60
+    const endsAt = new Date(scheduledAt.getTime() + duration * 60000)
 
     try {
       // Insertar en appointments
@@ -135,7 +175,8 @@ export default function BookAppointment() {
           service_id: formData.serviceId,
           scheduled_at: scheduledAt.toISOString(),
           ends_at: endsAt.toISOString(),
-          duration_min: 60,
+          duration_min: duration,
+          notes: formData.notes || null,
           status: 'pending'
         }])
         .select()
@@ -144,7 +185,6 @@ export default function BookAppointment() {
       if (apptError) throw apptError
 
       // Insertar también en la tabla intermedia appointment_services
-      const service = services.find(s => s.id === formData.serviceId)
       const { error: servError } = await supabase
         .from('appointment_services')
         .insert([{
@@ -156,7 +196,7 @@ export default function BookAppointment() {
       if (servError) console.error("Error al ligar servicio:", servError)
 
       setSuccess('¡Cita agendada con éxito!')
-      setFormData({ serviceId: '', barberId: '', date: '', time: '' })
+      setFormData({ serviceId: '', barberId: '', date: '', time: '', notes: '' })
       
       // Redirigir a 'Mis citas' después de un rato
       setTimeout(() => {
@@ -215,10 +255,20 @@ export default function BookAppointment() {
 
             <div style={s.field}>
               <label style={s.label}>Hora</label>
-              <select style={s.select} value={formData.time} onChange={e => handleChange('time', e.target.value)}>
-                <option value="">-- Hora --</option>
-                {TIME_SLOTS.map(t => {
-                  const isTaken = bookedSlots.includes(t)
+              <select style={s.select} value={formData.time} onChange={e => handleChange('time', e.target.value)} disabled={timeSlots.length === 0}>
+                {timeSlots.length === 0 && <option value="">Día Inactivo</option>}
+                {timeSlots.length > 0 && <option value="">-- Hora --</option>}
+                {timeSlots.map(t => {
+                  const slotTime = new Date(`${formData.date}T${t}:00`).getTime()
+                  const service = services.find(s => s.id === formData.serviceId)
+                  const dur = service?.duration_min || 60
+                  const slotEnd = slotTime + (dur * 60000)
+
+                  const isTaken = bookedSlots.some(busy => {
+                    // Si el slot choca con una cita existente
+                    return slotTime < busy.end && slotEnd > busy.start
+                  })
+
                   return (
                     <option key={t} value={t} disabled={isTaken}>
                       {t} {isTaken ? '(Ocupado)' : ''}
@@ -227,6 +277,16 @@ export default function BookAppointment() {
                 })}
               </select>
             </div>
+          </div>
+
+          <div style={s.field}>
+            <label style={s.label}>Notas para el Barbero (Opcional)</label>
+            <textarea 
+              style={{ ...s.input, resize: 'vertical', minHeight: 80 }} 
+              placeholder="Ej: Solo con tijera a los lados, llego 5 mins tarde..."
+              value={formData.notes}
+              onChange={e => handleChange('notes', e.target.value)}
+            />
           </div>
 
           {error && <p style={s.error}>{error}</p>}

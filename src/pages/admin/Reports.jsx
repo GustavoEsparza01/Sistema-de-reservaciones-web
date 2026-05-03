@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import ReportChart from '../../components/admin/ReportChart'
 
 const C = {
   bg: '#0a0a0a',
@@ -233,6 +234,9 @@ export default function Reports() {
               <div style={{ fontSize: 24, color: '#e8dcc8', fontWeight: 'bold' }}>{summary.pending}</div>
             </div>
           </div>
+
+          {/* Gráficos */}
+          <ReportChart appointments={appointments} />
 
           <div style={s.btnGroup}>
             <button style={s.btn('pdf')} onClick={handleExportPDF}>

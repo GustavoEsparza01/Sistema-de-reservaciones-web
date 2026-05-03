@@ -79,10 +79,10 @@ const s = {
     fontSize: 12,
     fontWeight: 'bold',
     fontFamily: "'Georgia', serif",
-    background: type === 'complete' ? C.success : 'transparent',
-    color: type === 'complete' ? '#000' : C.error,
+    background: type === 'complete' ? C.success : type === 'confirm' ? C.badgeAccepted : 'transparent',
+    color: (type === 'complete' || type === 'confirm') ? '#000' : C.error,
     border: type === 'cancel' ? `1px solid ${C.error}` : 'none',
-    marginRight: type === 'complete' ? 8 : 0,
+    marginRight: 8,
   }),
   badge: (status) => ({
     display: 'inline-block',
@@ -104,6 +104,17 @@ export default function ManageAppointments() {
   const [filterDate, setFilterDate] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+
+  // Toast
+  const [toast, setToast] = useState(null)
+  function showToast(message, type = 'error') {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
 
   // Stats
   const [stats, setStats] = useState({
@@ -213,8 +224,9 @@ export default function ManageAppointments() {
       .eq('id', id)
 
     if (error) {
-      alert('Error al actualizar: ' + error.message)
+      showToast('Error al actualizar: ' + error.message, 'error')
     } else {
+      showToast('Estado actualizado correctamente', 'success')
       // Refetch to cleanly update stats and list
       fetchAppointments()
     }
@@ -248,6 +260,13 @@ export default function ManageAppointments() {
         </div>
       </div>
 
+      {/* Toast Notification */}
+      {toast && (
+        <div style={{ position: 'fixed', bottom: 20, right: 20, background: toast.type === 'error' ? C.error : C.success, color: '#fff', padding: '12px 24px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.5)', zIndex: 1000, fontWeight: 'bold', fontSize: 14 }}>
+          {toast.message}
+        </div>
+      )}
+
       <h2 style={{ fontSize: 18, color: '#e8dcc8', marginBottom: 16 }}>Todas las Citas</h2>
       
       {/* Filtros */}
@@ -279,102 +298,141 @@ export default function ManageAppointments() {
         {(filterDate || filterStatus || searchTerm) && (
           <button 
             style={{ padding: '8px 12px', background: 'transparent', border: `1px solid ${C.muted}`, color: C.text, borderRadius: 6, cursor: 'pointer' }}
-            onClick={() => { setFilterDate(''); setFilterStatus(''); setSearchTerm(''); }}
+            onClick={() => { setFilterDate(''); setFilterStatus(''); setSearchTerm(''); setCurrentPage(1); }}
           >
             Limpiar Filtros
           </button>
         )}
       </div>
 
-      {/* Tabla */}
-      <div style={{ ...s.tableWrapper, overflowX: 'auto' }}>
-        <table style={s.table}>
-          <thead>
-            <tr>
-              <th style={s.th}>Cliente</th>
-              <th style={s.th}>Fecha y Hora</th>
-              <th style={s.th}>Servicio</th>
-              <th style={s.th}>Barbero</th>
-              <th style={s.th}>Estado</th>
-              <th style={s.th}>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(() => {
-              const filteredAppointments = appointments.filter(app => {
-                let match = true
-                if (filterDate) {
-                  const appDate = new Date(app.scheduled_at).toISOString().split('T')[0]
-                  if (appDate !== filterDate) match = false
-                }
-                if (filterStatus && app.status !== filterStatus) match = false
-                if (searchTerm) {
-                  const client = app.client || (Array.isArray(app.profiles) ? app.profiles[0] : app.profiles)
-                  const name = client?.full_name?.toLowerCase() || ''
-                  const phone = client?.phone?.toLowerCase() || ''
-                  const term = searchTerm.toLowerCase()
-                  if (!name.includes(term) && !phone.includes(term)) match = false
-                }
-                return match
-              })
+      {(() => {
+        const filteredAppointments = appointments.filter(app => {
+          let match = true
+          if (filterDate) {
+            const appDate = new Date(app.scheduled_at).toISOString().split('T')[0]
+            if (appDate !== filterDate) match = false
+          }
+          if (filterStatus && app.status !== filterStatus) match = false
+          if (searchTerm) {
+            const client = app.client || (Array.isArray(app.profiles) ? app.profiles[0] : app.profiles)
+            const name = client?.full_name?.toLowerCase() || ''
+            const phone = client?.phone?.toLowerCase() || ''
+            const term = searchTerm.toLowerCase()
+            if (!name.includes(term) && !phone.includes(term)) match = false
+          }
+          return match
+        })
 
-              if (filteredAppointments.length === 0) {
-                return (
+        const totalItems = filteredAppointments.length
+        const totalPages = Math.ceil(totalItems / itemsPerPage)
+        const startIndex = (currentPage - 1) * itemsPerPage
+        const paginatedAppointments = filteredAppointments.slice(startIndex, startIndex + itemsPerPage)
+
+        return (
+          <>
+            {/* Tabla */}
+            <div style={{ ...s.tableWrapper, overflowX: 'auto' }}>
+              <table style={s.table}>
+                <thead>
                   <tr>
-                    <td colSpan="6" style={{ ...s.td, textAlign: 'center', color: C.muted }}>No se encontraron citas.</td>
+                    <th style={s.th}>Cliente</th>
+                    <th style={s.th}>Fecha y Hora</th>
+                    <th style={s.th}>Servicio</th>
+                    <th style={s.th}>Barbero</th>
+                    <th style={s.th}>Estado</th>
+                    <th style={s.th}>Acciones</th>
                   </tr>
-                )
-              }
+                </thead>
+                <tbody>
+                  {paginatedAppointments.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" style={{ ...s.td, textAlign: 'center', color: C.muted }}>No se encontraron citas.</td>
+                    </tr>
+                  ) : (
+                    paginatedAppointments.map(app => {
+                      const dateObj = new Date(app.scheduled_at)
+                      const dateStr = dateObj.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' })
+                      const timeStr = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+                      
+                      const service = Array.isArray(app.services) ? app.services[0] : app.services
+                      const barber = Array.isArray(app.barbers) ? app.barbers[0] : app.barbers
+                      const client = app.client || (Array.isArray(app.profiles) ? app.profiles[0] : app.profiles)
 
-              return filteredAppointments.map(app => {
-                const dateObj = new Date(app.scheduled_at)
-                const dateStr = dateObj.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' })
-                const timeStr = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
-                
-                const service = Array.isArray(app.services) ? app.services[0] : app.services
-                const barber = Array.isArray(app.barbers) ? app.barbers[0] : app.barbers
-                const client = app.client || (Array.isArray(app.profiles) ? app.profiles[0] : app.profiles)
+                      return (
+                        <tr key={app.id}>
+                          <td style={s.td}>
+                            <div style={{ color: '#e8dcc8', fontWeight: 'bold' }}>{client?.full_name || 'Sin nombre'}</div>
+                            <div style={{ fontSize: 12, color: C.muted }}>{client?.phone || 'Sin teléfono'}</div>
+                          </td>
+                          <td style={s.td}>
+                            <div>{dateStr}</div>
+                            <div style={{ color: C.gold }}>{timeStr}</div>
+                          </td>
+                          <td style={s.td}>
+                            <div>{service?.name || 'Corte'}</div>
+                            <div style={{ fontSize: 12, color: C.muted }}>${service?.price || 0}</div>
+                          </td>
+                          <td style={s.td}>{barber?.profiles?.full_name || 'Asignado'}</td>
+                          <td style={s.td}>
+                            <span style={s.badge(app.status)}>
+                              {app.status === 'pending' ? 'Pendiente' : app.status === 'accepted' ? 'Confirmada' : app.status === 'completed' ? 'Completada' : 'Cancelada'}
+                            </span>
+                            {app.status === 'pending' && app.notes && (
+                              <div style={{ marginTop: 6, fontSize: 11, color: C.muted, fontStyle: 'italic', maxWidth: 150 }}>
+                                "{app.notes}"
+                              </div>
+                            )}
+                          </td>
+                          <td style={s.td}>
+                            {app.status === 'pending' && (
+                              <div style={{ display: 'flex' }}>
+                                <button style={s.btn('confirm')} onClick={() => updateStatus(app.id, 'accepted')}>Confirmar</button>
+                                <button style={s.btn('cancel')} onClick={() => updateStatus(app.id, 'cancelled')}>✕</button>
+                              </div>
+                            )}
+                            {app.status === 'accepted' && (
+                              <div style={{ display: 'flex' }}>
+                                <button style={s.btn('complete')} onClick={() => updateStatus(app.id, 'completed')}>Completar</button>
+                                <button style={s.btn('cancel')} onClick={() => updateStatus(app.id, 'cancelled')}>✕</button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-                return (
-                  <tr key={app.id}>
-                    <td style={s.td}>
-                      <div style={{ color: '#e8dcc8', fontWeight: 'bold' }}>{client?.full_name || 'Sin nombre'}</div>
-                      <div style={{ fontSize: 12, color: C.muted }}>{client?.phone || 'Sin teléfono'}</div>
-                    </td>
-                    <td style={s.td}>
-                      <div>{dateStr}</div>
-                      <div style={{ color: C.gold }}>{timeStr}</div>
-                    </td>
-                    <td style={s.td}>
-                      <div>{service?.name || 'Corte'}</div>
-                      <div style={{ fontSize: 12, color: C.muted }}>${service?.price || 0}</div>
-                    </td>
-                    <td style={s.td}>{barber?.profiles?.full_name || 'Asignado'}</td>
-                    <td style={s.td}>
-                      <span style={s.badge(app.status)}>
-                        {app.status === 'pending' ? 'Pendiente' : app.status === 'accepted' ? 'Confirmada' : app.status === 'completed' ? 'Completada' : 'Cancelada'}
-                      </span>
-                      {app.status === 'completed' && app.notes && (
-                        <div style={{ marginTop: 6, fontSize: 11, color: C.muted, fontStyle: 'italic', maxWidth: 150 }}>
-                          "{app.notes}"
-                        </div>
-                      )}
-                    </td>
-                    <td style={s.td}>
-                      {(app.status === 'pending' || app.status === 'accepted') && (
-                        <div style={{ display: 'flex' }}>
-                          <button style={s.btn('complete')} onClick={() => updateStatus(app.id, 'completed')}>✓</button>
-                          <button style={s.btn('cancel')} onClick={() => updateStatus(app.id, 'cancelled')}>✕</button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )
-              })
-            })()}
-          </tbody>
-        </table>
-      </div>
+            {/* Controles de Paginación */}
+            {totalPages > 1 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, padding: '0 8px' }}>
+                <div style={{ color: C.muted, fontSize: 13 }}>
+                  Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPage, totalItems)} de {totalItems} citas
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button 
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    style={{ ...s.btn(''), border: `1px solid ${C.border}`, color: currentPage === 1 ? C.muted : C.text, cursor: currentPage === 1 ? 'default' : 'pointer' }}
+                  >
+                    Anterior
+                  </button>
+                  <button 
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    style={{ ...s.btn(''), border: `1px solid ${C.border}`, color: currentPage === totalPages ? C.muted : C.text, cursor: currentPage === totalPages ? 'default' : 'pointer' }}
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        )
+      })()}
+
     </div>
   )
 }
