@@ -69,7 +69,7 @@ export default function Home() {
           </p>
           
           <p style={{ fontSize: 18, color: '#e8dcc8', maxWidth: 600, margin: '0 auto 48px', lineHeight: 1.8, opacity: 0.9 }}>
-            Más que un corte de cabello, es un ritual. Descubre el arte de la barbería clásica con las comodidades modernas en el corazón de Tabasco.
+            Más que un corte de cabello, es un ritual. Descubre el arte de la barbería clásica con las comodidades modernas en el corazón de Ciudad del Carmen.
           </p>
 
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
