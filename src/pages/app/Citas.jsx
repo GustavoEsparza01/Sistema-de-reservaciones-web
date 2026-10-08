@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { isToday, isTomorrow, isYesterday } from 'date-fns'
-import { CalendarX, CheckCheck, Check, CircleAlert, Download, FilterX, RefreshCw, Search, X } from 'lucide-react'
+import { CalendarX, CheckCheck, Check, CircleAlert, Download, FilterX, Plus, RefreshCw, Search, X } from 'lucide-react'
 import { supabase } from '../../lib/supabaseClient'
 import { datedFileName } from '../../lib/csv'
 import {
@@ -17,6 +17,7 @@ import {
 } from '../../components/ui'
 import AppointmentActions from '../../components/app/appointments/AppointmentActions'
 import AppointmentDrawer from '../../components/app/appointments/AppointmentDrawer'
+import AppointmentFormModal from '../../components/app/appointments/AppointmentFormModal'
 
 const STATUS_TABS = [
   { value: '', label: 'Todas', countKey: 'all' },
@@ -63,6 +64,7 @@ export default function Citas() {
   const [exporting, setExporting] = useState(false)
   const [cancelTarget, setCancelTarget] = useState(null) // { appointments: [...] }
   const [deepLinked, setDeepLinked] = useState(null)
+  const [form, setForm] = useState(null) // { mode, appointment? }
 
   // Búsqueda con espera para no consultar en cada tecla
   const [searchText, setSearchText] = useState(filters.q)
@@ -253,9 +255,12 @@ export default function Citas() {
           </div>
           <p className="text-body-default text-on-surface-variant">Consulta, filtra y da seguimiento a todas las citas.</p>
         </div>
-        <Button variant="secondary" icon={Download} loading={exporting} onClick={exportFiltered} className="self-start md:self-auto">
-          Exportar CSV
-        </Button>
+        <div className="flex gap-space-sm self-start md:self-auto">
+          <Button variant="secondary" icon={Download} loading={exporting} onClick={exportFiltered}>
+            Exportar CSV
+          </Button>
+          <Button icon={Plus} onClick={() => setForm({ mode: 'create' })}>Nueva cita</Button>
+        </div>
       </header>
 
       <Card padding={false} className="overflow-hidden">
@@ -364,6 +369,22 @@ export default function Citas() {
         busy={busyId === openAppointment?.id}
         onChangeStatus={changeStatus}
         onRequestCancel={(x) => setCancelTarget({ appointments: [x] })}
+        onReschedule={(x) => setForm({ mode: 'reschedule', appointment: x })}
+      />
+
+      <AppointmentFormModal
+        open={!!form}
+        mode={form?.mode}
+        appointment={form?.appointment}
+        onClose={() => setForm(null)}
+        onDone={async (r) => {
+          setForm(null)
+          toast({
+            title: r.type === 'create' ? 'Cita agendada' : 'Cita reprogramada',
+            description: `${formatDate(r.start)} ${formatTime(r.start)} h`,
+          })
+          await refreshAfterChange()
+        }}
       />
 
       <Modal

@@ -15,6 +15,7 @@ import {
 } from '../../components/ui'
 import AppointmentActions from '../../components/app/appointments/AppointmentActions'
 import AppointmentDrawer from '../../components/app/appointments/AppointmentDrawer'
+import AppointmentFormModal from '../../components/app/appointments/AppointmentFormModal'
 import PendingList from '../../components/app/resumen/PendingList'
 import RevenueChart from '../../components/app/resumen/RevenueChart'
 import TeamOccupancy from '../../components/app/resumen/TeamOccupancy'
@@ -34,6 +35,7 @@ export default function Resumen() {
   const [selectedId, setSelectedId] = useState(null)
   const [cancelTarget, setCancelTarget] = useState(null)
   const [busyId, setBusyId] = useState(null)
+  const [rescheduling, setRescheduling] = useState(null)
 
   const now = new Date()
   const firstName = profile?.full_name?.split(' ')[0]
@@ -266,6 +268,19 @@ export default function Resumen() {
         busy={busyId === selected?.id}
         onChangeStatus={changeStatus}
         onRequestCancel={setCancelTarget}
+        onReschedule={setRescheduling}
+      />
+
+      <AppointmentFormModal
+        open={!!rescheduling}
+        mode="reschedule"
+        appointment={rescheduling}
+        onClose={() => setRescheduling(null)}
+        onDone={async (r) => {
+          setRescheduling(null)
+          toast({ title: 'Cita reprogramada', description: `${formatDate(r.start)} ${formatTime(r.start)} h con ${r.barberName}` })
+          await data.reload({ silent: true })
+        }}
       />
 
       <Modal

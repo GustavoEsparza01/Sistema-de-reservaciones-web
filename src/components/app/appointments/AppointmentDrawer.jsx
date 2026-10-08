@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CalendarDays, Clock, MessageCircle, Phone, Scissors, StickyNote, User } from 'lucide-react'
+import { CalendarClock, CalendarDays, Clock, MessageCircle, Phone, Scissors, StickyNote, User } from 'lucide-react'
 import { Avatar, Button, Drawer, StatusBadge } from '../../ui'
 import { formatDateLong, formatDuration, formatMoneyMXN, formatTime } from '../../../lib/format'
 import { countClientVisits, telLink, whatsappLink } from '../../../lib/appointments'
@@ -29,12 +29,17 @@ function Row({ icon: Icon, label, children }) {
 }
 
 /** Panel lateral con el detalle de una cita y sus acciones. */
-export default function AppointmentDrawer({ appointment: a, onClose, busy, onChangeStatus, onRequestCancel }) {
+export default function AppointmentDrawer({ appointment: a, onClose, busy, onChangeStatus, onRequestCancel, onReschedule }) {
   const visits = useClientVisits(a?.clientId)
   const tel = telLink(a?.clientPhone)
   const wa = whatsappLink(a?.clientPhone)
   const footer = a && (a.status === 'pending' || a.status === 'accepted') && (
     <>
+      {onReschedule && (
+        <Button variant="secondary" icon={CalendarClock} disabled={busy} onClick={() => onReschedule(a)} className="mr-auto">
+          Reprogramar
+        </Button>
+      )}
       <Button variant="ghost" disabled={busy} onClick={() => onRequestCancel(a)}>
         {a.status === 'pending' ? 'Rechazar' : 'Cancelar cita'}
       </Button>

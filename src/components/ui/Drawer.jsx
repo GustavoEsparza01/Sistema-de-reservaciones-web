@@ -33,7 +33,7 @@ export default function Drawer({ open, onClose, title, subtitle, footer, childre
         </header>
         <div className="flex-1 overflow-y-auto p-space-lg">{children}</div>
         {footer && (
-          <footer className="flex justify-end gap-space-sm px-space-lg py-space-md border-t border-outline-variant shrink-0">
+          <footer className="flex flex-wrap justify-end gap-space-sm px-space-lg py-space-md border-t border-outline-variant shrink-0">
             {footer}
           </footer>
         )}

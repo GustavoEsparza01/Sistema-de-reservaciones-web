@@ -163,3 +163,69 @@ export function telLink(phone) {
   const digits = String(phone ?? '').replace(/[^\d+]/g, '')
   return digits ? `tel:${digits}` : null
 }
+
+// ── Crear y reprogramar ───────────────────────────────────────────
+
+/** Citas (no canceladas) de un barbero en un día, para calcular horarios libres. */
+export async function fetchBarberDay(barberId, date) {
+  if (!barberId || !date) return []
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('id, barber_id, scheduled_at, ends_at, duration_min, status')
+    .eq('barber_id', barberId)
+    .neq('status', 'cancelled')
+    .gte('scheduled_at', startOfDay(date).toISOString())
+    .lte('scheduled_at', endOfDay(date).toISOString())
+  if (error) throw error
+  return data.map(normalizeAppointment)
+}
+
+/** Busca clientes registrados por nombre o teléfono. */
+export async function searchClients(text, limit = 8) {
+  const q = cleanSearch(text ?? '')
+  let query = supabase.from('profiles').select('id, full_name, phone').order('full_name').limit(limit)
+  if (q) query = query.or(`full_name.ilike.%${q}%,phone.ilike.%${q}%`)
+  const { data, error } = await query
+  if (error) throw error
+  return data
+}
+
+/**
+ * Crea una cita como lo hace la reserva del cliente: inserta en appointments
+ * y registra el servicio con su precio en appointment_services.
+ */
+export async function createAppointment({ clientId, barberId, service, start, notes, status = 'accepted' }) {
+  const end = new Date(start.getTime() + service.duration * 60000)
+  const { data, error } = await supabase
+    .from('appointments')
+    .insert([{
+      client_id: clientId,
+      barber_id: barberId,
+      service_id: service.id,
+      scheduled_at: start.toISOString(),
+      ends_at: end.toISOString(),
+      duration_min: service.duration,
+      notes: notes?.trim() || null,
+      status,
+    }])
+    .select('id')
+    .single()
+  if (error) throw error
+
+  const link = await supabase
+    .from('appointment_services')
+    .insert([{ appointment_id: data.id, service_id: service.id, price_at_booking: service.price }])
+  if (link.error) console.error('No se pudo registrar el precio de la cita:', link.error)
+  return data.id
+}
+
+/** Cambia fecha, hora y/o barbero de una cita, conservando su duración. */
+export async function rescheduleAppointment(appointment, { barberId, start }) {
+  const duration = appointment.duration ?? 30
+  const end = new Date(start.getTime() + duration * 60000)
+  const { error } = await supabase
+    .from('appointments')
+    .update({ barber_id: barberId, scheduled_at: start.toISOString(), ends_at: end.toISOString() })
+    .eq('id', appointment.id)
+  if (error) throw error
+}
