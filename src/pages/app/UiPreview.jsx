@@ -7,6 +7,7 @@ import {
   Avatar, Badge, Button, Card, CardHeader, Drawer, EmptyState, Input, KpiCard, Modal, Select,
   Skeleton, StatusBadge, Table, Tabs, useToast,
 } from '../../components/ui'
+import { TopbarActions } from '../../components/app/Topbar'
 
 const EJEMPLO_CITAS = [
   { id: 1, hora: '10:00', cliente: 'Rodrigo Morales', servicio: 'Corte clásico', barbero: 'Mateo Silva', status: 'completed', precio: 250 },
@@ -49,8 +50,11 @@ export default function UiPreview() {
   ]
 
   return (
-    <div className="min-h-screen bg-background font-sans text-on-surface">
-      <div className="max-w-[1280px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-xl">
+    <>
+      <TopbarActions>
+        <Button icon={Plus} onClick={() => toast({ title: 'Botón de la barra superior' })}>Nueva cita</Button>
+      </TopbarActions>
+      <div className="flex flex-col gap-space-xl">
         <header>
           <h1 className="font-headline-page text-headline-page">Componentes base</h1>
           <p className="text-body-default text-on-surface-variant">
@@ -204,6 +208,6 @@ export default function UiPreview() {
           </>
         }
       />
-    </div>
+    </>
   )
 }

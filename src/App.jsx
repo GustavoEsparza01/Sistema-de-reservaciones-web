@@ -5,6 +5,7 @@ import ProtectedRoute from './components/layout/ProtectedRoute'
 import AdminRoute    from './components/layout/AdminRoute'
 import BarberRoute   from './components/layout/BarberRoute'
 import Navbar        from './components/layout/Navbar'
+import RequireAuth   from './components/layout/RequireAuth'
 import Home              from './pages/Home'
 import Login             from './pages/Login'
 import Services          from './pages/Services'
@@ -14,6 +15,7 @@ import AppointmentDetails from './pages/AppointmentDetails'
 import Profile           from './pages/Profile'
 import Dashboard         from './pages/admin/Dashboard'
 import BarberAgenda      from './pages/barber/BarberAgenda'
+import AppLayout         from './layouts/AppLayout'
 import UiPreview         from './pages/app/UiPreview'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
@@ -46,8 +48,13 @@ export default function App() {
               <Route path="/admin" element={<Dashboard />} />
             </Route>
 
-            {/* Temporal (Fase 1): muestra de componentes base */}
-            <Route path="/app/_ui" element={<UiPreview />} />
+            {/* Panel nuevo (Barber OS) */}
+            <Route element={<RequireAuth roles={['admin', 'barber']} />}>
+              <Route path="/app" element={<AppLayout />}>
+                {/* Temporal (Fase 1): muestra de componentes base */}
+                <Route path="_ui" element={<UiPreview />} />
+              </Route>
+            </Route>
           </Routes>
         </BrowserRouter>
       </ToastProvider>
