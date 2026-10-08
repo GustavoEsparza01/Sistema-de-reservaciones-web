@@ -1,7 +1,7 @@
 // Pantalla Configuración (design/stitch/08-configuracion).
 // Versión inicial: perfil, seguridad, página de reservas y accesos. Los datos del
 // negocio, horario general, notificaciones y suscripción llegan con la Fase 5.
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   Bell, Check, Copy, CreditCard, ExternalLink, Globe, KeyRound, Lock, Store, Clock, User, Users,
@@ -10,7 +10,8 @@ import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { useBusiness } from '../../hooks/useBusiness'
 import { cn } from '../../lib/cn'
-import { Avatar, Badge, Button, Card, CardHeader, EmptyState, Input, useToast } from '../../components/ui'
+import { Button, Card, CardHeader, EmptyState, Input, useToast } from '../../components/ui'
+import { PasswordForm, ProfileForm } from '../../components/account/AccountForms'
 
 const SECTIONS = [
   { value: 'perfil', label: 'Mi perfil', icon: User },
@@ -22,104 +23,6 @@ const SECTIONS = [
   { value: 'notificaciones', label: 'Notificaciones', icon: Bell, soon: true },
   { value: 'suscripcion', label: 'Suscripción y facturación', icon: CreditCard, soon: true },
 ]
-
-function ProfileSection() {
-  const { session, profile, refreshProfile, isAdmin, isBarber } = useAuth()
-  const toast = useToast()
-  const [form, setForm] = useState({ full_name: '', phone: '' })
-  const [errors, setErrors] = useState({})
-  const [saving, setSaving] = useState(false)
-
-  useEffect(() => {
-    setForm({ full_name: profile?.full_name ?? '', phone: profile?.phone ?? '' })
-  }, [profile])
-
-  const dirty = form.full_name !== (profile?.full_name ?? '') || form.phone !== (profile?.phone ?? '')
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    const found = {}
-    const name = form.full_name.trim()
-    const phone = form.phone.trim()
-    if (!name) found.full_name = 'Escribe tu nombre.'
-    if (phone && phone.replace(/\D/g, '').length < 10) found.phone = 'El teléfono debe tener al menos 10 dígitos.'
-    setErrors(found)
-    if (Object.keys(found).length) return
-
-    setSaving(true)
-    const { error } = await supabase.from('profiles').update({ full_name: name, phone: phone || null }).eq('id', session.user.id)
-    setSaving(false)
-    if (error) {
-      toast({ tone: 'error', title: 'No se pudo guardar tu perfil', description: error.message })
-      return
-    }
-    await refreshProfile()
-    toast({ title: 'Perfil actualizado' })
-  }
-
-  return (
-    <Card className="flex flex-col gap-space-lg">
-      <CardHeader title="Mi perfil" description="Así te ven tu equipo y tus clientes." />
-      <div className="flex items-center gap-space-md">
-        <Avatar name={form.full_name || 'Usuario'} size="lg" />
-        <div>
-          <p className="font-body-semibold">{profile?.full_name || 'Sin nombre'}</p>
-          <div className="flex gap-space-xs mt-1">
-            {isAdmin && <Badge tone="primary">Administrador</Badge>}
-            {isBarber && <Badge tone="success">Barbero</Badge>}
-          </div>
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
-        <Input label="Nombre completo" required value={form.full_name} onChange={(e) => setForm((f) => ({ ...f, full_name: e.target.value }))} error={errors.full_name} />
-        <Input label="Teléfono" type="tel" inputMode="tel" placeholder="55 1234 5678" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} error={errors.phone} />
-        <Input label="Correo" value={session?.user?.email ?? ''} disabled readOnly hint="El correo se usa para iniciar sesión y no se puede cambiar aquí." className="sm:col-span-2" />
-        <div className="sm:col-span-2 flex justify-end">
-          <Button type="submit" loading={saving} disabled={!dirty}>Guardar cambios</Button>
-        </div>
-      </form>
-    </Card>
-  )
-}
-
-function SecuritySection() {
-  const toast = useToast()
-  const [form, setForm] = useState({ password: '', confirm: '' })
-  const [errors, setErrors] = useState({})
-  const [saving, setSaving] = useState(false)
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    const found = {}
-    if (form.password.length < 8) found.password = 'Usa al menos 8 caracteres.'
-    if (form.confirm !== form.password) found.confirm = 'Las contraseñas no coinciden.'
-    setErrors(found)
-    if (Object.keys(found).length) return
-
-    setSaving(true)
-    const { error } = await supabase.auth.updateUser({ password: form.password })
-    setSaving(false)
-    if (error) {
-      toast({ tone: 'error', title: 'No se pudo cambiar la contraseña', description: error.message })
-      return
-    }
-    setForm({ password: '', confirm: '' })
-    toast({ title: 'Contraseña actualizada' })
-  }
-
-  return (
-    <Card className="flex flex-col gap-space-lg">
-      <CardHeader title="Seguridad" description="Cambia la contraseña con la que inicias sesión." />
-      <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
-        <Input label="Nueva contraseña" type="password" autoComplete="new-password" icon={KeyRound} value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} error={errors.password} hint="Mínimo 8 caracteres." />
-        <Input label="Confirmar contraseña" type="password" autoComplete="new-password" icon={KeyRound} value={form.confirm} onChange={(e) => setForm((f) => ({ ...f, confirm: e.target.value }))} error={errors.confirm} />
-        <div className="sm:col-span-2 flex justify-end">
-          <Button type="submit" loading={saving} disabled={!form.password}>Cambiar contraseña</Button>
-        </div>
-      </form>
-    </Card>
-  )
-}
 
 function BookingSection() {
   const business = useBusiness()
@@ -223,8 +126,8 @@ export default function Configuracion() {
         </nav>
 
         <div className="min-w-0">
-          {current.value === 'perfil' && <ProfileSection />}
-          {current.value === 'seguridad' && <SecuritySection />}
+          {current.value === 'perfil' && <ProfileForm />}
+          {current.value === 'seguridad' && <PasswordForm />}
           {current.value === 'reservas' && <BookingSection />}
           {current.value === 'usuarios' && <UsersSection />}
           {current.soon && <ComingSoon section={current} />}

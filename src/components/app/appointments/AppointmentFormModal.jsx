@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useState } from 'react'
 import { format, parseISO, startOfDay } from 'date-fns'
 import { Search, X } from 'lucide-react'
 import { supabase } from '../../../lib/supabaseClient'
+import { fetchPublicBarbers } from '../../../lib/publicData'
 import {
   createAppointment, fetchBarberDay, rescheduleAppointment, searchClients,
 } from '../../../lib/appointments'
@@ -22,14 +23,12 @@ function useBookingOptions(open) {
     let alive = true
     Promise.all([
       supabase.from('services').select('id, name, price, duration_min').eq('is_active', true).order('name'),
-      supabase.from('barbers').select('id, schedule, profiles ( full_name )').eq('is_active', true),
+      fetchPublicBarbers().catch(() => []),
     ]).then(([s, b]) => {
       if (!alive) return
       setOptions({
         services: (s.data ?? []).map((x) => ({ id: x.id, name: x.name, price: Number(x.price) || 0, duration: x.duration_min || 30 })),
-        barbers: (b.data ?? [])
-          .map((x) => ({ id: x.id, name: one(x.profiles)?.full_name ?? 'Barbero', schedule: x.schedule ?? {} }))
-          .sort((x, y) => x.name.localeCompare(y.name, 'es')),
+        barbers: b,
       })
     })
     return () => { alive = false }

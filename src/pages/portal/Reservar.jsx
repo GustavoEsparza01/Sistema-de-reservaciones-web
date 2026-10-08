@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useBusiness } from '../../hooks/useBusiness'
+import { googleCalendarLink } from '../../hooks/useMyAppointments'
 import { supabase } from '../../lib/supabaseClient'
 import { fetchPublicBarbers, fetchPublicServices } from '../../lib/publicData'
 import { createAppointment, normalizeAppointment } from '../../lib/appointments'
@@ -72,11 +73,6 @@ function Choice({ selected, onClick, children, className }) {
   )
 }
 
-function googleCalendarLink({ title, start, end, location }) {
-  const fmt = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
-  const p = new URLSearchParams({ action: 'TEMPLATE', text: title, dates: `${fmt(start)}/${fmt(end)}`, location })
-  return `https://calendar.google.com/calendar/render?${p}`
-}
 
 export default function Reservar() {
   const business = useBusiness()
@@ -224,7 +220,7 @@ export default function Reservar() {
             >
               Agregar a Google Calendar
             </Button>
-            <Button as={Link} to="/my-appointments" icon={CalendarDays} className="justify-center">Ver mis citas</Button>
+            <Button as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
           </div>
           <Link to={`/${business.slug}`} className="text-body-sm text-primary hover:underline">Volver a la página principal</Link>
         </Card>
@@ -401,7 +397,7 @@ export default function Reservar() {
                         <p className="font-body-semibold">{profile?.full_name || 'Cliente'}</p>
                         <p className="text-body-sm text-on-surface-variant tabular-nums">{profile?.phone || session.user.email}</p>
                       </div>
-                      <Link to="/profile" className="ml-auto text-body-sm text-primary hover:underline">Editar mis datos</Link>
+                      <Link to={`/${business.slug}/perfil`} className="ml-auto text-body-sm text-primary hover:underline">Editar mis datos</Link>
                     </div>
                     <Textarea
                       label="Notas para tu barbero (opcional)"

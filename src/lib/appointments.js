@@ -8,7 +8,7 @@ import { downloadCsv } from './csv'
 // Columnas que necesita el panel. El precio cobrado se toma de
 // appointment_services.price_at_booking; si no hay registro, del servicio.
 const BASE_COLUMNS = `
-  id, client_id, barber_id, service_id, scheduled_at, ends_at, duration_min, status, notes,
+  id, client_id, barber_id, service_id, scheduled_at, ends_at, duration_min, status, notes, created_at,
   services ( name, price ),
   appointment_services ( price_at_booking ),
   barbers ( id, profiles ( full_name ) )
@@ -43,6 +43,7 @@ export function normalizeAppointment(row) {
     duration,
     status: row.status,
     notes: row.notes,
+    createdAt: row.created_at ? new Date(row.created_at) : null,
     price,
     serviceId: row.service_id ?? null,
     serviceName: service?.name ?? 'Servicio',

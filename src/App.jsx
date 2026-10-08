@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ToastProvider } from './components/ui'
-import ProtectedRoute from './components/layout/ProtectedRoute'
 import AdminRoute    from './components/layout/AdminRoute'
 import BarberRoute   from './components/layout/BarberRoute'
 import Navbar        from './components/layout/Navbar'
@@ -9,9 +8,6 @@ import RequireAuth   from './components/layout/RequireAuth'
 import RoleHome      from './components/layout/RoleHome'
 import AppLayout     from './layouts/AppLayout'
 import Login             from './pages/Login'
-import MyAppointments    from './pages/MyAppointments'
-import AppointmentDetails from './pages/AppointmentDetails'
-import Profile           from './pages/Profile'
 import Dashboard         from './pages/admin/Dashboard'
 import BarberAgenda      from './pages/barber/BarberAgenda'
 import Resumen           from './pages/app/Resumen'
@@ -25,21 +21,31 @@ import MiAgenda          from './pages/app/MiAgenda'
 import PortalLayout      from './layouts/PortalLayout'
 import Negocio           from './pages/portal/Negocio'
 import Reservar          from './pages/portal/Reservar'
+import MisCitas          from './pages/portal/MisCitas'
+import DetalleCita       from './pages/portal/DetalleCita'
+import Perfil            from './pages/portal/Perfil'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
-const LEGACY_PATHS = ['/login', '/my-appointments', '/profile', '/anterior']
+const LEGACY_PATHS = ['/login', '/anterior']
 function LegacyNavbar() {
   const { pathname } = useLocation()
   if (!LEGACY_PATHS.some((p) => pathname.startsWith(p))) return null
   return <Navbar />
 }
 
+// /my-appointments/:id → /peludos/mis-citas/:id
+function LegacyAppointmentRedirect() {
+  const { id } = useParams()
+  return <Navigate to={`/peludos/mis-citas/${id}`} replace />
+}
+
 /*
  * Rutas durante la migración (ver docs/design/PLAN_REDISENO.md):
  * - /app/*        panel nuevo (admin y barbero)
- * - /anterior/*   pantallas anteriores que el panel nuevo aún no reemplaza
- * - /:slug/*     portal del negocio (página pública y reserva)
- * - resto         páginas actuales del cliente (Mis citas, perfil, login)
+ * - /:slug/*      portal del negocio (página pública, reserva, Mis citas y perfil)
+ * - /anterior/*   pantallas anteriores, accesibles mientras dura la migración
+ * - /login        inicio de sesión actual (se rediseña en la Fase 5)
+ * - el resto de rutas viejas redirigen a las nuevas
  */
 export default function App() {
   return (
@@ -48,16 +54,14 @@ export default function App() {
         <BrowserRouter>
           <LegacyNavbar />
           <Routes>
-            {/* Páginas actuales (cliente y públicas) */}
+            {/* Inicio de sesión y redirecciones de las rutas viejas */}
             <Route path="/" element={<Navigate to="/peludos" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/services" element={<Navigate to="/peludos#servicios" replace />} />
             <Route path="/book" element={<Navigate to="/peludos/reservar" replace />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/my-appointments" element={<MyAppointments />} />
-              <Route path="/my-appointments/:id" element={<AppointmentDetails />} />
-              <Route path="/profile"         element={<Profile />} />
-            </Route>
+            <Route path="/my-appointments" element={<Navigate to="/peludos/mis-citas" replace />} />
+            <Route path="/my-appointments/:id" element={<LegacyAppointmentRedirect />} />
+            <Route path="/profile" element={<Navigate to="/peludos/perfil" replace />} />
             <Route element={<BarberRoute />}>
               <Route path="/anterior/agenda-barbero" element={<BarberAgenda />} />
             </Route>
@@ -96,6 +100,11 @@ export default function App() {
             <Route path="/:slug" element={<PortalLayout />}>
               <Route index element={<Negocio />} />
               <Route path="reservar" element={<Reservar />} />
+              <Route element={<RequireAuth />}>
+                <Route path="mis-citas" element={<MisCitas />} />
+                <Route path="mis-citas/:id" element={<DetalleCita />} />
+                <Route path="perfil" element={<Perfil />} />
+              </Route>
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

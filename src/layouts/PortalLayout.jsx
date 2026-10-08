@@ -10,6 +10,7 @@ import Logo from '../components/app/Logo'
 /** Menú de la cuenta del cliente (o botón para iniciar sesión). */
 function AccountMenu() {
   const { session, profile, signOut } = useAuth()
+  const business = useBusiness()
   const navigate = useNavigate()
   const location = useLocation()
   const [open, setOpen] = useState(false)
@@ -47,10 +48,10 @@ function AccountMenu() {
       </button>
       {open && (
         <div role="menu" className="absolute right-0 mt-2 w-48 rounded-lg border border-outline-variant bg-surface-container-lowest shadow-xl py-1 z-50">
-          <Link role="menuitem" to="/my-appointments" onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
+          <Link role="menuitem" to={`/${business.slug}/mis-citas`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
             <CalendarPlus size={16} strokeWidth={1.75} aria-hidden /> Mis citas
           </Link>
-          <Link role="menuitem" to="/profile" onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
+          <Link role="menuitem" to={`/${business.slug}/perfil`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
             <User size={16} strokeWidth={1.75} aria-hidden /> Mi perfil
           </Link>
           <button
@@ -92,7 +93,7 @@ export default function PortalLayout() {
     { to: `${base}#servicios`, label: 'Servicios' },
     { to: `${base}#equipo`, label: 'Barberos' },
     { to: `${base}#horarios`, label: 'Horarios' },
-    ...(session ? [{ to: '/my-appointments', label: 'Mis citas' }] : []),
+    ...(session ? [{ to: `${base}/mis-citas`, label: 'Mis citas' }] : []),
   ]
 
   return (
