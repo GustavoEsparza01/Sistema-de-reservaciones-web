@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
 const AuthContext = createContext(null)
@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const [isBarber, setIsBarber] = useState(false)
   const [barberId, setBarberId] = useState(null)
   const [loading, setLoading]   = useState(true)
+  const loadedUserId = useRef(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -19,8 +20,19 @@ export function AuthProvider({ children }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       setSession(session)
-      if (session) fetchProfile(session.user.id)
-      else { setProfile(null); setLoading(false) }
+      if (session) {
+        // Usuario distinto al cargado (por ejemplo, recién inició sesión): marcar como
+        // cargando hasta tener su perfil, para no decidir su rol con datos vacíos.
+        // En renovaciones de token del mismo usuario no se muestra la carga.
+        if (loadedUserId.current !== session.user.id) setLoading(true)
+        fetchProfile(session.user.id)
+      } else {
+        loadedUserId.current = null
+        setProfile(null)
+        setIsBarber(false)
+        setBarberId(null)
+        setLoading(false)
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -43,6 +55,7 @@ export function AuthProvider({ children }) {
     
     setIsBarber(!!barberData)
     setBarberId(barberData?.id || null)
+    loadedUserId.current = userId
     setLoading(false)
   }
 

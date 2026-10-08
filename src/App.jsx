@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ToastProvider } from './components/ui'
 import ProtectedRoute from './components/layout/ProtectedRoute'
@@ -6,6 +6,8 @@ import AdminRoute    from './components/layout/AdminRoute'
 import BarberRoute   from './components/layout/BarberRoute'
 import Navbar        from './components/layout/Navbar'
 import RequireAuth   from './components/layout/RequireAuth'
+import RoleHome      from './components/layout/RoleHome'
+import AppLayout     from './layouts/AppLayout'
 import Home              from './pages/Home'
 import Login             from './pages/Login'
 import Services          from './pages/Services'
@@ -15,16 +17,22 @@ import AppointmentDetails from './pages/AppointmentDetails'
 import Profile           from './pages/Profile'
 import Dashboard         from './pages/admin/Dashboard'
 import BarberAgenda      from './pages/barber/BarberAgenda'
-import AppLayout         from './layouts/AppLayout'
+import Resumen           from './pages/app/Resumen'
 import UiPreview         from './pages/app/UiPreview'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
 function LegacyNavbar() {
   const { pathname } = useLocation()
-  if (pathname.startsWith('/app')) return null
+  if (pathname.startsWith('/app') || pathname === '/inicio') return null
   return <Navbar />
 }
 
+/*
+ * Rutas durante la migración (ver docs/design/PLAN_REDISENO.md):
+ * - /app/*        panel nuevo (admin y barbero)
+ * - /anterior/*   pantallas anteriores que el panel nuevo aún no reemplaza
+ * - resto         páginas actuales del cliente, hasta la Fase 4
+ */
 export default function App() {
   return (
     <AuthProvider>
@@ -32,6 +40,7 @@ export default function App() {
         <BrowserRouter>
           <LegacyNavbar />
           <Routes>
+            {/* Páginas actuales (cliente y públicas) */}
             <Route path="/"      element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/services" element={<Services />} />
@@ -44,17 +53,30 @@ export default function App() {
             <Route element={<BarberRoute />}>
               <Route path="/barber-agenda" element={<BarberAgenda />} />
             </Route>
-            <Route element={<AdminRoute />}>
-              <Route path="/admin" element={<Dashboard />} />
-            </Route>
+
+            {/* Después de iniciar sesión: manda a la página de cada rol */}
+            <Route path="/inicio" element={<RoleHome />} />
 
             {/* Panel nuevo (Barber OS) */}
             <Route element={<RequireAuth roles={['admin', 'barber']} />}>
               <Route path="/app" element={<AppLayout />}>
+                <Route index element={<RoleHome />} />
+                <Route element={<RequireAuth roles={['admin']} />}>
+                  <Route path="resumen" element={<Resumen />} />
+                </Route>
                 {/* Temporal (Fase 1): muestra de componentes base */}
                 <Route path="_ui" element={<UiPreview />} />
+                <Route path="*" element={<Navigate to="/app" replace />} />
               </Route>
             </Route>
+
+            {/* Panel anterior, accesible desde la barra lateral mientras dura la migración */}
+            <Route element={<AdminRoute />}>
+              <Route path="/anterior/admin" element={<Dashboard />} />
+            </Route>
+            <Route path="/admin" element={<Navigate to="/app/resumen" replace />} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </ToastProvider>

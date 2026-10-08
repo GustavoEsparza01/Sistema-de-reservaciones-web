@@ -1,8 +1,8 @@
 // Roles y página de inicio de cada uno.
-// Mientras no existan todas las rutas nuevas, se apunta a las actuales:
-// se actualizan aquí al terminar /app/resumen (paso 6) y /app/mi-agenda (Fase 3).
+// El barbero sigue en la agenda actual hasta que exista /app/mi-agenda (Fase 3)
+// y el cliente en la página actual hasta el portal /:slug (Fase 4).
 const HOME = {
-  admin: '/admin',
+  admin: '/app/resumen',
   barber: '/barber-agenda',
   client: '/',
 }

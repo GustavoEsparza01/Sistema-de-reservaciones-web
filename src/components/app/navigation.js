@@ -9,7 +9,7 @@ import {
  * Al terminar cada pantalla solo hay que cambiar ready a true.
  */
 export const MAIN_NAV = [
-  { to: '/app/resumen',   label: 'Resumen',   icon: LayoutDashboard, roles: ['admin'],  ready: false },
+  { to: '/app/resumen',   label: 'Resumen',   icon: LayoutDashboard, roles: ['admin'],  ready: true  },
   { to: '/app/agenda',    label: 'Agenda',    icon: Calendar,        roles: ['admin'],  ready: false },
   { to: '/app/citas',     label: 'Citas',     icon: ClipboardList,   roles: ['admin'],  ready: false },
   { to: '/app/clientes',  label: 'Clientes',  icon: Users,           roles: ['admin'],  ready: false },
@@ -25,7 +25,7 @@ export const FOOTER_NAV = [
 
 // Mientras dura la migración: acceso a las pantallas anteriores
 export const LEGACY_LINKS = [
-  { to: '/admin',         label: 'Panel anterior',  roles: ['admin'] },
+  { to: '/anterior/admin', label: 'Panel anterior',  roles: ['admin'] },
   { to: '/barber-agenda', label: 'Agenda anterior', roles: ['barber'] },
 ]
 

@@ -142,7 +142,8 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithPassword({ email: loginData.email, password: loginData.password })
     setLoginLoading(false)
     if (error) { setLoginError(error.message); return }
-    navigate(safeReturnPath(searchParams.get('volver')) ?? '/', { replace: true })
+    // Sin ?volver= se va a /inicio, que redirige según el rol
+    navigate(safeReturnPath(searchParams.get('volver')) ?? '/inicio', { replace: true })
   }
 
   async function handleRegister(e) {
