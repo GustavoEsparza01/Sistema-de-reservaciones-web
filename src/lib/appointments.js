@@ -229,3 +229,27 @@ export async function rescheduleAppointment(appointment, { barberId, start }) {
     .eq('id', appointment.id)
   if (error) throw error
 }
+
+// ── Notas del barbero ─────────────────────────────────────────────
+
+export const BARBER_NOTE_PREFIX = 'Nota del barbero:'
+
+/** Separa las notas del cliente de las que agregó el barbero al completar. */
+export function splitNotes(notes) {
+  if (!notes) return { client: '', barber: '' }
+  const i = notes.indexOf(BARBER_NOTE_PREFIX)
+  if (i === -1) return { client: notes.trim(), barber: '' }
+  return { client: notes.slice(0, i).trim(), barber: notes.slice(i + BARBER_NOTE_PREFIX.length).trim() }
+}
+
+/**
+ * Marca la cita como completada y guarda la nota del barbero sin borrar la del
+ * cliente (la tabla solo tiene la columna notes).
+ */
+export async function completeWithNote(appointment, note) {
+  const { client } = splitNotes(appointment.notes)
+  const text = note?.trim()
+  const notes = text ? [client, `${BARBER_NOTE_PREFIX} ${text}`].filter(Boolean).join('\n\n') : appointment.notes ?? null
+  const { error } = await supabase.from('appointments').update({ status: 'completed', notes }).eq('id', appointment.id)
+  if (error) throw error
+}

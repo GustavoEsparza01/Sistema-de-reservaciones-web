@@ -1,9 +1,8 @@
 // Roles y página de inicio de cada uno.
-// El barbero sigue en la agenda actual hasta que exista /app/mi-agenda (Fase 3)
-// y el cliente en la página actual hasta el portal /:slug (Fase 4).
+// El cliente sigue en la página actual hasta que exista el portal /:slug (Fase 4).
 const HOME = {
   admin: '/app/resumen',
-  barber: '/barber-agenda',
+  barber: '/app/mi-agenda',
   client: '/',
 }
 

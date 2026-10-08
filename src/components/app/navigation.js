@@ -16,7 +16,7 @@ export const MAIN_NAV = [
   { to: '/app/equipo',    label: 'Equipo',    icon: IdCard,          roles: ['admin'],  ready: true  },
   { to: '/app/servicios', label: 'Servicios', icon: Scissors,        roles: ['admin'],  ready: true  },
   { to: '/app/reportes',  label: 'Reportes',  icon: ChartColumn,     roles: ['admin'],  ready: true  },
-  { to: '/app/mi-agenda', label: 'Mi agenda', icon: CalendarDays,    roles: ['barber'], ready: false },
+  { to: '/app/mi-agenda', label: 'Mi agenda', icon: CalendarDays,    roles: ['barber'], ready: true  },
 ]
 
 export const FOOTER_NAV = [
@@ -26,7 +26,7 @@ export const FOOTER_NAV = [
 // Mientras dura la migración: acceso a las pantallas anteriores
 export const LEGACY_LINKS = [
   { to: '/anterior/admin', label: 'Panel anterior',  roles: ['admin'] },
-  { to: '/barber-agenda', label: 'Agenda anterior', roles: ['barber'] },
+  { to: '/anterior/agenda-barbero', label: 'Agenda anterior', roles: ['barber'] },
 ]
 
 /** Filtra una lista por los roles del usuario (el admin que es barbero ve ambas). */

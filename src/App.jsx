@@ -24,6 +24,7 @@ import Equipo            from './pages/app/Equipo'
 import Agenda            from './pages/app/Agenda'
 import Reportes          from './pages/app/Reportes'
 import Configuracion     from './pages/app/Configuracion'
+import MiAgenda          from './pages/app/MiAgenda'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
 function LegacyNavbar() {
@@ -56,8 +57,9 @@ export default function App() {
               <Route path="/profile"         element={<Profile />} />
             </Route>
             <Route element={<BarberRoute />}>
-              <Route path="/barber-agenda" element={<BarberAgenda />} />
+              <Route path="/anterior/agenda-barbero" element={<BarberAgenda />} />
             </Route>
+            <Route path="/barber-agenda" element={<Navigate to="/app/mi-agenda" replace />} />
 
             {/* Después de iniciar sesión: manda a la página de cada rol */}
             <Route path="/inicio" element={<RoleHome />} />
@@ -74,6 +76,9 @@ export default function App() {
                   <Route path="agenda" element={<Agenda />} />
                   <Route path="reportes" element={<Reportes />} />
                   <Route path="configuracion" element={<Configuracion />} />
+                </Route>
+                <Route element={<RequireAuth roles={['barber']} />}>
+                  <Route path="mi-agenda" element={<MiAgenda />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/app" replace />} />
               </Route>

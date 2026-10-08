@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { CalendarClock, CalendarDays, Clock, MessageCircle, Phone, Scissors, StickyNote, User } from 'lucide-react'
+import { CalendarClock, CalendarDays, Clock, MessageCircle, Phone, Scissors, StickyNote, NotebookPen, User } from 'lucide-react'
 import { Avatar, Button, Drawer, StatusBadge } from '../../ui'
 import { formatDateLong, formatDuration, formatMoneyMXN, formatTime } from '../../../lib/format'
-import { countClientVisits, telLink, whatsappLink } from '../../../lib/appointments'
+import { countClientVisits, splitNotes, telLink, whatsappLink } from '../../../lib/appointments'
 
 // Número de citas completadas del cliente de la cita abierta
 function useClientVisits(clientId) {
@@ -33,6 +33,7 @@ export default function AppointmentDrawer({ appointment: a, onClose, busy, onCha
   const visits = useClientVisits(a?.clientId)
   const tel = telLink(a?.clientPhone)
   const wa = whatsappLink(a?.clientPhone)
+  const notes = splitNotes(a?.notes)
   const footer = a && (a.status === 'pending' || a.status === 'accepted') && (
     <>
       {onReschedule && (
@@ -100,7 +101,8 @@ export default function AppointmentDrawer({ appointment: a, onClose, busy, onCha
               {a.serviceName} · <span className="tabular-nums">{formatMoneyMXN(a.price)}</span>
             </Row>
             <Row icon={User} label="Barbero">{a.barberName}</Row>
-            {a.notes && <Row icon={StickyNote} label="Notas del cliente">{a.notes}</Row>}
+            {notes.client && <Row icon={StickyNote} label="Notas del cliente">{notes.client}</Row>}
+            {notes.barber && <Row icon={NotebookPen} label="Nota del barbero">{notes.barber}</Row>}
           </dl>
         </div>
       )}
