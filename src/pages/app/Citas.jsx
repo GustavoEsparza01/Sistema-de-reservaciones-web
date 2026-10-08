@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { isToday, isTomorrow, isYesterday } from 'date-fns'
 import { CalendarX, CheckCheck, Check, CircleAlert, Download, FilterX, RefreshCw, Search, X } from 'lucide-react'
 import { supabase } from '../../lib/supabaseClient'
+import { datedFileName } from '../../lib/csv'
 import {
   APPOINTMENT_SELECT, downloadAppointmentsCsv, fetchAllAppointments, normalizeAppointment,
   updateAppointmentStatus, updateAppointmentsStatus,
@@ -174,7 +175,7 @@ export default function Citas() {
         toast({ tone: 'info', title: 'No hay citas para exportar con estos filtros' })
         return
       }
-      downloadAppointmentsCsv(all, `citas-${new Date().toISOString().slice(0, 10)}.csv`)
+      downloadAppointmentsCsv(all, datedFileName('citas'))
       toast({ title: `Se exportaron ${all.length} citas` })
     } catch (err) {
       toast({ tone: 'error', title: 'No se pudo exportar', description: err.message })

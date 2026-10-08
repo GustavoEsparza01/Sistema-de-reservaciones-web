@@ -6,7 +6,7 @@ import Field, { controlClasses } from './Field'
  * Campo de texto con etiqueta, ayuda, error e icono opcional (lucide-react).
  */
 const Input = forwardRef(function Input(
-  { id, label, hint, error, required, icon: Icon, className, inputClassName, ...props },
+  { id, label, hint, error, required, icon: Icon, suffix, className, inputClassName, ...props },
   ref
 ) {
   const autoId = useId()
@@ -29,9 +29,14 @@ const Input = forwardRef(function Input(
           required={required}
           aria-invalid={error ? true : undefined}
           aria-describedby={error || hint ? `${inputId}-msg` : undefined}
-          className={cn(controlClasses(error), Icon ? 'pl-9 pr-3' : 'px-3', inputClassName)}
+          className={cn(controlClasses(error), Icon ? 'pl-9' : 'pl-3', suffix ? 'pr-14' : 'pr-3', inputClassName)}
           {...props}
         />
+        {suffix && (
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-body-sm text-on-surface-variant pointer-events-none">
+            {suffix}
+          </span>
+        )}
       </div>
     </Field>
   )

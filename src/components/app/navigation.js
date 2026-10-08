@@ -14,7 +14,7 @@ export const MAIN_NAV = [
   { to: '/app/citas',     label: 'Citas',     icon: ClipboardList,   roles: ['admin'],  ready: true  },
   { to: '/app/clientes',  label: 'Clientes',  icon: Users,           roles: ['admin'],  ready: false },
   { to: '/app/equipo',    label: 'Equipo',    icon: IdCard,          roles: ['admin'],  ready: false },
-  { to: '/app/servicios', label: 'Servicios', icon: Scissors,        roles: ['admin'],  ready: false },
+  { to: '/app/servicios', label: 'Servicios', icon: Scissors,        roles: ['admin'],  ready: true  },
   { to: '/app/reportes',  label: 'Reportes',  icon: ChartColumn,     roles: ['admin'],  ready: false },
   { to: '/app/mi-agenda', label: 'Mi agenda', icon: CalendarDays,    roles: ['barber'], ready: false },
 ]

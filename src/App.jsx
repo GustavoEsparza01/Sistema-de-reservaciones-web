@@ -19,6 +19,7 @@ import Dashboard         from './pages/admin/Dashboard'
 import BarberAgenda      from './pages/barber/BarberAgenda'
 import Resumen           from './pages/app/Resumen'
 import Citas             from './pages/app/Citas'
+import Servicios         from './pages/app/Servicios'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
 function LegacyNavbar() {
@@ -64,6 +65,7 @@ export default function App() {
                 <Route element={<RequireAuth roles={['admin']} />}>
                   <Route path="resumen" element={<Resumen />} />
                   <Route path="citas" element={<Citas />} />
+                  <Route path="servicios" element={<Servicios />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/app" replace />} />
               </Route>

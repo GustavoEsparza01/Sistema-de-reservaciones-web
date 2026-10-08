@@ -3,6 +3,7 @@ import { endOfDay, parseISO, startOfDay } from 'date-fns'
 import { supabase } from './supabaseClient'
 import { getStatus } from './appointmentStatus'
 import { formatDate, formatTime } from './format'
+import { downloadCsv } from './csv'
 
 // Columnas que necesita el panel. El precio cobrado se toma de
 // appointment_services.price_at_booking; si no hay registro, del servicio.
@@ -137,29 +138,16 @@ export async function countClientVisits(clientId) {
 
 // ── Exportar ──────────────────────────────────────────────────────
 
-const csvCell = (v) => {
-  const s = v == null ? '' : String(v)
-  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
-}
-
-/** Descarga las citas como archivo CSV (se abre bien en Excel). */
+/** Descarga las citas como archivo CSV. */
 export function downloadAppointmentsCsv(appointments, fileName = 'citas.csv') {
-  const header = ['Fecha', 'Hora', 'Cliente', 'Teléfono', 'Servicio', 'Barbero', 'Duración (min)', 'Precio (MXN)', 'Estado', 'Notas']
-  const lines = appointments.map((a) => [
-    formatDate(a.start), formatTime(a.start), a.clientName, a.clientPhone, a.serviceName, a.barberName,
-    a.duration, a.price, getStatus(a.status).label, a.notes,
-  ].map(csvCell).join(','))
-
-  // BOM para que Excel reconozca los acentos
-  const blob = new Blob(['﻿' + [header.join(','), ...lines].join('\r\n')], { type: 'text/csv;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = fileName
-  document.body.appendChild(link)
-  link.click()
-  link.remove()
-  URL.revokeObjectURL(url)
+  downloadCsv(
+    fileName,
+    ['Fecha', 'Hora', 'Cliente', 'Teléfono', 'Servicio', 'Barbero', 'Duración (min)', 'Precio (MXN)', 'Estado', 'Notas'],
+    appointments.map((a) => [
+      formatDate(a.start), formatTime(a.start), a.clientName, a.clientPhone, a.serviceName, a.barberName,
+      a.duration, a.price, getStatus(a.status).label, a.notes,
+    ])
+  )
 }
 
 // ── Contacto ──────────────────────────────────────────────────────
