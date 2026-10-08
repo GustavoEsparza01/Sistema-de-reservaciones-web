@@ -389,6 +389,14 @@ export default function Reservar() {
                     </div>
                     <p className="text-body-sm text-on-surface-variant">Tu selección se conserva: al entrar regresarás a este paso.</p>
                   </Card>
+                ) : profile?.role === 'banned' ? (
+                  <Card>
+                    <EmptyState
+                      icon={CircleAlert}
+                      title="No puedes reservar en línea"
+                      description={`Tu cuenta no tiene habilitadas las reservas en línea. Comunícate con ${business.name} para agendar tu cita.`}
+                    />
+                  </Card>
                 ) : (
                   <Card className="flex flex-col gap-space-md">
                     <div className="flex items-center gap-space-sm">

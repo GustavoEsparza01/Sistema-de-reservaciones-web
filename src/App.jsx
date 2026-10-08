@@ -21,6 +21,7 @@ import Equipo            from './pages/app/Equipo'
 import Agenda            from './pages/app/Agenda'
 import Reportes          from './pages/app/Reportes'
 import Configuracion     from './pages/app/Configuracion'
+import Clientes          from './pages/app/Clientes'
 import MiAgenda          from './pages/app/MiAgenda'
 import PortalLayout      from './layouts/PortalLayout'
 import Negocio           from './pages/portal/Negocio'
@@ -86,6 +87,7 @@ export default function App() {
                 <Route element={<RequireAuth roles={['admin']} />}>
                   <Route path="resumen" element={<Resumen />} />
                   <Route path="citas" element={<Citas />} />
+                  <Route path="clientes" element={<Clientes />} />
                   <Route path="servicios" element={<Servicios />} />
                   <Route path="equipo" element={<Equipo />} />
                   <Route path="agenda" element={<Agenda />} />

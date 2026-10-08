@@ -107,7 +107,7 @@ function ClientPicker({ value, onChange, error }) {
 
 /**
  * Crear una cita (mode="create") o reprogramar/reasignar una existente (mode="reschedule").
- * - preset: { barberId, date (Date), time ("HH:MM") } para precargar al crear desde la agenda
+ * - preset: { barberId, date (Date), time ("HH:MM"), client ({ id, full_name, phone }) } para precargar al crear
  * - appointment: la cita a reprogramar
  */
 export default function AppointmentFormModal({ open, mode = 'create', appointment, preset, onClose, onDone }) {
@@ -141,7 +141,7 @@ export default function AppointmentFormModal({ open, mode = 'create', appointmen
       setDate(toDateInput(appointment.start))
       setTime(formatTime(appointment.start))
     } else {
-      setClient(null)
+      setClient(preset?.client ?? null)
       setServiceId('')
       setBarberId(preset?.barberId ?? '')
       setDate(toDateInput(preset?.date ?? new Date()))
