@@ -14,7 +14,12 @@ const SIZES = {
 }
 
 export function initials(name = '') {
-  const parts = name.trim().split(/\s+/).filter(Boolean)
+  // Solo palabras con letras: "Carlos (Barbero)" → "CB", no "C("
+  const parts = name
+    .trim()
+    .split(/\s+/)
+    .map((w) => w.replace(/[^\p{L}]/gu, ''))
+    .filter(Boolean)
   if (parts.length === 0) return '?'
   const first = parts[0][0]
   const last = parts.length > 1 ? parts[parts.length - 1][0] : ''

@@ -8,10 +8,7 @@ import Navbar        from './components/layout/Navbar'
 import RequireAuth   from './components/layout/RequireAuth'
 import RoleHome      from './components/layout/RoleHome'
 import AppLayout     from './layouts/AppLayout'
-import Home              from './pages/Home'
 import Login             from './pages/Login'
-import Services          from './pages/Services'
-import BookAppointment   from './pages/BookAppointment'
 import MyAppointments    from './pages/MyAppointments'
 import AppointmentDetails from './pages/AppointmentDetails'
 import Profile           from './pages/Profile'
@@ -25,11 +22,15 @@ import Agenda            from './pages/app/Agenda'
 import Reportes          from './pages/app/Reportes'
 import Configuracion     from './pages/app/Configuracion'
 import MiAgenda          from './pages/app/MiAgenda'
+import PortalLayout      from './layouts/PortalLayout'
+import Negocio           from './pages/portal/Negocio'
+import Reservar          from './pages/portal/Reservar'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
+const LEGACY_PATHS = ['/login', '/my-appointments', '/profile', '/anterior']
 function LegacyNavbar() {
   const { pathname } = useLocation()
-  if (pathname.startsWith('/app') || pathname === '/inicio') return null
+  if (!LEGACY_PATHS.some((p) => pathname.startsWith(p))) return null
   return <Navbar />
 }
 
@@ -37,7 +38,8 @@ function LegacyNavbar() {
  * Rutas durante la migración (ver docs/design/PLAN_REDISENO.md):
  * - /app/*        panel nuevo (admin y barbero)
  * - /anterior/*   pantallas anteriores que el panel nuevo aún no reemplaza
- * - resto         páginas actuales del cliente, hasta la Fase 4
+ * - /:slug/*     portal del negocio (página pública y reserva)
+ * - resto         páginas actuales del cliente (Mis citas, perfil, login)
  */
 export default function App() {
   return (
@@ -47,11 +49,11 @@ export default function App() {
           <LegacyNavbar />
           <Routes>
             {/* Páginas actuales (cliente y públicas) */}
-            <Route path="/"      element={<Home />} />
+            <Route path="/" element={<Navigate to="/peludos" replace />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/services" element={<Navigate to="/peludos#servicios" replace />} />
+            <Route path="/book" element={<Navigate to="/peludos/reservar" replace />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/book"            element={<BookAppointment />} />
               <Route path="/my-appointments" element={<MyAppointments />} />
               <Route path="/my-appointments/:id" element={<AppointmentDetails />} />
               <Route path="/profile"         element={<Profile />} />
@@ -89,6 +91,12 @@ export default function App() {
               <Route path="/anterior/admin" element={<Dashboard />} />
             </Route>
             <Route path="/admin" element={<Navigate to="/app/resumen" replace />} />
+
+            {/* Portal del negocio (al final: /:slug captura el primer segmento) */}
+            <Route path="/:slug" element={<PortalLayout />}>
+              <Route index element={<Negocio />} />
+              <Route path="reservar" element={<Reservar />} />
+            </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

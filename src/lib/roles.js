@@ -3,7 +3,7 @@
 const HOME = {
   admin: '/app/resumen',
   barber: '/app/mi-agenda',
-  client: '/',
+  client: '/peludos',
 }
 
 /** ¿El usuario tiene alguno de los roles pedidos? El admin que es barbero cumple 'barber'. */
