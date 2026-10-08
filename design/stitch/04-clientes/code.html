@@ -1,0 +1,644 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#eef0ff","tertiary-container":"#bc4800","on-tertiary":"#ffffff","on-primary-container":"#eeefff","surface-container-high":"#e2e7ff","primary-fixed":"#dbe1ff","on-surface":"#131b2e","surface-bright":"#faf8ff","surface-tint":"#0053db","on-background":"#131b2e","surface-dim":"#d2d9f4","secondary-container":"#d5e3fc","primary-container":"#2563eb","on-tertiary-fixed":"#360f00","on-primary-fixed":"#00174b","tertiary-fixed":"#ffdbcd","on-primary-fixed-variant":"#003ea8","surface":"#faf8ff","on-secondary":"#ffffff","primary":"#004ac6","error-container":"#ffdad6","background":"#faf8ff","surface-container-low":"#f2f3ff","inverse-primary":"#b4c5ff","surface-container-lowest":"#ffffff","surface-variant":"#dae2fd","on-secondary-fixed":"#0d1c2e","tertiary-fixed-dim":"#ffb596","primary-fixed-dim":"#b4c5ff","error":"#ba1a1a","on-tertiary-fixed-variant":"#7d2d00","on-error-container":"#93000a","surface-container-highest":"#dae2fd","on-surface-variant":"#434655","outline-variant":"#c3c6d7","tertiary":"#943700","on-secondary-container":"#57657a","outline":"#737686","on-primary":"#ffffff","inverse-surface":"#283044","secondary-fixed":"#d5e3fc","secondary":"#515f74","surface-container":"#eaedff","on-secondary-fixed-variant":"#3a485b","on-tertiary-container":"#ffede6","on-error":"#ffffff","secondary-fixed-dim":"#b9c7df"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xl":"2rem","space-xs":"0.25rem",margin:"2rem","margin-mobile":"1rem","space-sm":"0.5rem",gutter:"1.5rem","space-md":"1rem","space-lg":"1.5rem","gutter-mobile":"1rem"},fontFamily:{"table-header":["Inter"],"body-medium":["Inter"],"body-sm":["Inter"],"body-default":["Inter"],"headline-page":["Inter"],"headline-page-mobile":["Inter"],"numeric-metric":["Inter"],"badge-label":["Inter"],"body-semibold":["Inter"],"headline-section":["Inter"]},fontSize:{"table-header":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-page":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-page-mobile":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"numeric-metric":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"badge-label":["12px",{lineHeight:"16px",fontWeight:"500"}],"body-semibold":["14px",{lineHeight:"20px",fontWeight:"600"}],"headline-section":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between select-none"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]">content_cut</span></div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-semibold text-on-surface truncate">Peludos Barber</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Sucursal Matriz</span></div></div><button class="p-space-xs text-on-surface-variant hover:text-on-surface rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div><nav class="flex-1 px-space-sm py-space-md space-y-space-xs overflow-y-auto" data-active-classes="bg-secondary-container text-primary font-body-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resumen" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-medium text-body-medium">Resumen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="font-body-medium text-body-medium">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="citas" href="#"><span class="material-symbols-outlined text-[18px]">event_note</span><span class="font-body-medium text-body-medium">Citas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="clientes" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-body-medium text-body-medium">Clientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="equipo" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-body-medium text-body-medium">Equipo</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="servicios" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span class="font-body-medium text-body-medium">Servicios</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span class="font-body-medium text-body-medium">Reportes</span></a></nav></div><div class="p-space-sm border-t border-outline-variant flex flex-col gap-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-medium text-body-medium">Configuración</span></a><div class="flex items-center justify-between p-space-sm mt-space-xs rounded-lg bg-surface-container-low"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-badge-label flex items-center justify-center shrink-0">CR</div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-sm text-on-surface truncate">Carlos Ramírez</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Dueño / Admin</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-xs rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-margin lg:px-margin"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Logo Barber OS" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UVWp55fET_dR0m15cQ6u6F1cLIu6Y25RMvgOQsEVP3jD48xYqUYumPRkFDVFiKUdSLN147XOEHDuJWSRiiRivi-kTQtohGashgqa8lBac7a5jxshVyY7UBYqSSK8E2u_4-_iCaZA9N75OZ7D70lvqFZLcUTz13N6fH_GEnqigj-7Rug-Od9tLjLk03Y49pJW8WTf3luNRJE1oJbsV6TtycY0zMqvvBK9OZG5SE9RBIWA"><span class="font-body-semibold text-body-default text-on-surface hidden sm:inline">Barber OS</span></div><div class="hidden md:flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant pl-space-md border-l border-outline-variant"><span class="">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-body-medium">Resumen</span></div></div><div class="flex items-center gap-space-md"><div class="relative hidden lg:block w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container transition-colors" placeholder="Buscar cita, cliente..." type="text"><kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[11px] px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Ctrl K</kbd></div><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container text-on-primary font-body-medium text-body-medium rounded-lg hover:bg-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva cita</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<script>
+    // Sincronización de navegación con el App Shell
+    (function() {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'clientes') {
+          link.className = 'flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container text-primary font-body-semibold transition-colors';
+        } else {
+          link.className = 'flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors';
+        }
+      });
+      // Actualizar breadcrumb superior si existe
+      const breadcrumb = document.querySelector('header .hidden.md\\:flex');
+      if (breadcrumb) {
+        breadcrumb.innerHTML = '<span class="">Barber OS</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-body-medium">Clientes</span>';
+      }
+    })();
+  </script>
+<!-- Contenedor Maestro: Grid Principal con Drawer Lateral Derecho Integrado -->
+<div class="flex flex-col xl:flex-row w-full min-h-[calc(100vh-4rem)]">
+<!-- Área Central de Datos (Directorio de Clientes) -->
+<div class="flex-1 min-w-0 p-margin-mobile lg:p-margin flex flex-col gap-space-lg">
+<!-- 1. Encabezado de la Sección -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-page text-headline-page text-on-surface">Clientes</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-badge-label text-badge-label">
+              342 clientes registrados
+            </span>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant">
+            Directorio de clientes, historial de visitas, preferencias de corte y fidelización.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-1.5 h-9 px-space-md bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg shadow-sm hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">download</span>
+<span>Exportar lista</span>
+</button>
+<button class="inline-flex items-center gap-1.5 h-9 px-space-md bg-primary-container text-on-primary font-body-medium text-body-medium rounded-lg shadow-sm hover:bg-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Agregar cliente</span>
+</button>
+</div>
+</div>
+<!-- 2. Filtros y Búsqueda Operativa -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Buscador -->
+<div class="relative flex-1 min-w-[260px] max-w-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-9.5 pl-9 pr-3 rounded-lg bg-surface-container-low font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Buscar por nombre, teléfono o correo..." type="text" value="Rodrigo Morales">
+</div>
+<!-- Segmentación y Ordenamiento -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<!-- Filtro segmentado de estado -->
+<div class="inline-flex p-1 rounded-lg bg-surface-container-low font-body-sm text-body-sm">
+<button class="px-3 py-1 rounded bg-surface-container-lowest text-on-surface font-body-semibold shadow-xs" type="button">
+              Todos (342)
+            </button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+              Activos (328)
+            </button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+              Bloqueados (14)
+            </button>
+</div>
+<!-- Selector de Orden -->
+<div class="relative inline-flex items-center">
+<select class="h-9.5 pl-3 pr-8 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-container/20">
+<option selected="">Ordenar por: Última visita (reciente)</option>
+<option>Ordenar por: Gasto total (mayor a menor)</option>
+<option>Ordenar por: Total de visitas</option>
+<option>Ordenar por: Nombre alfabético</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
+</div>
+<!-- Limpiar Filtros -->
+<button class="h-9.5 px-3 font-body-sm text-body-sm text-primary hover:text-primary-container font-body-medium transition-colors" type="button">
+            Limpiar filtros
+          </button>
+</div>
+</div>
+<!-- 3. Tabla de Clientes -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[880px]">
+<thead>
+<tr class="bg-surface-container-low h-10 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider">
+<th class="px-space-md py-2 font-table-header" scope="col">Cliente</th>
+<th class="px-space-md py-2 font-table-header" scope="col">Teléfono</th>
+<th class="px-space-md py-2 font-table-header" scope="col">Correo Electrónico</th>
+<th class="px-space-md py-2 font-table-header" scope="col">Visitas</th>
+<th class="px-space-md py-2 font-table-header" scope="col">Última Visita</th>
+<th class="px-space-md py-2 font-table-header text-right" scope="col">Gasto Total</th>
+<th class="px-space-md py-2 font-table-header text-center" scope="col">Estado</th>
+<th class="px-space-md py-2 font-table-header text-center w-12" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Fila 1: Rodrigo Morales (Activa / Seleccionada) -->
+<tr class="h-[52px] bg-secondary-container/40 hover:bg-secondary-container/60 cursor-pointer transition-colors group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      RM
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Rodrigo Morales</span>
+<span class="font-body-sm text-[11px] text-primary truncate sm:hidden">rodrigo.m@gmail.com</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 1234 5678</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">rodrigo.m@gmail.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    8 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap font-body-medium">
+                  Hoy, 12 oct 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $2,800.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 2: Santiago Mendoza -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      SM
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Santiago Mendoza</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 8765 4321</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">santiago.m@outlook.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    14 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  09 oct 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $5,120.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 3: Gabriel Peña -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      GP
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Gabriel Peña</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 9876 5432</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">gabriel.pena@empresa.mx</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    5 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  02 oct 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $1,750.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 4: Jorge Villalobos -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      JV
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Jorge Villalobos</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 3344 5566</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">jorge.v@hotmail.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    11 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  28 sep 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $3,850.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 5: Fernando Garza -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      FG
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Fernando Garza</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 4433 2211</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">f.garza@gmail.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    2 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  15 sep 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $700.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 6: Héctor Navarrete (Bloqueado) -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-error-container text-error font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      HN
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Héctor Navarrete</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 2211 4455</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">hector.nav@yahoo.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    1 visita
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  10 ago 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $180.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-error font-badge-label text-badge-label" title="No-show recurrente">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                    Bloqueado
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 7: Daniel Benítez -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      DB
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Daniel Benítez</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 6677 8899</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">daniel.b@gmail.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    7 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  04 oct 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $2,450.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 8: Luis Mario Cano -->
+<tr class="h-[52px] bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-body-semibold text-badge-label flex items-center justify-center shrink-0">
+                      LC
+                    </div>
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Luis Mario Cano</span>
+</div>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">+52 55 7788 9900</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]">lm.cano@gmail.com</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-badge-label text-badge-label text-on-surface">
+                    9 visitas
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">
+                  01 oct 2026
+                </td>
+<td class="px-space-md py-2 font-body-semibold text-body-semibold text-on-surface text-right whitespace-nowrap">
+                  $3,900.00 MXN
+                </td>
+<td class="px-space-md py-2 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Activo
+                  </span>
+</td>
+<td class="px-space-md py-2 text-center">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginación Operativa -->
+<div class="h-14 px-space-md bg-surface-container-lowest flex items-center justify-between border-t border-surface-container gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+              Mostrando <span class="font-body-semibold text-on-surface">1–8</span> de <span class="font-body-semibold text-on-surface">342</span> clientes
+            </span>
+<div class="hidden sm:flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Filas por página:</span>
+<select class="h-7 px-2 rounded bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none">
+<option selected="">10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary-container text-on-primary font-body-semibold flex items-center justify-center shadow-xs" type="button">
+              1
+            </button>
+<button class="w-8 h-8 rounded text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center" type="button">
+              2
+            </button>
+<button class="w-8 h-8 rounded text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center" type="button">
+              3
+            </button>
+<span class="px-1 text-on-surface-variant">...</span>
+<button class="w-8 h-8 rounded text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center" type="button">
+              35
+            </button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Panel Lateral Derecho (Drawer: Perfil de Rodrigo Morales) -->
+<aside class="w-full xl:w-[420px] bg-surface-container-lowest shrink-0 shadow-lg flex flex-col justify-between overflow-y-auto">
+<div class="flex flex-col">
+<!-- Header del Drawer -->
+<div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest sticky top-0 z-10 border-b border-surface-container">
+<div class="flex items-center gap-2">
+<span class="font-body-semibold text-body-semibold text-on-surface">Expediente del Cliente</span>
+<span class="font-body-sm text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">ID #CLI-0842</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones avanzadas" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Cerrar panel" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-lg">
+<!-- Identificación del Cliente & Accesos Rápidos -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-2xl bg-primary-container text-on-primary font-headline-section text-[20px] flex items-center justify-center shrink-0 shadow-sm">
+                RM
+              </div>
+<div class="flex flex-col min-w-0">
+<h2 class="font-headline-section text-headline-section text-on-surface truncate">Rodrigo Morales</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-primary font-badge-label text-[11px]">
+                    Cliente frecuente · Activo
+                  </span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-1">Registrado el 14 ene 2025 (1 año y 9 meses)</span>
+</div>
+</div>
+<!-- Botones Rápidos de Contacto -->
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<a class="inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-medium text-body-sm hover:bg-surface-container transition-colors" href="tel:+525512345678">
+<span class="material-symbols-outlined text-[16px] text-primary">call</span>
+<span>Llamar</span>
+</a>
+<a class="inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-lg bg-secondary-container text-primary font-body-semibold text-body-sm hover:bg-primary-fixed transition-colors" href="https://wa.me/525512345678" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Métricas Clave (KPIs compactas en una fila) -->
+<div class="grid grid-cols-3 gap-2 p-space-sm rounded-xl bg-surface-container-low">
+<div class="flex flex-col items-center justify-center p-2 text-center">
+<span class="font-badge-label text-[11px] text-on-surface-variant uppercase tracking-wider">Visitas</span>
+<span class="font-numeric-metric text-[22px] leading-tight text-on-surface mt-1">8</span>
+</div>
+<div class="flex flex-col items-center justify-center p-2 text-center bg-surface-container-lowest rounded-lg shadow-xs">
+<span class="font-badge-label text-[11px] text-on-surface-variant uppercase tracking-wider">Gasto Total</span>
+<span class="font-numeric-metric text-[16px] leading-tight text-primary mt-1 whitespace-nowrap">$2,800</span>
+</div>
+<div class="flex flex-col items-center justify-center p-2 text-center">
+<span class="font-badge-label text-[11px] text-on-surface-variant uppercase tracking-wider">Ticket Prom.</span>
+<span class="font-numeric-metric text-[16px] leading-tight text-on-surface mt-1 whitespace-nowrap">$350</span>
+</div>
+</div>
+<!-- Información General de Contacto -->
+<div class="flex flex-col gap-2 p-space-sm rounded-xl bg-surface-container-lowest">
+<span class="font-table-header text-[11px] text-on-surface-variant uppercase tracking-wider">Información Personal</span>
+<div class="flex items-center justify-between py-1.5 border-b border-surface-container text-body-sm">
+<span class="text-on-surface-variant">Correo:</span>
+<span class="text-on-surface font-body-medium truncate max-w-[200px]">rodrigo.m@gmail.com</span>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b border-surface-container text-body-sm">
+<span class="text-on-surface-variant">Teléfono móvil:</span>
+<span class="text-on-surface font-body-medium">+52 55 1234 5678</span>
+</div>
+<div class="flex items-center justify-between py-1.5 text-body-sm">
+<span class="text-on-surface-variant">Cumpleaños:</span>
+<span class="text-on-surface font-body-medium">18 ago 1994 (32 años)</span>
+</div>
+</div>
+<!-- Barbero & Preferencias de Servicio -->
+<div class="flex flex-col gap-2.5 p-space-md rounded-xl bg-surface-container-low">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-[11px] text-on-surface-variant uppercase tracking-wider">Preferencias &amp; Fidelidad</span>
+<span class="font-body-sm text-[11px] text-primary font-body-medium">Ficha técnica</span>
+</div>
+<!-- Barbero habitual -->
+<div class="flex items-center gap-space-sm p-2 rounded-lg bg-surface-container-lowest shadow-xs">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                MS
+              </div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-body-semibold text-body-sm text-on-surface truncate">Mateo Silva</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Barbero asignado (6 de 8 citas)</span>
+</div>
+</div>
+<!-- Servicio predilecto -->
+<div class="flex flex-col gap-1 text-body-sm">
+<span class="text-on-surface-variant text-[12px]">Servicio habitual:</span>
+<span class="font-body-medium text-on-surface">Corte Clásico + Perfilado de Barba</span>
+</div>
+<!-- Notas de corte & preferencias -->
+<div class="flex flex-col gap-1 text-body-sm pt-1">
+<span class="text-on-surface-variant text-[12px]">Indicaciones del corte:</span>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest font-body-sm text-[12px] text-on-surface leading-relaxed shadow-xs">
+                Prefiere máquina 1.5 en degradado lateral y tijera arriba. Alérgico al aftershave con mentol. Café expreso sin azúcar al llegar.
+              </div>
+</div>
+</div>
+<!-- 5. Historial de Citas (Línea de tiempo cronológica) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-section text-[14px] text-on-surface font-body-semibold">Historial de citas recientes</h3>
+<span class="font-body-sm text-[12px] text-on-surface-variant">3 de 8</span>
+</div>
+<div class="relative pl-5 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container">
+<!-- Evento 1: Hoy (Confirmada) -->
+<div class="relative flex flex-col gap-1.5">
+<div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-4 ring-surface-container-lowest"></div>
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-body-semibold text-[13px] text-on-surface">Hoy, lun 12 oct 2026 · 10:00 h</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-primary font-badge-label text-[11px]">
+                      Confirmada
+                    </span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>Corte Clásico + Perfilado de Barba</span>
+<span class="font-body-semibold text-on-surface">$350.00 MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">person</span>
+<span>Atiende: Mateo Silva</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant bg-surface-container-low p-2 rounded-lg leading-relaxed">
+                    Notas: Fade medio limpio con navaja en cuello y perfilado con aceite de argán. Mantener volumen en copete.
+                  </p>
+</div>
+</div>
+<!-- Evento 2: Lun 14 sep 2026 (Completada) -->
+<div class="relative flex flex-col gap-1.5">
+<div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-secondary ring-4 ring-surface-container-lowest"></div>
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-body-semibold text-[13px] text-on-surface">Lun 14 sep 2026 · 10:30 h</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-secondary font-badge-label text-[11px]">
+                      Completada
+                    </span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>Corte Clásico + Lavado</span>
+<span class="font-body-semibold text-on-surface">$300.00 MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">person</span>
+<span>Atendió: Mateo Silva</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant bg-surface-container-low p-2 rounded-lg leading-relaxed">
+                    Notas: Corte estándar máquina 1.5 en costados. Buen crecimiento de barba, se recomendó exfoliación.
+                  </p>
+</div>
+</div>
+<!-- Evento 3: Sáb 15 ago 2026 (Completada) -->
+<div class="relative flex flex-col gap-1.5">
+<div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-secondary ring-4 ring-surface-container-lowest"></div>
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-body-semibold text-[13px] text-on-surface">Sáb 15 ago 2026 · 11:00 h</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-secondary font-badge-label text-[11px]">
+                      Completada
+                    </span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>Corte Clásico + Perfilado de Barba</span>
+<span class="font-body-semibold text-on-surface">$350.00 MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">person</span>
+<span>Atendió: Mateo Silva</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant bg-surface-container-low p-2 rounded-lg leading-relaxed">
+                    Notas: Ajuste de bigote y navaja tradicional con toalla caliente. Satisfecho con la forma cuadrada.
+                  </p>
+</div>
+</div>
+</div>
+<!-- Enlace al pie del timeline -->
+<button class="inline-flex items-center justify-center gap-1 font-body-sm text-[12px] text-primary hover:text-primary-container font-body-semibold py-1" type="button">
+<span>Ver las 8 citas completas</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer de Acciones del Drawer -->
+<div class="p-space-md bg-surface-container-lowest sticky bottom-0 border-t border-surface-container flex flex-col gap-2">
+<button class="w-full h-10 px-space-md bg-primary-container text-on-primary font-body-semibold text-body-medium rounded-lg shadow-sm hover:bg-primary transition-colors flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Agendar nueva cita</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="h-9 px-3 bg-surface-container-low text-on-surface font-body-medium text-body-sm rounded-lg hover:bg-surface-container transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">edit</span>
+<span>Editar datos</span>
+</button>
+<button class="h-9 px-3 bg-error-container text-error font-body-medium text-body-sm rounded-lg hover:bg-opacity-80 transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">block</span>
+<span>Bloquear cliente</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div></main></div>
+</body></html>

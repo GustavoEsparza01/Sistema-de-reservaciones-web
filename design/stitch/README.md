@@ -32,3 +32,13 @@ design/stitch/<NN>-<nombre>/
 | 16 | `16-landing`               | Landing de Barber OS              | `/`                           |
 
 Si una pantalla tiene variantes (modal abierto, drawer, versión móvil), guardarlas en la misma carpeta con sufijo: `screen-drawer.png`, `screen-mobile.png`.
+
+## Estado de las exportaciones
+
+Las 16 pantallas ya están exportadas. `DESIGN.md` (sistema de diseño de Stitch) era idéntico en todas las exportaciones, así que se guarda una sola vez en `design/stitch/DESIGN.md`.
+
+Variantes guardadas:
+
+- `02-agenda`: incluye el drawer "Detalle de la cita".
+- `11-reserva`: `screen-paso1-2` (servicio + barbero), `screen-paso3` (fecha y hora), `screen-paso4` (revisar y confirmar).
+- `12-mis-citas`: `screen` (listado) y `screen-detalle` (detalle / reprogramar).

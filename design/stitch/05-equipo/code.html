@@ -1,0 +1,578 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-fixed":"#00174b","secondary-fixed":"#d5e3fc","secondary":"#515f74","primary":"#004ac6","outline-variant":"#c3c6d7","secondary-fixed-dim":"#b9c7df","on-tertiary-fixed-variant":"#7d2d00","primary-fixed":"#dbe1ff","tertiary-fixed":"#ffdbcd","on-tertiary-container":"#ffede6","surface-container-low":"#f2f3ff","surface-tint":"#0053db","surface-container-highest":"#dae2fd","on-secondary-fixed":"#0d1c2e","tertiary-container":"#bc4800","on-tertiary":"#ffffff","primary-fixed-dim":"#b4c5ff","on-error-container":"#93000a","on-tertiary-fixed":"#360f00","on-secondary":"#ffffff","on-surface-variant":"#434655","primary-container":"#2563eb","secondary-container":"#d5e3fc","inverse-primary":"#b4c5ff","surface-variant":"#dae2fd","error":"#ba1a1a","on-secondary-container":"#57657a","on-primary-container":"#eeefff","on-primary-fixed-variant":"#003ea8","inverse-on-surface":"#eef0ff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","surface-container":"#eaedff","background":"#faf8ff","on-surface":"#131b2e","tertiary-fixed-dim":"#ffb596","on-secondary-fixed-variant":"#3a485b","on-error":"#ffffff","surface-dim":"#d2d9f4","on-background":"#131b2e","surface-container-lowest":"#ffffff","on-primary":"#ffffff","tertiary":"#943700","surface-bright":"#faf8ff","outline":"#737686","surface":"#faf8ff","error-container":"#ffdad6"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","gutter":"1.5rem","gutter-mobile":"1rem","margin-mobile":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-md":"1rem","margin":"2rem","space-xl":"2rem"},fontFamily:{"body-medium":["Inter"],"body-default":["Inter"],"numeric-metric":["Inter"],"body-semibold":["Inter"],"table-header":["Inter"],"body-sm":["Inter"],"badge-label":["Inter"],"headline-page":["Inter"],"headline-section":["Inter"],"headline-page-mobile":["Inter"]},fontSize:{"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"numeric-metric":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-semibold":["14px",{lineHeight:"20px",fontWeight:"600"}],"table-header":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"badge-label":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-page":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-section":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-page-mobile":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between select-none"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]">content_cut</span></div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-semibold text-on-surface truncate">Peludos Barber</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Sucursal Matriz</span></div></div><button class="p-space-xs text-on-surface-variant hover:text-on-surface rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div><nav class="flex-1 px-space-sm py-space-md space-y-space-xs overflow-y-auto" data-active-classes="bg-secondary-container text-primary font-body-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resumen" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-medium text-body-medium">Resumen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="font-body-medium text-body-medium">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="citas" href="#"><span class="material-symbols-outlined text-[18px]">event_note</span><span class="font-body-medium text-body-medium">Citas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="clientes" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-body-medium text-body-medium">Clientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container text-primary font-body-semibold transition-colors" data-path="equipo" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-body-medium text-body-medium">Equipo</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="servicios" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span class="font-body-medium text-body-medium">Servicios</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span class="font-body-medium text-body-medium">Reportes</span></a></nav></div><div class="p-space-sm border-t border-outline-variant flex flex-col gap-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-medium text-body-medium">Configuración</span></a><div class="flex items-center justify-between p-space-sm mt-space-xs rounded-lg bg-surface-container-low"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-badge-label flex items-center justify-center shrink-0">CR</div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-sm text-on-surface truncate">Carlos Ramírez</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Dueño / Admin</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-xs rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-margin lg:px-margin"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Logo Barber OS" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UVWp55fET_dR0m15cQ6u6F1cLIu6Y25RMvgOQsEVP3jD48xYqUYumPRkFDVFiKUdSLN147XOEHDuJWSRiiRivi-kTQtohGashgqa8lBac7a5jxshVyY7UBYqSSK8E2u_4-_iCaZA9N75OZ7D70lvqFZLcUTz13N6fH_GEnqigj-7Rug-Od9tLjLk03Y49pJW8WTf3luNRJE1oJbsV6TtycY0zMqvvBK9OZG5SE9RBIWA"><span class="font-body-semibold text-body-default text-on-surface hidden sm:inline">Barber OS</span></div><div class="hidden md:flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant pl-space-md border-l border-outline-variant"><span class="">Barber OS</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-body-medium">Equipo</span></div></div><div class="flex items-center gap-space-md"><div class="relative hidden lg:block w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container transition-colors" placeholder="Buscar barbero, turno..." type="text"><kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[11px] px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Ctrl K</kbd></div><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container text-on-primary font-body-medium text-body-medium rounded-lg hover:bg-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">person_add</span><span class="">+ Invitar barbero</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-margin py-space-lg max-w-[1440px] w-full mx-auto space-y-space-lg">
+<!-- 1. Encabezado principal -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-page text-headline-page text-on-surface tracking-tight">Equipo</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-badge-label font-badge-label bg-surface-container text-on-surface-variant">
+            5 miembros activos
+          </span>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant max-w-2xl">
+          Gestiona los profesionales de la sucursal, sus permisos, turnos semanales y disponibilidad de agenda.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-surface-container-lowest text-on-surface hover:bg-surface-container font-body-medium text-body-medium rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Historial de turnos</span>
+</button>
+<button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container hover:bg-primary text-on-primary font-body-medium text-body-medium rounded-lg shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Invitar barbero</span>
+</button>
+</div>
+</div>
+<!-- 2. Filtros y Métricas rápidas (Bento bar) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md items-center">
+<!-- Buscador y tabs -->
+<div class="xl:col-span-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-10 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-default text-body-default focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all" placeholder="Buscar barbero o rol..." type="text">
+<kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[10px] px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">⌘F</kbd>
+</div>
+<!-- Filtros tabs pill -->
+<div class="flex items-center p-1 rounded-lg bg-surface-container-low shrink-0 overflow-x-auto">
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-primary font-body-semibold text-body-sm shadow-sm transition-colors" type="button">
+            Todos (5)
+          </button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-body-medium text-body-sm transition-colors" type="button">
+            Barberos (4)
+          </button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-body-medium text-body-sm transition-colors" type="button">
+            Admin (1)
+          </button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-body-medium text-body-sm transition-colors" type="button">
+            Inactivos (0)
+          </button>
+</div>
+</div>
+<!-- Resumen compacto de 3 tarjetas métricas -->
+<div class="xl:col-span-5 grid grid-cols-3 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col justify-between">
+<span class="font-table-header text-table-header uppercase text-on-surface-variant">En turno hoy</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">4</span>
+<span class="font-body-sm text-body-sm text-outline">/ 5</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col justify-between">
+<span class="font-table-header text-table-header uppercase text-on-surface-variant">Ocupación media</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-numeric-metric text-numeric-metric text-primary-container">76%</span>
+<span class="material-symbols-outlined text-[14px] text-primary">trending_up</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col justify-between">
+<span class="font-table-header text-table-header uppercase text-on-surface-variant">Ausencias semana</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-numeric-metric text-numeric-metric text-tertiary-container">2</span>
+<span class="font-body-sm text-body-sm text-outline">días</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Contenedor Layout Principal (Tabla + Drawer lateral) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- 3. Tabla de miembros del equipo -->
+<div class="lg:col-span-7 xl:col-span-8 bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low h-10">
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant">Miembro</th>
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant">Rol</th>
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant">Teléfono</th>
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant">Días Laborales</th>
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant">Estado</th>
+<th class="px-space-md font-table-header text-table-header uppercase text-on-surface-variant text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 font-body-default text-body-default">
+<!-- Fila 1 (Seleccionada / Abierta en Drawer) -->
+<tr class="h-[56px] bg-secondary-container/40 hover:bg-secondary-container/60 transition-colors cursor-pointer group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-9 h-9 rounded-full bg-primary-container text-on-primary font-body-semibold text-body-sm flex items-center justify-center shrink-0">
+                      CR
+                      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="min-w-0 flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Carlos Ramírez</span>
+<span class="material-symbols-outlined text-[14px] text-primary" title="Drawer abierto">open_in_new</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">carlos@peludosbarber.mx</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-badge-label text-badge-label bg-primary-fixed text-on-primary-fixed font-medium">
+                    Administrador
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">
+                  +52 55 4182 9901
+                </td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-1 font-badge-label text-[11px] font-semibold">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">L</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">J</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">V</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">S</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">D</span>
+</div>
+</td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-2">
+<button aria-checked="true" class="w-9 h-5 bg-primary-container rounded-full relative transition-colors cursor-pointer" role="switch" type="button">
+<span class="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-surface-container-lowest transition-transform"></span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface">Activo</span>
+</div>
+</td>
+<td class="px-space-md py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-primary hover:bg-surface-container transition-colors" title="Editar horario" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 2 -->
+<tr class="h-[56px] hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-body-sm flex items-center justify-center shrink-0">
+                      MS
+                      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Mateo Silva</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">mateo.fade@gmail.com</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-badge-label text-badge-label bg-surface-container text-secondary font-medium">
+                    Barbero Senior
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">
+                  +52 55 8923 1104
+                </td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-1 font-badge-label text-[11px] font-semibold">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">L</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">J</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">V</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">S</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">D</span>
+</div>
+</td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-2">
+<button aria-checked="true" class="w-9 h-5 bg-primary-container rounded-full relative transition-colors cursor-pointer" role="switch" type="button">
+<span class="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-surface-container-lowest"></span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface">Activo</span>
+</div>
+</td>
+<td class="px-space-md py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 3 -->
+<tr class="h-[56px] hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-body-sm flex items-center justify-center shrink-0">
+                      DL
+                      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Diego Luna</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">diego.luna.cuts@barber.mx</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-badge-label text-badge-label bg-surface-container text-secondary font-medium">
+                    Barbero
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">
+                  +52 55 3341 8722
+                </td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-1 font-badge-label text-[11px] font-semibold">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">L</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">J</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">V</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">S</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">D</span>
+</div>
+</td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-2">
+<button aria-checked="true" class="w-9 h-5 bg-primary-container rounded-full relative transition-colors cursor-pointer" role="switch" type="button">
+<span class="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-surface-container-lowest"></span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface">Activo</span>
+</div>
+</td>
+<td class="px-space-md py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 4 -->
+<tr class="h-[56px] hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-body-sm flex items-center justify-center shrink-0">
+                      JR
+                      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-surface-container-lowest" title="En permiso hoy"></span>
+</div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Javier Rivas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">javier.color@outlook.com</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-badge-label text-badge-label bg-surface-container text-secondary font-medium">
+                    Barbero &amp; Colorista
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">
+                  +52 55 6092 3415
+                </td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-1 font-badge-label text-[11px] font-semibold">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">L</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">J</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">V</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">S</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">D</span>
+</div>
+</td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-2">
+<button aria-checked="true" class="w-9 h-5 bg-primary-container rounded-full relative transition-colors cursor-pointer" role="switch" type="button">
+<span class="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-surface-container-lowest"></span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface">Activo</span>
+</div>
+</td>
+<td class="px-space-md py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 5 -->
+<tr class="h-[56px] hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-2">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-body-sm flex items-center justify-center shrink-0">
+                      AC
+                      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Andrés Castro</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">andres.castro@peludosbarber.mx</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-badge-label text-badge-label bg-surface-container text-secondary font-medium">
+                    Barbero Junior
+                  </span>
+</td>
+<td class="px-space-md py-2 font-body-sm text-body-sm text-on-surface whitespace-nowrap">
+                  +52 55 7719 5508
+                </td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-1 font-badge-label text-[11px] font-semibold">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">L</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">M</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-inverse-surface text-inverse-on-surface">J</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">V</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">S</span>
+<span class="w-5 h-5 rounded flex items-center justify-center bg-surface-container text-outline">D</span>
+</div>
+</td>
+<td class="px-space-md py-2">
+<div class="flex items-center gap-2">
+<button aria-checked="true" class="w-9 h-5 bg-primary-container rounded-full relative transition-colors cursor-pointer" role="switch" type="button">
+<span class="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-surface-container-lowest"></span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface">Activo</span>
+</div>
+</td>
+<td class="px-space-md py-2 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 4. Panel lateral derecho abierto (Drawer de 460px / col responsive) -->
+<aside class="lg:col-span-5 xl:col-span-4 bg-surface-container-lowest rounded-xl shadow-lg flex flex-col overflow-hidden sticky top-20">
+<!-- Drawer Header -->
+<div class="p-space-md bg-surface-container-low/60 flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-full bg-primary-container text-on-primary font-body-semibold text-headline-section flex items-center justify-center shrink-0">
+              CR
+            </div>
+<div class="min-w-0 flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-section text-headline-section text-on-surface truncate">Horario de Carlos</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-badge-label font-medium bg-primary-fixed text-on-primary-fixed shrink-0">
+                  Turno regular
+                </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Administrador / Master Barber</span>
+</div>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Cerrar panel" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Pestañas internas -->
+<div class="flex px-space-md bg-surface-container-lowest space-x-space-md">
+<button class="py-2.5 font-body-semibold text-body-sm text-primary relative" type="button">
+            Horario semanal
+            <span class="absolute bottom-0 inset-x-0 h-0.5 bg-primary-container rounded-full"></span>
+</button>
+<button class="py-2.5 font-body-medium text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+            Bloqueos y ausencias
+          </button>
+<button class="py-2.5 font-body-medium text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+            Perfil público
+          </button>
+</div>
+<!-- Contenido scrolleable del Drawer -->
+<div class="p-space-md space-y-space-lg max-h-[calc(100vh-280px)] overflow-y-auto">
+<!-- Sección: Horario semanal regular -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-section text-headline-section text-on-surface">Jornada semanal</span>
+<span class="font-body-sm text-body-sm text-primary font-body-medium">54 hrs totales</span>
+</div>
+<!-- Selector rápido plantilla -->
+<div class="flex items-center gap-2 bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-outline">tune</span>
+<div class="flex-1 min-w-0">
+<label class="block font-badge-label text-[11px] text-on-surface-variant font-medium">Plantilla de horario</label>
+<select class="w-full bg-transparent font-body-semibold text-body-sm text-on-surface focus:outline-none cursor-pointer">
+<option>Jornada completa (09:00 - 20:00)</option>
+<option>Turno matutino (09:00 - 15:00)</option>
+<option>Turno vespertino (14:00 - 21:00)</option>
+<option>Personalizado</option>
+</select>
+</div>
+</div>
+<!-- Lista de días de la semana -->
+<div class="space-y-2 pt-1">
+<!-- Lunes -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Lunes</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">20:00</span>
+<span class="text-outline text-[11px] ml-1">(11 h)</span>
+</div>
+</div>
+<!-- Martes -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Martes</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">20:00</span>
+<span class="text-outline text-[11px] ml-1">(11 h)</span>
+</div>
+</div>
+<!-- Miércoles -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Miércoles</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">20:00</span>
+<span class="text-outline text-[11px] ml-1">(11 h)</span>
+</div>
+</div>
+<!-- Jueves -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Jueves</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">20:00</span>
+<span class="text-outline text-[11px] ml-1">(11 h)</span>
+</div>
+</div>
+<!-- Viernes -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Viernes</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">20:00</span>
+<span class="text-outline text-[11px] ml-1">(11 h)</span>
+</div>
+</div>
+<!-- Sábado -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-2 w-28">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-semibold text-body-sm text-on-surface">Sábado</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface">
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">09:00</span>
+<span class="text-outline">a</span>
+<span class="px-2 py-1 bg-surface-container-low rounded font-mono text-[13px]">18:00</span>
+<span class="text-outline text-[11px] ml-1">(9 h)</span>
+</div>
+</div>
+<!-- Domingo (Descanso) -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low/40 opacity-75">
+<div class="flex items-center gap-2 w-28">
+<input class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-medium text-body-sm text-outline">Domingo</span>
+</div>
+<div class="font-body-sm text-body-sm text-outline italic">
+                  Descanso (Sin agenda)
+                </div>
+</div>
+</div>
+</div>
+<!-- Sección: Bloqueos y ausencias -->
+<div class="space-y-space-sm pt-2">
+<div class="flex items-center justify-between">
+<span class="font-headline-section text-headline-section text-on-surface">Bloqueos programados</span>
+<button class="inline-flex items-center gap-1 text-primary hover:text-primary-container font-body-semibold text-body-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>+ Agregar bloqueo</span>
+</button>
+</div>
+<div class="space-y-2">
+<!-- Bloqueo 1 -->
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container mt-0.5">lock_clock</span>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-sm text-on-surface truncate">Cita médica</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Jue, 15 oct 2026 · 12:00 – 14:00 (2 h)</span>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1" title="Eliminar bloqueo" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Bloqueo 2 -->
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-[18px] text-secondary mt-0.5">school</span>
+<div class="min-w-0 flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-body-semibold text-body-sm text-on-surface truncate">Capacitación técnica de corte</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-badge-label bg-surface-container text-on-surface-variant">No disponible</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Lun, 26 oct 2026 · Día completo</span>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1" title="Eliminar bloqueo" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sección: Biografía pública -->
+<div class="space-y-space-xs pt-2">
+<div class="flex items-center justify-between">
+<label class="font-headline-section text-headline-section text-on-surface">Biografía pública</label>
+<span class="font-body-sm text-body-sm text-outline">248 / 400</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Visible para los clientes al agendar en la web de autoservicio.
+            </p>
+<textarea class="w-full p-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-default text-body-default focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all resize-none" rows="3">Especialista en cortes clásicos a navaja, perfilado tradicional de barba con toalla caliente y degradados de alta precisión con más de 10 años de experiencia. Apasionado por la técnica de tijera artesanal y el cuidado capilar masculino.</textarea>
+</div>
+</div>
+<!-- Drawer Footer fijo -->
+<div class="p-space-md bg-surface-container-lowest flex items-center justify-end gap-space-sm">
+<button class="h-9 px-space-md rounded-lg font-body-medium text-body-medium text-on-surface hover:bg-surface-container-low transition-colors" type="button">
+            Cancelar
+          </button>
+<button class="h-9 px-space-md rounded-lg font-body-medium text-body-medium bg-primary-container hover:bg-primary text-on-primary transition-colors shadow-sm" type="button">
+            Guardar cambios
+          </button>
+</div>
+</aside>
+</div>
+</div>
+</div></main></div>
+</body></html>

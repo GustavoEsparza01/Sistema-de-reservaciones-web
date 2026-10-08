@@ -1,0 +1,677 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#eef0ff","tertiary-container":"#bc4800","on-tertiary":"#ffffff","on-primary-container":"#eeefff","surface-container-high":"#e2e7ff","primary-fixed":"#dbe1ff","on-surface":"#131b2e","surface-bright":"#faf8ff","surface-tint":"#0053db","on-background":"#131b2e","surface-dim":"#d2d9f4","secondary-container":"#d5e3fc","primary-container":"#2563eb","on-tertiary-fixed":"#360f00","on-primary-fixed":"#00174b","tertiary-fixed":"#ffdbcd","on-primary-fixed-variant":"#003ea8","surface":"#faf8ff","on-secondary":"#ffffff","primary":"#004ac6","error-container":"#ffdad6","background":"#faf8ff","surface-container-low":"#f2f3ff","inverse-primary":"#b4c5ff","surface-container-lowest":"#ffffff","surface-variant":"#dae2fd","on-secondary-fixed":"#0d1c2e","tertiary-fixed-dim":"#ffb596","primary-fixed-dim":"#b4c5ff","error":"#ba1a1a","on-tertiary-fixed-variant":"#7d2d00","on-error-container":"#93000a","surface-container-highest":"#dae2fd","on-surface-variant":"#434655","outline-variant":"#c3c6d7","tertiary":"#943700","on-secondary-container":"#57657a","outline":"#737686","on-primary":"#ffffff","inverse-surface":"#283044","secondary-fixed":"#d5e3fc","secondary":"#515f74","surface-container":"#eaedff","on-secondary-fixed-variant":"#3a485b","on-tertiary-container":"#ffede6","on-error":"#ffffff","secondary-fixed-dim":"#b9c7df"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xl":"2rem","space-xs":"0.25rem",margin:"2rem","margin-mobile":"1rem","space-sm":"0.5rem",gutter:"1.5rem","space-md":"1rem","space-lg":"1.5rem","gutter-mobile":"1rem"},fontFamily:{"table-header":["Inter"],"body-medium":["Inter"],"body-sm":["Inter"],"body-default":["Inter"],"headline-page":["Inter"],"headline-page-mobile":["Inter"],"numeric-metric":["Inter"],"badge-label":["Inter"],"body-semibold":["Inter"],"headline-section":["Inter"]},fontSize:{"table-header":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-page":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-page-mobile":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"numeric-metric":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"badge-label":["12px",{lineHeight:"16px",fontWeight:"500"}],"body-semibold":["14px",{lineHeight:"20px",fontWeight:"600"}],"headline-section":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between select-none"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]">content_cut</span></div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-semibold text-on-surface truncate">Peludos Barber</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Sucursal Matriz</span></div></div><button class="p-space-xs text-on-surface-variant hover:text-on-surface rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div><nav class="flex-1 px-space-sm py-space-md space-y-space-xs overflow-y-auto" data-active-classes="bg-secondary-container text-primary font-body-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resumen" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-medium text-body-medium">Resumen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="font-body-medium text-body-medium">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="citas" href="#"><span class="material-symbols-outlined text-[18px]">event_note</span><span class="font-body-medium text-body-medium">Citas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="clientes" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-body-medium text-body-medium">Clientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="equipo" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-body-medium text-body-medium">Equipo</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="servicios" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span class="font-body-medium text-body-medium">Servicios</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span class="font-body-medium text-body-medium">Reportes</span></a></nav></div><div class="p-space-sm border-t border-outline-variant flex flex-col gap-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-medium text-body-medium">Configuración</span></a><div class="flex items-center justify-between p-space-sm mt-space-xs rounded-lg bg-surface-container-low"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-badge-label flex items-center justify-center shrink-0">CR</div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-sm text-on-surface truncate">Carlos Ramírez</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Dueño / Admin</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-xs rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-margin lg:px-margin"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Logo Barber OS" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UVWp55fET_dR0m15cQ6u6F1cLIu6Y25RMvgOQsEVP3jD48xYqUYumPRkFDVFiKUdSLN147XOEHDuJWSRiiRivi-kTQtohGashgqa8lBac7a5jxshVyY7UBYqSSK8E2u_4-_iCaZA9N75OZ7D70lvqFZLcUTz13N6fH_GEnqigj-7Rug-Od9tLjLk03Y49pJW8WTf3luNRJE1oJbsV6TtycY0zMqvvBK9OZG5SE9RBIWA"><span class="font-body-semibold text-body-default text-on-surface hidden sm:inline">Barber OS</span></div><div class="hidden md:flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant pl-space-md border-l border-outline-variant"><span class="">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-body-medium">Resumen</span></div></div><div class="flex items-center gap-space-md"><div class="relative hidden lg:block w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container transition-colors" placeholder="Buscar cita, cliente..." type="text"><kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[11px] px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Ctrl K</kbd></div><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container text-on-primary font-body-medium text-body-medium rounded-lg hover:bg-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva cita</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Script para marcar 'Agenda' como activa en la barra lateral del Shell -->
+<script>
+    (function() {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'agenda') {
+          link.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+          link.classList.add('bg-secondary-container', 'text-primary', 'font-body-semibold');
+        } else {
+          link.classList.remove('bg-secondary-container', 'text-primary', 'font-body-semibold');
+          link.classList.add('text-on-surface-variant');
+        }
+      });
+      // Actualizar breadcrumb del header
+      const breadcrumb = document.querySelector('header .hidden.md\\:flex span.text-on-surface');
+      if (breadcrumb) {
+        breadcrumb.textContent = 'Agenda';
+      }
+    })();
+  </script>
+<!-- Barra de Herramientas Superior del Calendario -->
+<div class="px-margin pt-space-md pb-space-sm bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<!-- Navegación de Fecha -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="h-9 px-space-md rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-body-medium text-body-medium transition-colors" type="button">
+          Hoy
+        </button>
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="w-8 h-8 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest transition-colors" title="Día anterior" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest transition-colors" title="Día siguiente" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs pl-space-xs">
+<span class="font-headline-section text-headline-section text-on-surface capitalize">Lunes, 12 de octubre de 2026</span>
+<span class="font-badge-label text-badge-label bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full ml-space-xs">
+            Semana 42: 12 – 18 oct 2026
+          </span>
+</div>
+</div>
+<!-- Segmented View & Acciones Principales -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<!-- Selector Día / Semana -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg">
+<button class="px-space-md py-1 rounded-md bg-surface-container-lowest text-on-surface font-body-semibold text-body-sm shadow-sm transition-all" type="button">
+            Día
+          </button>
+<button class="px-space-md py-1 rounded-md text-on-surface-variant hover:text-on-surface font-body-medium text-body-sm transition-all" type="button">
+            Semana
+          </button>
+</div>
+<button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-body-medium text-body-sm rounded-lg shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">filter_list</span>
+<span>Filtrar</span>
+</button>
+<button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-body-medium text-body-sm rounded-lg shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">event_busy</span>
+<span>Bloquear horario</span>
+</button>
+<button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container text-on-primary font-body-semibold text-body-sm rounded-lg hover:bg-primary shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Nueva cita</span>
+</button>
+</div>
+</div>
+<!-- Filtro de Barberos (chips) -->
+<div class="flex items-center gap-space-xs pt-space-xs overflow-x-auto pb-1 text-body-sm">
+<span class="font-body-medium text-body-sm text-on-surface-variant mr-space-xs shrink-0 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span> Barberos:
+      </span>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary font-body-semibold text-body-sm shrink-0 shadow-sm" type="button">
+<span>Todos (4)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-body-medium text-body-sm shrink-0 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span>Mateo S.</span>
+<span class="text-on-surface-variant text-[11px] font-badge-label">5 citas</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-body-medium text-body-sm shrink-0 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+<span>Diego L.</span>
+<span class="text-on-surface-variant text-[11px] font-badge-label">4 citas</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-body-medium text-body-sm shrink-0 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-teal-500"></span>
+<span>Javier R.</span>
+<span class="text-on-surface-variant text-[11px] font-badge-label">5 citas</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-body-medium text-body-sm shrink-0 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Andrés C.</span>
+<span class="text-on-surface-variant text-[11px] font-badge-label">3 citas</span>
+</button>
+</div>
+</div>
+<!-- Vista Principal: Calendario de Recursos + Drawer Lateral Derecho -->
+<div class="flex flex-1 w-full relative min-h-[calc(100vh-140px)]">
+<!-- Columna Calendario de 4 Barberos -->
+<div class="flex-1 overflow-x-auto min-w-0 bg-surface">
+<div class="min-w-[860px] flex flex-col">
+<!-- Encabezados de Columna (Barberos) -->
+<div class="sticky top-16 z-30 bg-surface-container-lowest grid grid-cols-[80px_repeat(4,1fr)] shadow-sm">
+<!-- Espacio sobre el eje de tiempo -->
+<div class="p-space-sm flex items-center justify-center font-table-header text-table-header text-on-surface-variant">
+<span>HORA</span>
+</div>
+<!-- Barbero 1: Mateo Silva -->
+<div class="p-space-sm bg-surface-container-lowest flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed font-body-semibold text-body-sm flex items-center justify-center shrink-0 shadow-sm">
+              MS
+            </div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Mateo Silva</span>
+<div class="flex items-center gap-1 text-[11px] font-badge-label text-on-surface-variant truncate">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span>09:00 - 18:00</span>
+<span>·</span>
+<span class="text-primary font-semibold">5 citas (6.5 h)</span>
+</div>
+</div>
+</div>
+<!-- Barbero 2: Diego Luna -->
+<div class="p-space-sm bg-surface-container-lowest flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-on-secondary-fixed font-body-semibold text-body-sm flex items-center justify-center shrink-0 shadow-sm">
+              DL
+            </div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Diego Luna</span>
+<div class="flex items-center gap-1 text-[11px] font-badge-label text-on-surface-variant truncate">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span>10:00 - 19:00</span>
+<span>·</span>
+<span class="text-primary font-semibold">4 citas (5.0 h)</span>
+</div>
+</div>
+</div>
+<!-- Barbero 3: Javier Rivas -->
+<div class="p-space-sm bg-surface-container-lowest flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container text-on-surface font-body-semibold text-body-sm flex items-center justify-center shrink-0 shadow-sm">
+              JR
+            </div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Javier Rivas</span>
+<div class="flex items-center gap-1 text-[11px] font-badge-label text-on-surface-variant truncate">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span>09:00 - 20:00</span>
+<span>·</span>
+<span class="text-primary font-semibold">5 citas (7.0 h)</span>
+</div>
+</div>
+</div>
+<!-- Barbero 4: Andrés Castro -->
+<div class="p-space-sm bg-surface-container-lowest flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-body-semibold text-body-sm flex items-center justify-center shrink-0 shadow-sm">
+              AC
+            </div>
+<div class="min-w-0 flex flex-col">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Andrés Castro</span>
+<div class="flex items-center gap-1 text-[11px] font-badge-label text-on-surface-variant truncate">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span>12:00 - 21:00</span>
+<span>·</span>
+<span class="text-primary font-semibold">3 citas (4.0 h)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Matriz de Tiempos y Columnas (24 slots de 30 mins = 1440px de altura total; 60px cada 30 min) -->
+<div class="relative grid grid-cols-[80px_repeat(4,1fr)] bg-surface min-h-[1440px]">
+<!-- Fondo de líneas horizontales para toda la cuadrícula -->
+<div class="absolute inset-0 pointer-events-none flex flex-col">
+<!-- 24 bloques de 60px representando cada intervalo -->
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+<div class="h-[60px] bg-surface-container-low/20"></div>
+<div class="h-[60px] bg-surface-container-low/10"></div>
+</div>
+<!-- Indicador de Hora Actual en vivo (11:40 = 2h40m desde las 09:00 = 160 mins = 320px) -->
+<div class="absolute left-0 right-0 top-[320px] z-20 pointer-events-none flex items-center">
+<div class="w-[80px] flex justify-end pr-1">
+<span class="bg-error text-on-error font-badge-label text-[11px] px-1.5 py-0.5 rounded font-bold shadow-sm">
+                11:40
+              </span>
+</div>
+<div class="w-2.5 h-2.5 rounded-full bg-error -ml-1.5 shadow-sm"></div>
+<div class="flex-1 h-[2px] bg-error"></div>
+</div>
+<!-- Columna Lateral de Intervalos de Tiempo -->
+<div class="flex flex-col bg-surface-container-lowest select-none">
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">09:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">09:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">10:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">10:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">11:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">11:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">12:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">12:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">13:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">13:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">14:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">14:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">15:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">15:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">16:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">16:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">17:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">17:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">18:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">18:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">19:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">19:30</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm font-semibold text-on-surface">20:00</div>
+<div class="h-[60px] pr-2 pt-1 text-right font-body-sm text-body-sm text-on-surface-variant">20:30</div>
+</div>
+<!-- COLUMNA 1: MATEO SILVA (Horario: 09:00 - 18:00; Fuera de turno: 18:00 - 21:00 = últimos 360px) -->
+<div class="relative p-1">
+<!-- Cita 1: 09:00 - 09:45 (Mateo) - Completada -->
+<div class="absolute left-1 right-1 top-[0px] h-[90px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #10B981;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-emerald-800 font-semibold bg-emerald-50 px-1.5 py-0.5 rounded">09:00 - 09:45</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Emilio Valdés</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Caballero</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-emerald-700">Completada</span>
+<span class="font-semibold text-on-surface">$280 MXN</span>
+</div>
+</div>
+<!-- Cita 2 (SELECCIONADA / ACTIVA): 10:00 - 10:45 (Mateo) - Confirmada -->
+<div class="absolute left-1 right-1 top-[120px] h-[90px] rounded-lg bg-blue-50/50 p-2 shadow-md flex flex-col justify-between overflow-hidden cursor-pointer ring-2 ring-primary-container" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-100/80 px-1.5 py-0.5 rounded">10:00 - 10:45</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Rodrigo Morales</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Clásico + Perfilado</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary bg-primary-fixed/40 px-1 rounded">Confirmada</span>
+<span class="font-semibold text-on-surface">$350 MXN</span>
+</div>
+</div>
+<!-- Cita 3: 11:30 - 12:30 (Mateo) - En curso / Confirmada (60 min = 120px de alto) -->
+<div class="absolute left-1 right-1 top-[300px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">11:30 - 12:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Gabriel Peña</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Degradado + Barba Completa</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">En turno</span>
+<span class="font-semibold text-on-surface">$420 MXN</span>
+</div>
+</div>
+<!-- Cita 4: 13:30 - 14:15 (Mateo) - Pendiente -->
+<div class="absolute left-1 right-1 top-[540px] h-[90px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #F59E0B;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-amber-800 font-semibold bg-amber-50 px-1.5 py-0.5 rounded">13:30 - 14:15</span>
+<span class="material-symbols-outlined text-[16px] text-amber-600">pending</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Santiago Mendoza</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Afeitado Tradicional Toalla Caliente</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-amber-700">Pendiente</span>
+<span class="font-semibold text-on-surface">$260 MXN</span>
+</div>
+</div>
+<!-- Cita 5: 15:00 - 16:30 (Mateo) - Confirmada (90 min = 180px) -->
+<div class="absolute left-1 right-1 top-[720px] h-[180px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">15:00 - 16:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Arturo Elizondo</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Paquete Completo VIP (Corte, Barba, Mascarilla Negra)</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$590 MXN</span>
+</div>
+</div>
+<!-- Bloque Fuera de Turno: 18:00 - 21:00 (Mateo) -->
+<div class="absolute left-0 right-0 top-[1080px] bottom-0 flex items-center justify-center bg-surface-container-low/60 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 10px, transparent 10px, transparent 20px);">
+<span class="font-badge-label text-[12px] text-on-surface-variant font-medium tracking-wide uppercase px-2 py-1 bg-surface-container-lowest/80 rounded shadow-sm">
+                Fuera de turno (18:00 - 21:00)
+              </span>
+</div>
+</div>
+<!-- COLUMNA 2: DIEGO LUNA (Horario: 10:00 - 19:00; Fuera de turno: 09:00 - 10:00 y 19:00 - 21:00) -->
+<div class="relative p-1">
+<!-- Fuera de Turno Mañana: 09:00 - 10:00 -->
+<div class="absolute left-0 right-0 top-0 h-[120px] flex items-center justify-center bg-surface-container-low/60 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 10px, transparent 10px, transparent 20px);">
+<span class="font-badge-label text-[11px] text-on-surface-variant font-medium tracking-wide uppercase px-2 py-0.5 bg-surface-container-lowest/80 rounded shadow-sm">
+                Fuera de turno
+              </span>
+</div>
+<!-- Cita 1: 10:30 - 11:30 (Diego) - Confirmada -->
+<div class="absolute left-1 right-1 top-[180px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">10:30 - 11:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Fernando Garza</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Moderno Fade + Cejas</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$320 MXN</span>
+</div>
+</div>
+<!-- Cita 2: 12:00 - 12:45 (Diego) - Cancelada -->
+<div class="absolute left-1 right-1 top-[360px] h-[90px] rounded-lg bg-surface-container-lowest/70 p-2 shadow-sm flex flex-col justify-between overflow-hidden cursor-pointer opacity-75" style="border-left: 4px solid #94A3B8;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-on-surface-variant font-semibold bg-surface-container px-1.5 py-0.5 rounded line-through">12:00 - 12:45</span>
+<span class="material-symbols-outlined text-[16px] text-outline">cancel</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface-variant line-through truncate">Héctor Navarrete</p>
+<p class="font-body-sm text-[12px] text-outline truncate">Perfilado de Barba Express</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-error">Cancelada</span>
+<span class="font-semibold text-outline line-through">$180 MXN</span>
+</div>
+</div>
+<!-- Cita 3: 14:00 - 15:30 (Diego) - Confirmada (90 min = 180px) -->
+<div class="absolute left-1 right-1 top-[600px] h-[180px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">14:00 - 15:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Luis Mario Cano</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Tinte de Barba + Corte de Autor</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$550 MXN</span>
+</div>
+</div>
+<!-- Cita 4: 16:30 - 17:30 (Diego) - Pendiente -->
+<div class="absolute left-1 right-1 top-[900px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #F59E0B;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-amber-800 font-semibold bg-amber-50 px-1.5 py-0.5 rounded">16:30 - 17:30</span>
+<span class="material-symbols-outlined text-[16px] text-amber-600">pending</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Raúl Domínguez</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Infantil + Estilizado</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-amber-700">Pendiente</span>
+<span class="font-semibold text-on-surface">$240 MXN</span>
+</div>
+</div>
+<!-- Fuera de Turno Tarde: 19:00 - 21:00 -->
+<div class="absolute left-0 right-0 top-[1200px] bottom-0 flex items-center justify-center bg-surface-container-low/60 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 10px, transparent 10px, transparent 20px);">
+<span class="font-badge-label text-[12px] text-on-surface-variant font-medium tracking-wide uppercase px-2 py-1 bg-surface-container-lowest/80 rounded shadow-sm">
+                Fuera de turno (19:00 - 21:00)
+              </span>
+</div>
+</div>
+<!-- COLUMNA 3: JAVIER RIVAS (Horario: 09:00 - 20:00; Fuera de turno: 20:00 - 21:00) -->
+<div class="relative p-1">
+<!-- Cita 1: 09:30 - 10:20 (Javier, 50 min = 100px) - Completada -->
+<div class="absolute left-1 right-1 top-[60px] h-[100px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #10B981;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-emerald-800 font-semibold bg-emerald-50 px-1.5 py-0.5 rounded">09:30 - 10:20</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Jorge Villalobos</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Caballero + Lavado</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-emerald-700">Completada</span>
+<span class="font-semibold text-on-surface">$310 MXN</span>
+</div>
+</div>
+<!-- Cita 2: 11:00 - 11:45 (Javier) - Confirmada -->
+<div class="absolute left-1 right-1 top-[240px] h-[90px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">11:00 - 11:45</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Daniel Benítez</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Texturizado</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$290 MXN</span>
+</div>
+</div>
+<!-- Cita 3: 13:00 - 14:00 (Javier) - Confirmada -->
+<div class="absolute left-1 right-1 top-[480px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">13:00 - 14:00</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Mauricio Santillán</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte + Ritual de Barba</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$460 MXN</span>
+</div>
+</div>
+<!-- Cita 4: 15:30 - 16:30 (Javier) - Confirmada -->
+<div class="absolute left-1 right-1 top-[780px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">15:30 - 16:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Óscar Serrano</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Fade Militar + Ceja</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$340 MXN</span>
+</div>
+</div>
+<!-- Cita 5: 17:30 - 19:00 (Javier, 90 min = 180px) - Confirmada -->
+<div class="absolute left-1 right-1 top-[1020px] h-[180px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">17:30 - 19:00</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Armando Cienfuegos</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Perfilado Barba + Exfoliación Facial Completa</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$520 MXN</span>
+</div>
+</div>
+<!-- Fuera de Turno Noche: 20:00 - 21:00 -->
+<div class="absolute left-0 right-0 top-[1320px] bottom-0 flex items-center justify-center bg-surface-container-low/60 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 10px, transparent 10px, transparent 20px);">
+<span class="font-badge-label text-[11px] text-on-surface-variant font-medium tracking-wide uppercase px-2 py-0.5 bg-surface-container-lowest/80 rounded shadow-sm">
+                Fuera de turno
+              </span>
+</div>
+</div>
+<!-- COLUMNA 4: ANDRÉS CASTRO (Horario: 12:00 - 21:00; Fuera de turno: 09:00 - 12:00 = primeros 360px) -->
+<div class="relative p-1">
+<!-- Fuera de Turno Mañana: 09:00 - 12:00 (360px) -->
+<div class="absolute left-0 right-0 top-0 h-[360px] flex items-center justify-center bg-surface-container-low/60 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 10px, transparent 10px, transparent 20px);">
+<span class="font-badge-label text-[12px] text-on-surface-variant font-medium tracking-wide uppercase px-2 py-1 bg-surface-container-lowest/80 rounded shadow-sm">
+                Fuera de turno (09:00 - 12:00)
+              </span>
+</div>
+<!-- Cita 1: 12:30 - 13:30 (Andrés) - Pendiente -->
+<div class="absolute left-1 right-1 top-[420px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #F59E0B;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-amber-800 font-semibold bg-amber-50 px-1.5 py-0.5 rounded">12:30 - 13:30</span>
+<span class="material-symbols-outlined text-[16px] text-amber-600">pending</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Pablo Echeverría</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Corte Ejecutivo + Barba Express</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-amber-700">Pendiente</span>
+<span class="font-semibold text-on-surface">$380 MXN</span>
+</div>
+</div>
+<!-- Cita 2: 14:30 - 15:30 (Andrés) - Confirmada -->
+<div class="absolute left-1 right-1 top-[660px] h-[120px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">14:30 - 15:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Ignacio Paredes</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Diseño de Barba con Navaja Libre</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$300 MXN</span>
+</div>
+</div>
+<!-- Cita 3: 17:00 - 18:30 (Andrés, 90 min = 180px) - Confirmada -->
+<div class="absolute left-1 right-1 top-[960px] h-[180px] rounded-lg bg-surface-container-lowest p-2 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden cursor-pointer" style="border-left: 4px solid #2563EB;">
+<div class="flex items-start justify-between gap-1">
+<span class="font-badge-label text-[11px] text-primary font-semibold bg-blue-50 px-1.5 py-0.5 rounded">17:00 - 18:30</span>
+<span class="material-symbols-outlined text-[16px] text-primary">event_available</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-sm text-on-surface truncate">Manuel Garza Sada</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Corte Clásico + Tratamiento Capilar Anticaída</p>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-body-medium text-primary">Confirmada</span>
+<span class="font-semibold text-on-surface">$490 MXN</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Lateral Derecho (Drawer de Detalle de Cita Seleccionada) -->
+<aside class="w-[380px] shrink-0 bg-surface-container-lowest shadow-xl flex flex-col justify-between sticky top-16 h-[calc(100vh-64px)] overflow-hidden z-40">
+<!-- Contenido scrolleable del detalle -->
+<div class="flex-1 overflow-y-auto p-space-lg space-y-space-md">
+<!-- Header del Drawer -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-section text-headline-section text-on-surface">Detalle de la cita</h2>
+<span class="font-badge-label text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+              Confirmada
+            </span>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Cerrar detalle" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Ficha de Cliente -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed font-headline-section text-[18px] flex items-center justify-center shrink-0 shadow-sm font-semibold">
+              RM
+            </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-body-semibold text-body-default text-on-surface truncate">Rodrigo Morales</span>
+</div>
+<span class="inline-block mt-0.5 font-badge-label text-[11px] font-medium px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container">
+                Cliente frecuente (8 visitas)
+              </span>
+</div>
+</div>
+<!-- Canales de contacto -->
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface font-mono">+52 55 1234 5678</span>
+<div class="flex items-center gap-space-xs">
+<a class="w-8 h-8 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface flex items-center justify-center transition-colors shadow-sm" href="tel:+525512345678" title="Llamar">
+<span class="material-symbols-outlined text-[16px]">call</span>
+</a>
+<a class="h-8 px-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-emerald-600 font-body-medium text-body-sm flex items-center gap-1 transition-colors shadow-sm" href="https://wa.me/525512345678" target="_blank" title="Enviar WhatsApp">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span class="text-[12px] font-medium">WhatsApp</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Información Específica del Servicio y Horario -->
+<div class="space-y-space-sm">
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">content_cut</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-badge-label text-[11px] uppercase tracking-wider text-on-surface-variant block">Servicio principal</span>
+<span class="font-body-semibold text-body-default text-on-surface block truncate">Corte Clásico + Perfilado de Barba</span>
+<span class="font-body-medium text-body-sm text-primary font-semibold">$350.00 MXN</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-badge-label text-[11px] uppercase tracking-wider text-on-surface-variant block">Fecha y Duración</span>
+<span class="font-body-medium text-body-default text-on-surface block">Lunes, 12 oct 2026</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">10:00 - 10:45 (45 minutos)</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">person_pin</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-badge-label text-[11px] uppercase tracking-wider text-on-surface-variant block">Barbero asignado</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-body-semibold text-body-default text-on-surface">Mateo Silva</span>
+<span class="text-[12px] text-on-surface-variant bg-surface-container px-1.5 py-0.2 rounded font-badge-label">Sillón 1</span>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-badge-label text-[11px] uppercase tracking-wider text-on-surface-variant block">Método de pago previsto</span>
+<span class="font-body-medium text-body-default text-on-surface block">Efectivo / Tarjeta en sucursal</span>
+<span class="font-body-sm text-[12px] text-amber-700 font-medium">Pendiente de cobro</span>
+</div>
+</div>
+</div>
+<!-- Notas del Cliente y Barbería -->
+<div class="p-space-md rounded-xl bg-amber-50/60 space-y-1">
+<div class="flex items-center gap-1 text-amber-800">
+<span class="material-symbols-outlined text-[16px]">notes</span>
+<span class="font-body-semibold text-[12px] uppercase tracking-wider">Notas de preferencia</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface leading-relaxed">
+            Prefiere desvanecido medio con máquina 1.5 en los lados y tijera arriba. Alérgico al aftershave con mentol.
+          </p>
+</div>
+<!-- Historial / Auditoría de Cita -->
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-badge-label text-[11px] uppercase tracking-wider text-on-surface-variant block">Registro de actividad</span>
+<div class="space-y-1 text-[12px] font-body-sm text-on-surface-variant pl-2">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Creada vía reservación web el 10 oct a las 18:22</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Confirmada por Carlos Ramírez (Admin) el 11 oct a las 09:15</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Barra de Acciones del Pie del Drawer -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col gap-space-xs shadow-lg">
+<button class="w-full h-10 px-space-md bg-primary-container hover:bg-primary text-on-primary font-body-semibold text-body-sm rounded-lg flex items-center justify-center gap-space-xs transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">point_of_sale</span>
+<span>Completar y cobrar ($350.00 MXN)</span>
+</button>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="h-9 px-space-sm bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-body-medium text-body-sm rounded-lg flex items-center justify-center gap-1 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">edit_calendar</span>
+<span>Reprogramar</span>
+</button>
+<button class="h-9 px-space-sm bg-surface-container-lowest hover:bg-red-50 text-error font-body-medium text-body-sm rounded-lg flex items-center justify-center gap-1 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px] text-error">close</span>
+<span>Cancelar cita</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div></main></div>
+</body></html>

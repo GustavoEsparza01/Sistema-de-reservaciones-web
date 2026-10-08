@@ -1,0 +1,753 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-fixed":"#00174b","secondary-fixed":"#d5e3fc","secondary":"#515f74","primary":"#004ac6","outline-variant":"#c3c6d7","secondary-fixed-dim":"#b9c7df","on-tertiary-fixed-variant":"#7d2d00","primary-fixed":"#dbe1ff","tertiary-fixed":"#ffdbcd","on-tertiary-container":"#ffede6","surface-container-low":"#f2f3ff","surface-tint":"#0053db","surface-container-highest":"#dae2fd","on-secondary-fixed":"#0d1c2e","tertiary-container":"#bc4800","on-tertiary":"#ffffff","primary-fixed-dim":"#b4c5ff","on-error-container":"#93000a","on-tertiary-fixed":"#360f00","on-secondary":"#ffffff","on-surface-variant":"#434655","primary-container":"#2563eb","secondary-container":"#d5e3fc","inverse-primary":"#b4c5ff","surface-variant":"#dae2fd","error":"#ba1a1a","on-secondary-container":"#57657a","on-primary-container":"#eeefff","on-primary-fixed-variant":"#003ea8","inverse-on-surface":"#eef0ff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","surface-container":"#eaedff","background":"#faf8ff","on-surface":"#131b2e","tertiary-fixed-dim":"#ffb596","on-secondary-fixed-variant":"#3a485b","on-error":"#ffffff","surface-dim":"#d2d9f4","on-background":"#131b2e","surface-container-lowest":"#ffffff","on-primary":"#ffffff","tertiary":"#943700","surface-bright":"#faf8ff","outline":"#737686","surface":"#faf8ff","error-container":"#ffdad6"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","gutter":"1.5rem","gutter-mobile":"1rem","margin-mobile":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-md":"1rem","margin":"2rem","space-xl":"2rem"},fontFamily:{"body-medium":["Inter"],"body-default":["Inter"],"numeric-metric":["Inter"],"body-semibold":["Inter"],"table-header":["Inter"],"body-sm":["Inter"],"badge-label":["Inter"],"headline-page":["Inter"],"headline-section":["Inter"],"headline-page-mobile":["Inter"]},fontSize:{"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"numeric-metric":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-semibold":["14px",{lineHeight:"20px",fontWeight:"600"}],"table-header":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"badge-label":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-page":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-section":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-page-mobile":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between select-none"><div class="flex flex-col flex-1 min-h-0"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]">content_cut</span></div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-semibold text-on-surface truncate">Peludos Barber</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Sucursal Matriz</span></div></div><button class="p-space-xs text-on-surface-variant hover:text-on-surface rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div><nav class="flex-1 px-space-sm py-space-md space-y-space-xs overflow-y-auto" data-active-classes="bg-secondary-container text-primary-container font-body-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resumen" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-medium text-body-medium">Resumen</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[18px]">calendar_today</span><span class="font-body-medium text-body-medium">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="citas" href="#"><span class="material-symbols-outlined text-[18px]">event_note</span><span class="font-body-medium text-body-medium">Citas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="clientes" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-body-medium text-body-medium">Clientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="equipo" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-body-medium text-body-medium">Equipo</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-secondary-container text-primary-container font-body-semibold transition-colors" data-path="servicios" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span class="font-body-medium text-body-medium">Servicios</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span class="font-body-medium text-body-medium">Reportes</span></a></nav></div><div class="p-space-sm border-t border-outline-variant flex flex-col gap-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-medium text-body-medium">Configuración</span></a><div class="flex items-center justify-between p-space-sm mt-space-xs rounded-lg bg-surface-container-low"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-badge-label flex items-center justify-center shrink-0">CR</div><div class="min-w-0 flex flex-col"><span class="font-body-semibold text-body-sm text-on-surface truncate">Carlos Ramírez</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Dueño / Admin</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-xs rounded transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-margin lg:px-margin"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Logo Barber OS" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UVWp55fET_dR0m15cQ6u6F1cLIu6Y25RMvgOQsEVP3jD48xYqUYumPRkFDVFiKUdSLN147XOEHDuJWSRiiRivi-kTQtohGashgqa8lBac7a5jxshVyY7UBYqSSK8E2u_4-_iCaZA9N75OZ7D70lvqFZLcUTz13N6fH_GEnqigj-7Rug-Od9tLjLk03Y49pJW8WTf3luNRJE1oJbsV6TtycY0zMqvvBK9OZG5SE9RBIWA"><span class="font-body-semibold text-body-default text-on-surface hidden sm:inline">Barber OS</span></div><div class="hidden md:flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant pl-space-md border-l border-outline-variant"><span class="">Barber OS</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-body-medium">Servicios</span></div></div><div class="flex items-center gap-space-md"><div class="relative hidden lg:block w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container transition-colors" placeholder="Buscar barbero, turno..." type="text"><kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[11px] px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Ctrl K</kbd></div><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button class="inline-flex items-center gap-space-xs h-9 px-space-md bg-primary-container text-on-primary font-body-medium text-body-medium rounded-lg hover:bg-primary transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="">+ Nuevo servicio</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-margin py-space-xl max-w-[1440px] w-full mx-auto space-y-space-xl">
+<!-- ENCABEZADO DE PÁGINA -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-page text-headline-page text-on-surface tracking-tight">Servicios</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-primary-container font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+            8 servicios registrados
+          </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-badge-label text-badge-label">
+            7 activos en línea
+          </span>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant max-w-2xl">
+          Configura el catálogo de servicios, precios, tiempos de atención y asignación por barbero para la reserva en línea y recepción.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-space-xs h-10 px-space-md bg-surface-container-lowest text-on-surface font-body-medium text-body-medium rounded-lg shadow-sm hover:bg-surface-container-low transition-all" id="btn-reorder" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">swap_vert</span>
+<span>Ordenar catálogo</span>
+</button>
+<button class="inline-flex items-center gap-space-xs h-10 px-space-md bg-primary-container text-on-primary font-body-semibold text-body-medium rounded-lg shadow-sm hover:bg-primary transition-all" id="btn-open-modal" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Nuevo servicio</span>
+</button>
+</div>
+</section>
+<!-- METRICAS COMPACTAS (PILLS KPI) -->
+<section class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+<div class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-0.5">
+<p class="font-badge-label text-badge-label text-on-surface-variant uppercase tracking-wider">Servicios activos</p>
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">7</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">de 8 registrados</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-0.5">
+<p class="font-badge-label text-badge-label text-on-surface-variant uppercase tracking-wider">Precio promedio</p>
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">$228.50</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MXN</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-0.5">
+<p class="font-badge-label text-badge-label text-on-surface-variant uppercase tracking-wider">Duración promedio</p>
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">37</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">min por turno</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+</div>
+</section>
+<!-- BARRA DE BÚSQUEDA Y FILTROS -->
+<section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm space-y-space-md">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Pestañas de estado -->
+<div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-lg overflow-x-auto">
+<button class="px-3 py-1.5 rounded-md bg-surface-container-lowest font-body-semibold text-body-sm text-on-surface shadow-xs" type="button">
+            Todos (8)
+          </button>
+<button class="px-3 py-1.5 rounded-md font-body-medium text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+            Activos (7)
+          </button>
+<button class="px-3 py-1.5 rounded-md font-body-medium text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+            Inactivos (1)
+          </button>
+<button class="px-3 py-1.5 rounded-md font-body-medium text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+            Ocultos de web (1)
+          </button>
+</div>
+<!-- Input de búsqueda -->
+<div class="flex items-center gap-space-sm flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-20 rounded-lg bg-surface-container-low font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 transition-all" id="search-services" placeholder="Buscar servicio por nombre o palabra clave... (Ctrl + F)" type="text">
+<span class="absolute right-2.5 top-1/2 -translate-y-1/2 font-badge-label text-[11px] px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">
+              ⌘F
+            </span>
+</div>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors shrink-0" title="Filtrar por categoría" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+</section>
+<!-- TABLA DE SERVICIOS -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-table-header text-table-header uppercase tracking-wider h-11">
+<th class="pl-6 pr-4 py-2 w-12 text-center" scope="col">
+<span class="material-symbols-outlined text-[16px] text-outline">drag_indicator</span>
+</th>
+<th class="px-4 py-2 min-w-[280px]" scope="col">Servicio</th>
+<th class="px-4 py-2 text-right" scope="col">Precio (MXN)</th>
+<th class="px-4 py-2" scope="col">Duración</th>
+<th class="px-4 py-2 text-center" scope="col">Visible en web</th>
+<th class="px-4 py-2" scope="col">Estado</th>
+<th class="pr-6 pl-4 py-2 text-right" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-default text-body-default text-on-surface">
+<!-- Fila 1 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">content_cut</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Corte Clásico</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Corte tradicional a tijera y máquina con lavado rápido y peinado con cera mate.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $150.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  30 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 2 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">face_retouching_natural</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Corte + Barba</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Servicio combinado: corte completo y perfilado/alineación de barba con toalla caliente.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $250.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  50 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 3 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">brush</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Arreglo de Barba</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Rebaje, delineado a navaja tradicional, aceite hidratante y toalla vaporizada.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $120.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  25 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 4 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">flare</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Desvanecido (Fade)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Degradado bajo, medio o alto con navaja o shaver y terminación limpia.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $180.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  40 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 5 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">gesture</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Diseño / Grecas</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Líneas geométricas personalizadas, figuras o grecas detalladas con navaja.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $80.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  15 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 6 -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">palette</span>
+</div>
+<div class="min-w-0">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Tinte de Barba + Corte</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Pigmentación natural para cobertura de canas y corte personalizado.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $350.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  60 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 7 (Solo mostrador / Web OFF) -->
+<tr class="h-16 hover:bg-surface-container-low/60 transition-colors group bg-surface-container-low/20">
+<td class="pl-6 pr-4 text-center cursor-grab text-outline-variant group-hover:text-outline transition-colors">
+<span class="material-symbols-outlined text-[18px]">drag_handle</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[20px]">spa</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<p class="font-body-semibold text-body-semibold text-on-surface truncate">Paquete VIP Mascarilla Negra</p>
+<span class="px-1.5 py-0.5 rounded text-[11px] font-badge-label bg-surface-container text-on-surface-variant">Recepción</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-sm">Corte, barba, exfoliación facial profunda y mascarilla purificante de carbón.</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 text-right font-body-semibold text-body-semibold text-on-surface tabular-nums">
+                $450.00 MXN
+              </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1 font-body-medium text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">schedule</span>
+                  75 min
+                </span>
+</td>
+<td class="px-4 py-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-visibility" type="checkbox">
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Activo
+                </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors" title="Editar servicio" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Desactivar" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginación y Exportar -->
+<div class="px-6 py-4 bg-surface-container-low/40 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-space-sm">
+<span>Mostrando <span class="font-body-semibold text-on-surface">1–7</span> de 7 servicios</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<button class="hover:text-primary-container transition-colors font-body-medium" type="button">
+            Exportar catálogo (.CSV)
+          </button>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-body-medium">1</span>
+<button class="p-1.5 rounded text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- MODAL "NUEVO SERVICIO" -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-200" id="service-modal">
+<div class="relative w-full max-w-[580px] bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Cabecera del modal -->
+<div class="px-6 pt-6 pb-4 bg-surface-container-lowest flex items-start justify-between gap-4">
+<div>
+<h2 class="font-headline-page text-[20px] text-on-surface font-semibold tracking-tight">Nuevo servicio</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Agrega un servicio al catálogo para agenda presencial y reserva en línea.
+          </p>
+</div>
+<button aria-label="Cerrar modal" class="text-on-surface-variant hover:text-on-surface p-1.5 rounded-lg hover:bg-surface-container transition-colors" id="btn-close-modal" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Contenido / Formulario scrolleable -->
+<div class="px-6 py-4 overflow-y-auto space-y-5 flex-1 divide-y divide-surface-container">
+<!-- Bloque 1: Datos Generales -->
+<div class="space-y-4">
+<!-- Nombre del servicio -->
+<div class="space-y-1.5">
+<label class="block font-body-semibold text-body-sm text-on-surface" for="service-name">
+              Nombre del servicio <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 transition-all" id="service-name" placeholder="Ej. Corte Clásico &amp; Perfilado" type="text" value="Corte Clásico &amp; Perfilado">
+</div>
+<!-- Descripción corta -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-body-semibold text-body-sm text-on-surface" for="service-desc">
+                Descripción para clientes
+              </label>
+<span class="font-badge-label text-[11px] text-on-surface-variant" id="char-counter">54/160</span>
+</div>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-low font-body-default text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 resize-none transition-all" id="service-desc" maxlength="160" placeholder="Descripción corta para los clientes (beneficios, productos incluidos...)" rows="3">Corte tradicional a tijera y máquina con lavado rápido.</textarea>
+</div>
+<!-- Precio y Duración en 2 Columnas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Precio con prefijo $ y sufijo MXN -->
+<div class="space-y-1.5">
+<label class="block font-body-semibold text-body-sm text-on-surface" for="service-price">
+                Precio <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-on-surface-variant font-body-semibold text-body-default">$</span>
+<input class="w-full h-10 pl-8 pr-14 rounded-lg bg-surface-container-low font-body-semibold text-body-default text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 tabular-nums transition-all" id="service-price" placeholder="0.00" type="text" value="250.00">
+<span class="absolute right-3 font-badge-label text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container">MXN</span>
+</div>
+</div>
+<!-- Duración en minutos -->
+<div class="space-y-1.5">
+<label class="block font-body-semibold text-body-sm text-on-surface" for="service-duration">
+                Duración del turno <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-10 pl-3.5 pr-10 rounded-lg bg-surface-container-low font-body-default text-body-default text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 appearance-none cursor-pointer transition-all" id="service-duration">
+<option value="15">15 minutos</option>
+<option value="30">30 minutos</option>
+<option selected="" value="45">45 minutos</option>
+<option value="60">60 minutos</option>
+<option value="75">75 minutos</option>
+<option value="90">90 minutos</option>
+<option value="120">120 minutos</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]">
+                  unfold_more
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bloque 2: Barberos Asignados -->
+<div class="pt-4 space-y-3">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-semibold text-body-sm text-on-surface">Barberos que lo ofrecen</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Selecciona quiénes pueden recibir citas para este servicio</p>
+</div>
+<button class="font-body-semibold text-[12px] text-primary-container hover:underline" id="select-all-barbers" type="button">
+              Seleccionar todos
+            </button>
+</div>
+<!-- Lista de barberos como chips interactivos -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<!-- Carlos Ramírez -->
+<label class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input checked="" class="rounded text-primary-container focus:ring-0 w-4 h-4 bg-surface-container-lowest barber-checkbox" type="checkbox">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                CR
+              </div>
+<div class="min-w-0 flex-1">
+<p class="font-body-semibold text-[13px] text-on-surface truncate leading-tight">Carlos Ramírez</p>
+<p class="font-badge-label text-[11px] text-on-surface-variant truncate">Master Barber</p>
+</div>
+</label>
+<!-- Mateo Silva -->
+<label class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input checked="" class="rounded text-primary-container focus:ring-0 w-4 h-4 bg-surface-container-lowest barber-checkbox" type="checkbox">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                MS
+              </div>
+<div class="min-w-0 flex-1">
+<p class="font-body-semibold text-[13px] text-on-surface truncate leading-tight">Mateo Silva</p>
+<p class="font-badge-label text-[11px] text-on-surface-variant truncate">Barbero Senior</p>
+</div>
+</label>
+<!-- Diego Luna -->
+<label class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input checked="" class="rounded text-primary-container focus:ring-0 w-4 h-4 bg-surface-container-lowest barber-checkbox" type="checkbox">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                DL
+              </div>
+<div class="min-w-0 flex-1">
+<p class="font-body-semibold text-[13px] text-on-surface truncate leading-tight">Diego Luna</p>
+<p class="font-badge-label text-[11px] text-on-surface-variant truncate">Barbero</p>
+</div>
+</label>
+<!-- Javier Rivas (no marcado) -->
+<label class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input class="rounded text-primary-container focus:ring-0 w-4 h-4 bg-surface-container-lowest barber-checkbox" type="checkbox">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                JR
+              </div>
+<div class="min-w-0 flex-1">
+<p class="font-body-semibold text-[13px] text-on-surface truncate leading-tight">Javier Rivas</p>
+<p class="font-badge-label text-[11px] text-on-surface-variant truncate">Barbero &amp; Colorista</p>
+</div>
+</label>
+<!-- Andrés Castro -->
+<label class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors sm:col-span-2">
+<input checked="" class="rounded text-primary-container focus:ring-0 w-4 h-4 bg-surface-container-lowest barber-checkbox" type="checkbox">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container font-body-semibold text-[11px] flex items-center justify-center shrink-0">
+                AC
+              </div>
+<div class="min-w-0 flex-1">
+<p class="font-body-semibold text-[13px] text-on-surface truncate leading-tight">Andrés Castro</p>
+<p class="font-badge-label text-[11px] text-on-surface-variant truncate">Barbero Junior</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Bloque 3: Estado y Visibilidad -->
+<div class="pt-4 space-y-4">
+<!-- Toggle 1: Activo -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="pr-4">
+<p class="font-body-semibold text-body-sm text-on-surface">Servicio activo en el sistema</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Habilitado para agendamiento por recepción y cobro en caja</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-10 h-6 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Toggle 2: Reserva en línea pública -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="pr-4">
+<p class="font-body-semibold text-body-sm text-on-surface">Visible en página web de reserva pública</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Los clientes podrán seleccionarlo y agendarlo directamente sin llamar</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-10 h-6 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Pie del modal -->
+<div class="px-6 py-4 bg-surface-container-lowest border-t border-surface-container flex items-center justify-end gap-space-sm">
+<button class="h-10 px-4 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-body-semibold text-body-default transition-colors" id="btn-cancel-modal" type="button">
+          Cancelar
+        </button>
+<button class="h-10 px-5 rounded-lg bg-primary-container text-on-primary font-body-semibold text-body-default shadow-sm hover:bg-primary transition-all flex items-center gap-2" id="btn-submit-modal" type="button">
+<span>Crear servicio</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Control de apertura/cierre del Modal
+  const modal = document.getElementById('service-modal');
+  const btnOpen = document.getElementById('btn-open-modal');
+  const btnClose = document.getElementById('btn-close-modal');
+  const btnCancel = document.getElementById('btn-cancel-modal');
+  const btnSubmit = document.getElementById('btn-submit-modal');
+  const descInput = document.getElementById('service-desc');
+  const charCounter = document.getElementById('char-counter');
+  const btnSelectAll = document.getElementById('select-all-barbers');
+
+  function openModal() {
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.add('hidden');
+  }
+
+  if (btnOpen) btnOpen.addEventListener('click', openModal);
+  if (btnClose) btnClose.addEventListener('click', closeModal);
+  if (btnCancel) btnCancel.addEventListener('click', closeModal);
+
+  // Cerrar haciendo clic fuera
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // Contador de caracteres para la descripción
+  if (descInput && charCounter) {
+    descInput.addEventListener('input', () => {
+      const len = descInput.value.length;
+      charCounter.textContent = `${len}/160`;
+    });
+  }
+
+  // Seleccionar todos los barberos
+  if (btnSelectAll) {
+    btnSelectAll.addEventListener('click', () => {
+      const checkboxes = document.querySelectorAll('.barber-checkbox');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !allChecked);
+      btnSelectAll.textContent = allChecked ? 'Seleccionar todos' : 'Desmarcar todos';
+    });
+  }
+
+  // Notificación rápida de guardado
+  if (btnSubmit) {
+    btnSubmit.addEventListener('click', () => {
+      const name = document.getElementById('service-name').value;
+      if (!name.trim()) {
+        alert('Por favor ingresa un nombre para el servicio.');
+        return;
+      }
+      closeModal();
+    });
+  }
+
+  // Tecla escape para cerrar
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script></main></div>
+</body></html>

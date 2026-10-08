@@ -1,0 +1,521 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><title>Peludos Barber - Reservaciones</title><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-error-container":"#93000a","on-error":"#ffffff","on-surface":"#131b2e","surface-container-high":"#e2e7ff","secondary":"#515f74","secondary-fixed-dim":"#b9c7df","secondary-container":"#d5e3fc","on-secondary-fixed-variant":"#3a485b","inverse-on-surface":"#eef0ff","on-secondary-container":"#57657a","on-background":"#131b2e","primary-fixed":"#dbe1ff","surface-container-low":"#f2f3ff","on-secondary":"#ffffff","outline":"#737686","primary":"#004ac6","on-primary-fixed-variant":"#003ea8","on-tertiary-fixed":"#360f00","tertiary-fixed-dim":"#ffb596","on-secondary-fixed":"#0d1c2e","surface-container-highest":"#dae2fd","surface":"#faf8ff","surface-variant":"#dae2fd","primary-fixed-dim":"#b4c5ff","tertiary-container":"#bc4800","primary-container":"#2563eb","surface-container-lowest":"#ffffff","inverse-primary":"#b4c5ff","secondary-fixed":"#d5e3fc","error-container":"#ffdad6","error":"#ba1a1a","surface-tint":"#0053db","on-primary-container":"#eeefff","on-primary":"#ffffff","outline-variant":"#c3c6d7","surface-container":"#eaedff","background":"#faf8ff","on-tertiary-fixed-variant":"#7d2d00","tertiary":"#943700","on-tertiary-container":"#ffede6","surface-bright":"#faf8ff","tertiary-fixed":"#ffdbcd","on-primary-fixed":"#00174b","on-tertiary":"#ffffff","surface-dim":"#d2d9f4","inverse-surface":"#283044","on-surface-variant":"#434655"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",margin:"2rem","margin-mobile":"1rem","space-xl":"2rem","gutter-mobile":"1rem",gutter:"1.5rem","space-sm":"0.5rem","space-lg":"1.5rem","space-md":"1rem"},fontFamily:{"body-semibold":["Inter"],"body-default":["Inter"],"body-medium":["Inter"],"badge-label":["Inter"],"body-sm":["Inter"],"table-header":["Inter"],"headline-page":["Inter"],"headline-page-mobile":["Inter"],"numeric-metric":["Inter"],"headline-section":["Inter"]},fontSize:{"body-semibold":["14px",{lineHeight:"20px",fontWeight:"600"}],"body-default":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-medium":["14px",{lineHeight:"20px",fontWeight:"500"}],"badge-label":["12px",{lineHeight:"16px",fontWeight:"500"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"table-header":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"600"}],"headline-page":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-page-mobile":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"numeric-metric":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"headline-section":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-default text-body-default text-on-surface antialiased min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md min-w-0"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[22px]">content_cut</span></div><div class="flex flex-col min-w-0"><span class="font-body-semibold text-body-semibold text-on-surface truncate">Peludos Barber</span><span class="font-badge-label text-badge-label text-on-surface-variant truncate">Sucursal Matriz</span></div></div><div class="hidden md:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">location_on</span><span class="font-body-sm text-body-sm">Roma Norte, CDMX</span><span class="text-outline-variant">·</span><span class="w-2 h-2 rounded-full bg-primary inline-block"></span><span class="font-body-sm text-body-sm text-on-surface">Abierto hoy</span></div><div class="flex items-center gap-space-sm sm:gap-space-md shrink-0"><nav class="flex items-center gap-space-sm sm:gap-space-md" data-active-classes="text-primary font-body-semibold"><a aria-current="page" class="transition-colors px-2.5 py-1.5 text-primary font-body-semibold" data-path="reservar-cita" href="#">Reservar</a><a class="font-body-medium text-body-medium text-on-surface-variant hover:text-on-surface transition-colors px-2.5 py-1.5" data-path="mis-citas" href="#">Mis citas</a><a class="hidden sm:inline-block font-body-medium text-body-medium text-on-surface-variant hover:text-on-surface transition-colors px-2.5 py-1.5" data-path="servicios-y-tarifas" href="#">Servicios</a></nav><a class="inline-flex items-center gap-space-xs px-space-md h-9 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-body-medium text-body-medium" data-path="portal-cliente" href="#"><span class="material-symbols-outlined text-[18px]">login</span><span class="hidden sm:inline">Iniciar sesión</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background"><div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-margin"><div class="flex flex-col w-full">
+<!-- Cabecera del Negocio -->
+<section class="w-full mb-space-lg">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm p-space-md md:p-space-lg">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex items-start gap-space-md">
+<div class="relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden shrink-0 bg-surface-container-high shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Interior refinado y contemporáneo de una barbería premium en Roma Norte con sillones de cuero vintage marrón, acabados en madera de nogal, espejos iluminados con luz neutra y herramientas metálicas profesionales de peluquería dispuestas sobre un mesón de piedra pulida en atmósfera sofisticada y nítida." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf2P2PYlYxYr5z21rxhoxSsy0_RQfXAIupfMy1CbHjMZetUd8SscovKjnc_OxZ_BwZG37MB4dyWR2DCF1lJXdrxQzYFOkJZS8J2fxjppUsb12E4xVqFXkfy6nRLQkzFSCMqjiVFsCNjl-sqguWV_iZJSH3YrkIbma_YJRA6q9DPChlwbXipL7_sbyPYr8zpfxoSmVnU_0dGulSjaNyCZOpigoT0VnJd8RHQ7Wvunr7">
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs mb-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-low text-primary font-badge-label text-badge-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Abierto para reservas
+              </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">·</span>
+<span class="inline-flex items-center gap-1 text-on-surface font-body-semibold text-body-semibold">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+                4.9
+                <span class="font-body-sm text-body-sm text-on-surface-variant">(348 reseñas)</span>
+</span>
+</div>
+<h1 class="font-headline-page text-headline-page text-on-surface tracking-tight mb-1">
+              Peludos Barber — Sucursal Matriz
+            </h1>
+<div class="flex flex-wrap items-center gap-y-1 gap-x-space-md text-on-surface-variant font-body-sm text-body-sm">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+                Álvaro Obregón 124, Col. Roma Norte, CDMX
+              </span>
+<span class="hidden sm:inline">·</span>
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+                Abierto hoy hasta las 20:00 hrs
+              </span>
+</div>
+</div>
+</div>
+<!-- Badges de confianza -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 lg:max-w-md w-full">
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">mark_chat_read</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface leading-tight">Confirmación</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant truncate">Inmediata vía WhatsApp</span>
+</div>
+</div>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">event_repeat</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface leading-tight">Cancelación</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant truncate">Flexible hasta 2h antes</span>
+</div>
+</div>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">payments</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface leading-tight">Pago seguro</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant truncate">En local o tarjeta</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Layout Principal de Reserva -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- COLUMNA IZQUIERDA: Flujo Guiado -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-space-lg">
+<!-- PASO 1: SERVICIOS -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md md:p-space-lg">
+<div class="flex items-center justify-between pb-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-body-semibold text-body-semibold">1</span>
+<h2 class="font-headline-section text-headline-section text-on-surface">Selecciona tu servicio</h2>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant">5 opciones disponibles</span>
+</div>
+<!-- Filtros de categoría -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-space-sm mb-space-md">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-body-medium text-body-medium whitespace-nowrap shadow-sm" type="button">
+            Todos
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-body-medium text-body-medium whitespace-nowrap" type="button">
+            Cortes
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-body-medium text-body-medium whitespace-nowrap" type="button">
+            Barba y Afeitado
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-body-medium text-body-medium whitespace-nowrap" type="button">
+            Combos y Paquetes
+          </button>
+</div>
+<!-- Lista de tarjetas de servicio -->
+<div class="flex flex-col gap-space-sm" id="services-list">
+<!-- Servicio 1 -->
+<div class="relative p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm shadow-sm group">
+<div class="flex-1 min-w-0 pr-space-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-body-semibold text-body-semibold text-on-surface">Corte Clásico &amp; Perfilado</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant">· 45 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                Corte tradicional a tijera y máquina con lavado y perfilado de cuello con navaja desinfectada.
+              </p>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0">
+<span class="font-body-semibold text-body-semibold text-on-surface text-right">$250.00 MXN</span>
+<button class="px-3.5 h-9 rounded-lg bg-surface-container-high text-on-surface group-hover:bg-primary-container group-hover:text-on-primary transition-colors font-body-medium text-body-medium inline-flex items-center gap-1" type="button">
+<span>Seleccionar</span>
+</button>
+</div>
+</div>
+<!-- Servicio 2 (Activo por defecto) -->
+<div class="relative p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="absolute -top-2.5 left-space-md px-2 py-0.5 rounded-full bg-primary text-on-primary font-badge-label text-badge-label shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+              Más popular · Recomendado
+            </div>
+<div class="flex-1 min-w-0 pr-space-sm pt-1 sm:pt-0">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-body-semibold text-body-semibold text-on-surface">Corte + Barba Completa</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant">· 60 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                Corte personalizado más toalla caliente aromatizada, perfilado milimétrico a navaja y bálsamo hidratante.
+              </p>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0">
+<span class="font-body-semibold text-body-semibold text-primary text-right">$350.00 MXN</span>
+<button class="px-3.5 h-9 rounded-lg bg-primary-container text-on-primary font-body-medium text-body-medium inline-flex items-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Seleccionado</span>
+</button>
+</div>
+</div>
+<!-- Servicio 3 -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm shadow-sm group">
+<div class="flex-1 min-w-0 pr-space-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-body-semibold text-body-semibold text-on-surface">Arreglo de Barba Express</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant">· 25 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                Alineación de contornos a navaja con toalla caliente y aceites esenciales de cedro.
+              </p>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0">
+<span class="font-body-semibold text-body-semibold text-on-surface text-right">$150.00 MXN</span>
+<button class="px-3.5 h-9 rounded-lg bg-surface-container-high text-on-surface group-hover:bg-primary-container group-hover:text-on-primary transition-colors font-body-medium text-body-medium inline-flex items-center gap-1" type="button">
+<span>Seleccionar</span>
+</button>
+</div>
+</div>
+<!-- Servicio 4 -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm shadow-sm group">
+<div class="flex-1 min-w-0 pr-space-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-body-semibold text-body-semibold text-on-surface">Desvanecido (Fade Pro)</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant">· 45 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                Degradado técnico a cero o navaja libre de líneas marcadas, sellado y textura superior.
+              </p>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0">
+<span class="font-body-semibold text-body-semibold text-on-surface text-right">$280.00 MXN</span>
+<button class="px-3.5 h-9 rounded-lg bg-surface-container-high text-on-surface group-hover:bg-primary-container group-hover:text-on-primary transition-colors font-body-medium text-body-medium inline-flex items-center gap-1" type="button">
+<span>Seleccionar</span>
+</button>
+</div>
+</div>
+<!-- Servicio 5 -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm shadow-sm group">
+<div class="flex-1 min-w-0 pr-space-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-body-semibold text-body-semibold text-on-surface">Paquete VIP Mascarilla &amp; Corte</span>
+<span class="font-badge-label text-badge-label text-on-surface-variant">· 75 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                Servicio completo: corte de autor, mascarilla purificante de carbón activado, exfoliación y masaje capilar.
+              </p>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0">
+<span class="font-body-semibold text-body-semibold text-on-surface text-right">$450.00 MXN</span>
+<button class="px-3.5 h-9 rounded-lg bg-surface-container-high text-on-surface group-hover:bg-primary-container group-hover:text-on-primary transition-colors font-body-medium text-body-medium inline-flex items-center gap-1" type="button">
+<span>Seleccionar</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- PASO 2: BARBERO -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md md:p-space-lg">
+<div class="flex items-center justify-between pb-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-body-semibold text-body-semibold">2</span>
+<h2 class="font-headline-section text-headline-section text-on-surface">Elige a tu barbero</h2>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant">4 barberos en turno</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Opción Genérica Rápida -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex items-center gap-space-sm shadow-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">bolt</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Cualquier profesional</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Primer turno libre más rápido</span>
+</div>
+</div>
+<!-- Barbero 1: Carlos (Seleccionado) -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-surface-container-high shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Retrato fotográfico nítido de Carlos Ramírez, barbero mexicano experimentado de 32 años con barba bien cuidada, camisa negra de trabajo y mirada cordial y profesional en iluminación de estudio suave." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIkPtnHiDHqWr2e3ZGJh_jwgeQ1lAAtyVHUy_CG56ldlJNI3ND6X5DA8ovu_TDUe2RBwHZcOEt5tFkPHPAQVMc7wN8RKY4B-dAgScoHr5FLdCRl3mUl8ziTm_VcZUJ04Ns4mscGsWT3mWsVNrmYDXfDHqz0SlREgzTtc85Aae5sqnPjbNskU9ALXA8qXU-2Ykd-aOQgb2Bm5aJmtyO5gAYosKpY5weXv_xUFQ1uMEl">
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Carlos Ramírez</span>
+<span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span>Master Barber</span>
+<span>·</span>
+<span class="inline-flex items-center text-on-surface font-body-medium text-body-medium">
+<span class="material-symbols-outlined text-[13px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+                    5.0
+                  </span>
+</div>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+<!-- Barbero 2: Mateo -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex items-center justify-between gap-space-sm shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Retrato de medio plano de Mateo Silva, barbero profesional joven de aspecto pulcro, delantal de barbero gris carbón con tijeras visibles en el bolsillo, fondo de barbería desenfocado y expresión amable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMNYIeu50fhOrrx-bns9kWAs1tGMpKX2CkgDX69lAu6x6X9gnFd1CFRPdubY40G6pLK21PJH_g7J436MylwiHdV8oGM8KSFz-lK6binB60BPK6wLBRUmiKjE12O9O6N9vvPBUOa7Q-QktP6wzHXlDURR4Feh-hkNctua9iQ1Z6CCoxERAv4m-aoCZTrPbWoFEHa9BirtyqohTLt3sER0MVZPd4MvH35ommJhZFjVmw">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Mateo Silva</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span>Barbero Senior</span>
+<span>·</span>
+<span class="inline-flex items-center text-on-surface font-body-medium text-body-medium">
+<span class="material-symbols-outlined text-[13px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+                    4.9
+                  </span>
+</div>
+</div>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant">Libre 11:45</span>
+</div>
+<!-- Barbero 3: Diego -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex items-center justify-between gap-space-sm shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Foto de perfil contemporánea de Diego Luna especialista en desvanecidos degradados, vistiendo playera negra y gorra plana discreta, iluminación lateral limpia y estética urbana elegante." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvoRPcxOa1mK3omes-5JwCQsH2DAb58jbCviSo91xX80ZTtyOs_OFDoaqBKTBzvrWO_B1PrUo1_YYE502SiHccQdXZqXNzGuvIYXOxCbbxM5icEUmEinPNTUsxPBee8AcDQffs8F19_vz99CPp4dhutEkAk8Icm2hhLQUbn8-GgwuaWziAy6PPrIRsf_hMZGjN1NAkqMCZxgJJf1tFi5vPXPHgGfyDmVsOLEmGA2hi">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Diego Luna</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span>Fade Specialist</span>
+<span>·</span>
+<span class="inline-flex items-center text-on-surface font-body-medium text-body-medium">
+<span class="material-symbols-outlined text-[13px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+                    4.8
+                  </span>
+</div>
+</div>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant">Libre 13:00</span>
+</div>
+<!-- Barbero 4: Javier -->
+<div class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-all cursor-pointer flex items-center justify-between gap-space-sm shadow-sm sm:col-span-2">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Retrato profesional de Javier Rivas, estilista y barbero mexicano enfocado en perfilado de barba y colorimetría masculina, expresión cálida y profesional ante fondo neutro gris." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDj9h3mDqllLZN71bprdUXPL1Oz6mVy1OdA6NLQ1fACD_Neu6YHoEL7wyDIy1oZ3SedWEsAEusXP55OjYVOmGblBvdtZmjRbVH0zJeU4Oui_Ra4EBoYqbmpuJr85UVFCT2NhQqaBpvSnGbdkc6ukXcXke_LMyJ3BUkltXCK3e4LMPAB9bGtm56xFKFo-vupbqZSKY7aStgfKcLRiduGWfkSk17L_2jiX7fNDuRYDN7">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Javier Rivas</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span>Colorista &amp; Barba</span>
+<span>·</span>
+<span class="inline-flex items-center text-on-surface font-body-medium text-body-medium">
+<span class="material-symbols-outlined text-[13px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+                    4.9
+                  </span>
+</div>
+</div>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant">Libre 14:30</span>
+</div>
+</div>
+</section>
+<!-- PASO 3: FECHA Y HORA -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md md:p-space-lg">
+<div class="flex items-center justify-between pb-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-body-semibold text-body-semibold">3</span>
+<h2 class="font-headline-section text-headline-section text-on-surface">Fecha y horario</h2>
+</div>
+<span class="font-body-medium text-body-medium text-primary">Octubre 2026</span>
+</div>
+<!-- Selector horizontal de días -->
+<div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-space-lg">
+<!-- Día 1 -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface hover:bg-surface-container-low transition-colors cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-on-surface-variant uppercase">Hoy</span>
+<span class="font-headline-section text-headline-section text-on-surface">12</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Lun</span>
+</div>
+<!-- Día 2 (Seleccionado) -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-primary text-on-primary shadow-sm cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-primary-fixed uppercase">Mar</span>
+<span class="font-headline-section text-headline-section text-on-primary">13</span>
+<span class="font-body-sm text-body-sm text-primary-fixed">Oct</span>
+</div>
+<!-- Día 3 -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface hover:bg-surface-container-low transition-colors cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-on-surface-variant uppercase">Mié</span>
+<span class="font-headline-section text-headline-section text-on-surface">14</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Oct</span>
+</div>
+<!-- Día 4 -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface hover:bg-surface-container-low transition-colors cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-on-surface-variant uppercase">Jue</span>
+<span class="font-headline-section text-headline-section text-on-surface">15</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Oct</span>
+</div>
+<!-- Día 5 -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface hover:bg-surface-container-low transition-colors cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-on-surface-variant uppercase">Vie</span>
+<span class="font-headline-section text-headline-section text-on-surface">16</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Oct</span>
+</div>
+<!-- Día 6 -->
+<div class="flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface hover:bg-surface-container-low transition-colors cursor-pointer text-center">
+<span class="font-badge-label text-badge-label text-on-surface-variant uppercase">Sáb</span>
+<span class="font-headline-section text-headline-section text-on-surface">17</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Oct</span>
+</div>
+</div>
+<!-- Horarios por bloques -->
+<div class="flex flex-col gap-space-md">
+<!-- Bloque Mañana -->
+<div>
+<div class="flex items-center gap-1.5 mb-space-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">wb_twilight</span>
+<span class="font-body-semibold text-body-semibold uppercase tracking-wider text-xs">Turno Matutino</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                09:30 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                10:15 hrs
+              </button>
+<button class="h-10 rounded-lg bg-primary-container text-on-primary font-body-semibold text-body-semibold shadow-sm flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                11:00 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                11:45 hrs
+              </button>
+</div>
+</div>
+<!-- Bloque Tarde -->
+<div>
+<div class="flex items-center gap-1.5 mb-space-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">wb_sunny</span>
+<span class="font-body-semibold text-body-semibold uppercase tracking-wider text-xs">Turno Vespertino</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                13:00 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                14:30 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                16:00 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                17:15 hrs
+              </button>
+<button class="h-10 rounded-lg bg-surface hover:bg-surface-container font-body-medium text-body-medium text-on-surface transition-colors flex items-center justify-center" type="button">
+                18:30 hrs
+              </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- COLUMNA DERECHA: Resumen de Cita & Sticky Checkout -->
+<div class="lg:col-span-5 xl:col-span-4">
+<div class="sticky top-20 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-space-md md:p-space-lg flex flex-col">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<h3 class="font-headline-section text-headline-section text-on-surface">Resumen de tu cita</h3>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-low text-primary font-badge-label text-badge-label">
+              En progreso
+            </span>
+</div>
+<!-- Bloque de Detalle -->
+<div class="flex flex-col gap-space-sm pb-space-md mb-space-md">
+<!-- Servicio -->
+<div class="flex items-start justify-between gap-space-sm p-3 rounded-lg bg-surface-container-low">
+<div class="flex items-start gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">content_cut</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">Corte + Barba Completa</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Duración: 60 minutos</span>
+</div>
+</div>
+<span class="font-body-semibold text-body-semibold text-on-surface shrink-0">$350.00 MXN</span>
+</div>
+<!-- Barbero & Horario -->
+<div class="grid grid-cols-1 gap-2 text-on-surface font-body-sm text-body-sm">
+<div class="flex items-center gap-2.5 px-2 py-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">person</span>
+<span class="text-on-surface-variant">Barbero:</span>
+<span class="font-body-medium text-body-medium text-on-surface ml-auto">Carlos Ramírez (Master)</span>
+</div>
+<div class="flex items-center gap-2.5 px-2 py-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">event</span>
+<span class="text-on-surface-variant">Fecha:</span>
+<span class="font-body-medium text-body-medium text-on-surface ml-auto">Mar 13 Oct 2026, 11:00 hrs</span>
+</div>
+<div class="flex items-center gap-2.5 px-2 py-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">storefront</span>
+<span class="text-on-surface-variant">Sede:</span>
+<span class="font-body-medium text-body-medium text-on-surface ml-auto truncate max-w-[190px]">Roma Norte (Matriz)</span>
+</div>
+</div>
+<!-- Desglose Financiero -->
+<div class="mt-1 p-3 rounded-lg bg-surface flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Subtotal de servicios</span>
+<span>$350.00 MXN</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Apartado en línea</span>
+<span class="text-primary font-body-medium text-body-medium">$0.00 MXN</span>
+</div>
+<div class="flex items-center justify-between font-headline-section text-headline-section text-on-surface pt-1">
+<span>Total a pagar</span>
+<span class="text-primary">$350.00 MXN</span>
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant text-right">Pagas al terminar tu cita en el local</span>
+</div>
+</div>
+<!-- Formulario Rápido de Contacto -->
+<div class="flex flex-col gap-space-sm mb-space-lg">
+<div>
+<label class="block font-body-medium text-body-medium text-on-surface mb-1" for="client-name">Nombre y apellido</label>
+<div class="relative">
+<input class="w-full h-10 px-3 bg-surface-container-low rounded-lg text-on-surface font-body-default text-body-default outline-none focus:bg-surface-container transition-all" id="client-name" placeholder="Tu nombre completo" type="text" value="Alejandro Morales">
+</div>
+</div>
+<div>
+<label class="block font-body-medium text-body-medium text-on-surface mb-1" for="client-phone">Teléfono WhatsApp</label>
+<div class="relative">
+<input class="w-full h-10 px-3 bg-surface-container-low rounded-lg text-on-surface font-body-default text-body-default outline-none focus:bg-surface-container transition-all" id="client-phone" placeholder="+52 ..." type="tel" value="+52 55 4192 8831">
+</div>
+<span class="font-badge-label text-badge-label text-on-surface-variant mt-0.5 block">Para enviarte la confirmación instantánea</span>
+</div>
+<div>
+<label class="block font-body-medium text-body-medium text-on-surface mb-1" for="client-notes">Notas especiales (opcional)</label>
+<textarea class="w-full p-2.5 bg-surface-container-low rounded-lg text-on-surface font-body-default text-body-default outline-none focus:bg-surface-container transition-all resize-none" id="client-notes" placeholder="Preferencias particulares, alergias o estilo deseado..." rows="2">Piel sensible, preferible tijera en la parte superior</textarea>
+</div>
+</div>
+<!-- Botón de Confirmación Principal -->
+<button class="w-full h-12 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-body-semibold text-body-semibold shadow-md flex items-center justify-center gap-2 active:scale-[0.99]" id="btn-confirm" type="button">
+<span class="material-symbols-outlined text-[20px]">calendar_add_on</span>
+<span>Confirmar mi cita — $350.00 MXN</span>
+</button>
+<!-- Mensaje de Garantía -->
+<div class="mt-space-sm flex items-center justify-center gap-1.5 text-center text-on-surface-variant font-badge-label text-badge-label">
+<span class="material-symbols-outlined text-[15px] text-primary">verified_user</span>
+<span>Sin cobros por adelantado · Cancelación gratuita</span>
+</div>
+</div>
+<!-- Banner de Ayuda Rápida -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[22px]">support_agent</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-semibold text-body-semibold text-on-surface truncate">¿Tienes dudas o requieres cambio?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Atención directa por WhatsApp</span>
+</div>
+</div>
+<a class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-body-medium text-body-medium hover:bg-surface-container-high transition-colors shrink-0 shadow-sm" href="#">
+            Contactar
+          </a>
+</div>
+</div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const confirmBtn = document.getElementById('btn-confirm');
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+          confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span><span>Procesando reserva...</span>';
+          setTimeout(() => {
+            confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>¡Cita confirmada con éxito!</span>';
+            confirmBtn.classList.remove('bg-primary-container');
+            confirmBtn.classList.add('bg-primary');
+          }, 900);
+        });
+      }
+    });
+  </script>
+</div></div></main><footer class="w-full bg-surface-container-lowest mt-space-xl shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl"><div class="flex flex-col md:flex-row items-center justify-between gap-space-md pb-space-lg"><div class="flex flex-col sm:flex-row items-center gap-space-xs text-center sm:text-left"><span class="font-body-semibold text-body-semibold text-on-surface">Peludos Barber Matriz</span><span class="hidden sm:inline text-outline-variant">·</span><span class="font-body-sm text-body-sm text-on-surface-variant">Col. Roma Norte, Cuauhtémoc, CDMX</span><span class="hidden sm:inline text-outline-variant">·</span><span class="font-body-sm text-body-sm text-on-surface-variant">+52 55 4123 9870</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-low text-on-surface-variant font-badge-label text-badge-label"><span class="material-symbols-outlined text-[16px]">language</span><span>Español (MX)</span></div><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="terminos-y-privacidad" href="#">Términos y Privacidad</a></div></div><div class="flex flex-col sm:flex-row items-center justify-between gap-space-xs pt-space-md text-on-surface-variant font-badge-label text-badge-label"><p>Reservas impulsadas por <span class="font-body-semibold text-on-surface">Barber OS</span> · Sistema Operativo B2B de Barbería</p><p>© 2025 Peludos Barber. Todos los derechos reservados.</p></div></div></footer></body></html>
