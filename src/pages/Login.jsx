@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
+import { safeReturnPath } from '../lib/roles'
 
 const C = {
   bg:      '#0a0a0a',
@@ -122,6 +123,7 @@ function Field({ label, type, value, onChange, placeholder, required, style }) {
 
 export default function Login() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [tab, setTab] = useState('login')
 
   const [loginData, setLoginData] = useState({ email: '', password: '' })
@@ -140,7 +142,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithPassword({ email: loginData.email, password: loginData.password })
     setLoginLoading(false)
     if (error) { setLoginError(error.message); return }
-    navigate('/')
+    navigate(safeReturnPath(searchParams.get('volver')) ?? '/', { replace: true })
   }
 
   async function handleRegister(e) {
