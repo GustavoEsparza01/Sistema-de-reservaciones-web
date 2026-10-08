@@ -2,3 +2,10 @@ node_modules
 dist
 .env
 .env.local
+
+# Editor / sistema
+.DS_Store
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/extensions.json
