@@ -7,7 +7,11 @@ import Navbar        from './components/layout/Navbar'
 import RequireAuth   from './components/layout/RequireAuth'
 import RoleHome      from './components/layout/RoleHome'
 import AppLayout     from './layouts/AppLayout'
-import Login             from './pages/Login'
+import AuthLayout        from './layouts/AuthLayout'
+import Login             from './pages/auth/Login'
+import Registro          from './pages/auth/Registro'
+import Recuperar         from './pages/auth/Recuperar'
+import Restablecer       from './pages/auth/Restablecer'
 import Dashboard         from './pages/admin/Dashboard'
 import BarberAgenda      from './pages/barber/BarberAgenda'
 import Resumen           from './pages/app/Resumen'
@@ -26,7 +30,7 @@ import DetalleCita       from './pages/portal/DetalleCita'
 import Perfil            from './pages/portal/Perfil'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
-const LEGACY_PATHS = ['/login', '/anterior']
+const LEGACY_PATHS = ['/anterior']
 function LegacyNavbar() {
   const { pathname } = useLocation()
   if (!LEGACY_PATHS.some((p) => pathname.startsWith(p))) return null
@@ -44,7 +48,7 @@ function LegacyAppointmentRedirect() {
  * - /app/*        panel nuevo (admin y barbero)
  * - /:slug/*      portal del negocio (página pública, reserva, Mis citas y perfil)
  * - /anterior/*   pantallas anteriores, accesibles mientras dura la migración
- * - /login        inicio de sesión actual (se rediseña en la Fase 5)
+ * - /login, /registro, /recuperar, /restablecer   acceso (AuthLayout)
  * - el resto de rutas viejas redirigen a las nuevas
  */
 export default function App() {
@@ -54,9 +58,14 @@ export default function App() {
         <BrowserRouter>
           <LegacyNavbar />
           <Routes>
-            {/* Inicio de sesión y redirecciones de las rutas viejas */}
+            {/* Acceso y redirecciones de las rutas viejas */}
             <Route path="/" element={<Navigate to="/peludos" replace />} />
-            <Route path="/login" element={<Login />} />
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Registro />} />
+              <Route path="/recuperar" element={<Recuperar />} />
+              <Route path="/restablecer" element={<Restablecer />} />
+            </Route>
             <Route path="/services" element={<Navigate to="/peludos#servicios" replace />} />
             <Route path="/book" element={<Navigate to="/peludos/reservar" replace />} />
             <Route path="/my-appointments" element={<Navigate to="/peludos/mis-citas" replace />} />
