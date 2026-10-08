@@ -15,7 +15,7 @@ export const MAIN_NAV = [
   { to: '/app/clientes',  label: 'Clientes',  icon: Users,           roles: ['admin'],  ready: false },
   { to: '/app/equipo',    label: 'Equipo',    icon: IdCard,          roles: ['admin'],  ready: true  },
   { to: '/app/servicios', label: 'Servicios', icon: Scissors,        roles: ['admin'],  ready: true  },
-  { to: '/app/reportes',  label: 'Reportes',  icon: ChartColumn,     roles: ['admin'],  ready: false },
+  { to: '/app/reportes',  label: 'Reportes',  icon: ChartColumn,     roles: ['admin'],  ready: true  },
   { to: '/app/mi-agenda', label: 'Mi agenda', icon: CalendarDays,    roles: ['barber'], ready: false },
 ]
 

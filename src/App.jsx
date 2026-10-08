@@ -22,6 +22,7 @@ import Citas             from './pages/app/Citas'
 import Servicios         from './pages/app/Servicios'
 import Equipo            from './pages/app/Equipo'
 import Agenda            from './pages/app/Agenda'
+import Reportes          from './pages/app/Reportes'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
 function LegacyNavbar() {
@@ -70,6 +71,7 @@ export default function App() {
                   <Route path="servicios" element={<Servicios />} />
                   <Route path="equipo" element={<Equipo />} />
                   <Route path="agenda" element={<Agenda />} />
+                  <Route path="reportes" element={<Reportes />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/app" replace />} />
               </Route>
