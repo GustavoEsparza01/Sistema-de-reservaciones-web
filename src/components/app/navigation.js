@@ -20,7 +20,7 @@ export const MAIN_NAV = [
 ]
 
 export const FOOTER_NAV = [
-  { to: '/app/configuracion', label: 'Configuración', icon: Settings, roles: ['admin'], ready: false },
+  { to: '/app/configuracion', label: 'Configuración', icon: Settings, roles: ['admin'], ready: true },
 ]
 
 // Mientras dura la migración: acceso a las pantallas anteriores

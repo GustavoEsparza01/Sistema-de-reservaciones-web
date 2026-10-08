@@ -67,6 +67,8 @@ export function AuthProvider({ children }) {
     isBarber,
     barberId,
     signOut: () => supabase.auth.signOut(),
+    // Vuelve a leer el perfil (por ejemplo, después de editarlo)
+    refreshProfile: () => (session ? fetchProfile(session.user.id) : Promise.resolve()),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
