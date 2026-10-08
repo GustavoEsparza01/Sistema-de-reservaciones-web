@@ -185,7 +185,8 @@ export default function Landing() {
           </nav>
           <div className="ml-auto hidden sm:flex items-center gap-space-sm">
             <Button as={Link} to="/login" variant="ghost" icon={LogIn}>Iniciar sesión</Button>
-            <Button as={Link} to={demoUrl} iconRight={ArrowRight}>Ver demo en vivo</Button>
+            <Button as={Link} to={demoUrl} variant="secondary">Ver demo</Button>
+            <Button as={Link} to="/onboarding" iconRight={ArrowRight}>Crear mi barbería</Button>
           </div>
           <button type="button" onClick={() => setMenuOpen((v) => !v)} aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menuOpen} className="sm:hidden ml-auto p-1.5 rounded text-on-surface-variant">
             {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
@@ -195,7 +196,8 @@ export default function Landing() {
           <nav className="sm:hidden border-t border-outline-variant px-margin-mobile py-space-sm flex flex-col">
             {nav.map(([href, label]) => <a key={href} href={href} onClick={() => setMenuOpen(false)} className="py-2">{label}</a>)}
             <Link to="/login" className="py-2">Iniciar sesión</Link>
-            <Button as={Link} to={demoUrl} className="justify-center mt-space-sm">Ver demo en vivo</Button>
+            <Link to={demoUrl} className="py-2">Ver demo</Link>
+            <Button as={Link} to="/onboarding" className="justify-center mt-space-sm">Crear mi barbería</Button>
           </nav>
         )}
       </header>
@@ -216,8 +218,8 @@ export default function Landing() {
                 Agenda, equipo, clientes e ingresos en un solo lugar. Tus clientes reservan en línea a cualquier hora y tú solo ves horarios que de verdad están libres.
               </p>
               <div className="flex flex-wrap gap-space-sm">
-                <Button as={Link} to={demoUrl} iconRight={ArrowRight} className="h-11 px-space-lg text-body-semibold">Ver demo en vivo</Button>
-                <Button as="a" href="#funciones" variant="secondary" className="h-11 px-space-lg">Conocer funciones</Button>
+                <Button as={Link} to="/onboarding" iconRight={ArrowRight} className="h-11 px-space-lg text-body-semibold">Crear mi barbería</Button>
+                <Button as={Link} to={demoUrl} variant="secondary" className="h-11 px-space-lg">Ver demo en vivo</Button>
               </div>
               <ul className="flex flex-wrap gap-x-space-lg gap-y-space-xs text-body-sm text-on-surface-variant">
                 {['Funciona en el navegador', 'Sin app para tus clientes', 'Exporta tus datos cuando quieras'].map((t) => (
@@ -350,7 +352,7 @@ export default function Landing() {
                       <li key={f} className="flex items-start gap-space-sm text-body-default"><Check size={18} className="text-emerald-600 shrink-0 mt-0.5" aria-hidden /> {f}</li>
                     ))}
                   </ul>
-                  <Button as={Link} to={demoUrl} variant={p.highlight ? 'primary' : 'secondary'} className="justify-center">Ver demo</Button>
+                  <Button as={Link} to="/onboarding" variant={p.highlight ? 'primary' : 'secondary'} className="justify-center">Empezar</Button>
                 </div>
               ))}
             </div>

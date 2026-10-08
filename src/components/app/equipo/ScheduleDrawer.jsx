@@ -7,7 +7,7 @@ import {
 } from '../../../lib/team'
 
 const timeClasses =
-  'h-9 w-[104px] rounded-lg border bg-surface-container-lowest px-2 text-body-default tabular-nums text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20'
+  'h-9 w-[132px] rounded-lg border bg-surface-container-lowest px-2 text-body-default tabular-nums text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20'
 
 /** Panel para editar el horario semanal y la biografía pública de un barbero. */
 export default function ScheduleDrawer({ member, saving, onClose, onSave }) {

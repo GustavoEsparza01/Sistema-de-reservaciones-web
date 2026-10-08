@@ -28,6 +28,7 @@ const MisCitas = lazy(() => import('./pages/portal/MisCitas'))
 const DetalleCita = lazy(() => import('./pages/portal/DetalleCita'))
 const Perfil = lazy(() => import('./pages/portal/Perfil'))
 const Landing = lazy(() => import('./pages/Landing'))
+const Onboarding = lazy(() => import('./pages/Onboarding'))
 
 function PageLoader() {
   return (
@@ -65,6 +66,8 @@ export default function App() {
             <Route path="/" element={<Navigate to="/peludos" replace />} />
             {/* Landing de Barber OS (pasará a / cuando haya varios negocios) */}
             <Route path="/barber-os" element={page(Landing)} />
+            {/* Alta del negocio (por ahora solo frontend: borrador en el navegador) */}
+            <Route path="/onboarding" element={page(Onboarding)} />
 
             {/* Acceso */}
             <Route element={<AuthLayout />}>
