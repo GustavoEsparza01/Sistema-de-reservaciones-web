@@ -244,5 +244,22 @@ Se revisan al construir cada pantalla; mientras no existan, se muestran ocultos 
 | **2. Panel admin** ✅ | Pantallas 02–08 | El admin ya no necesita `/admin` |
 | **3. Barbero** ✅ | Pantalla 09 | `/barber-agenda` solo redirige |
 | **4. Cliente** ✅ | `PortalLayout` y pantallas 10–13 | Se puede reservar de principio a fin en `/peludos` |
-| **5. SaaS** | Migración de la sección 6, login/registro (14), onboarding (15) y landing (16) | Se puede dar de alta un segundo negocio y sus datos no se mezclan con los de Peludos |
-| **Cierre** | Borrar páginas, componentes y redirecciones viejas | No queda código del diseño anterior |
+| **5. SaaS** (en curso: login y registro ✅) | Migración de la sección 6, login/registro (14), onboarding (15) y landing (16) | Se puede dar de alta un segundo negocio y sus datos no se mezclan con los de Peludos |
+| **Cierre** ✅ | Borrar páginas, componentes y redirecciones viejas | No queda código del diseño anterior |
+
+## 8. Estado al cierre (7 oct 2026)
+
+**Hecho:** las 16 pantallas de Stitch salvo alta del negocio (15) y landing (16), que dependen de varios negocios. Ya no queda código del diseño anterior; las direcciones viejas se conservan solo como redirecciones porque los clientes pueden tenerlas guardadas.
+
+**Cambios respecto al plan original:**
+- Los hooks viejos estaban vacíos; las consultas viven en `lib/` (appointments, clients, team, services, publicData) y un hook por pantalla.
+- La pantalla Clientes (04) se hizo en el cierre: faltaba y solo existía en el panel anterior.
+- Cada pantalla se carga solo al visitarla (`React.lazy`); el archivo inicial bajó de 1.26 MB a 421 KB.
+- La nota del barbero se agrega a `appointments.notes` sin borrar la del cliente (no hay columna aparte).
+- El rol `banned` ahora impide reservar en línea (antes no se revisaba).
+
+**Hallazgos de seguridad:**
+- `.env.example` tenía la clave `service_role` en el repositorio público desde el primer commit. Se quitó del archivo, pero **hay que regenerar las claves en Supabase** porque siguen en el historial de git.
+- `appointments` se puede leer sin sesión (ver sección 6).
+
+**Pendiente para la Fase 5:** tabla `businesses` y `business_members`, `business_id` en las tablas, RLS, alta del negocio (15) y landing (16). Opcional: columnas `is_public` y `sort_order` en `services`, tabla `barber_services`, `blocked_slots`, estado "no se presentó" y propinas.

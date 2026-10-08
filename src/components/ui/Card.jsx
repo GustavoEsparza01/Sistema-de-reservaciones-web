@@ -5,7 +5,8 @@ export default function Card({ as: Comp = 'section', padding = true, className, 
   return (
     <Comp
       className={cn(
-        'bg-surface-container-lowest border border-outline-variant rounded-lg',
+        // min-w-0: dentro de grids y flex, la tarjeta no crece con contenido ancho (las tablas hacen scroll)
+        'bg-surface-container-lowest border border-outline-variant rounded-lg min-w-0',
         padding && 'p-5',
         className
       )}

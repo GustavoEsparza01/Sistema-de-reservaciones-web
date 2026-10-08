@@ -6,7 +6,7 @@ import { cn } from '../../lib/cn'
  */
 export default function Tabs({ items, value, onChange, className }) {
   return (
-    <div role="tablist" className={cn('flex gap-space-md border-b border-outline-variant overflow-x-auto overflow-y-hidden', className)}>
+    <div role="tablist" className={cn('flex gap-space-md border-b border-outline-variant overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden', className)}>
       {items.map((item) => {
         const active = item.value === value
         return (

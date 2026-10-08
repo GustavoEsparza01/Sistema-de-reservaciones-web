@@ -5,8 +5,8 @@ import {
 /**
  * Menú del panel.
  * - roles: quién ve la opción ('admin' | 'barber')
- * - ready: false mientras la pantalla no exista; se muestra deshabilitada con "Pronto"
- * Al terminar cada pantalla solo hay que cambiar ready a true.
+ * - ready: false muestra la opción deshabilitada con "Pronto" (para pantallas futuras)
+
  */
 export const MAIN_NAV = [
   { to: '/app/resumen',   label: 'Resumen',   icon: LayoutDashboard, roles: ['admin'],  ready: true  },
@@ -21,12 +21,6 @@ export const MAIN_NAV = [
 
 export const FOOTER_NAV = [
   { to: '/app/configuracion', label: 'Configuración', icon: Settings, roles: ['admin'], ready: true },
-]
-
-// Mientras dura la migración: acceso a las pantallas anteriores
-export const LEGACY_LINKS = [
-  { to: '/anterior/admin', label: 'Panel anterior',  roles: ['admin'] },
-  { to: '/anterior/agenda-barbero', label: 'Agenda anterior', roles: ['barber'] },
 ]
 
 /** Filtra una lista por los roles del usuario (el admin que es barbero ve ambas). */

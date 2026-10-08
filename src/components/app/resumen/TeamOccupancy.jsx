@@ -19,7 +19,7 @@ export default function TeamOccupancy({ rows, loading }) {
           {[0, 1, 2].map((i) => <Skeleton key={i} className="h-10 w-full" />)}
         </div>
       ) : rows.length === 0 ? (
-        <EmptyState icon={Users} title="Sin barberos activos" description="Activa barberos en el panel anterior." className="py-space-lg" />
+        <EmptyState icon={Users} title="Sin barberos activos" description="Agrega o activa barberos en Equipo." className="py-space-lg" />
       ) : (
         <ul className="flex flex-col gap-space-md">
           {rows.map((r) => {

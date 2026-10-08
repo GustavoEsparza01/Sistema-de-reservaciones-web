@@ -28,7 +28,8 @@ export default function Table({
   const colCount = columns.length + (selection ? 1 : 0)
 
   return (
-    <div className={cn('overflow-x-auto', className)}>
+    // relative: los textos ocultos (sr-only) se posicionan dentro de la tabla y no ensanchan la página
+    <div className={cn('relative overflow-x-auto', className)}>
       <table className="w-full border-collapse text-body-default">
         <thead>
           <tr className="h-10 bg-surface-container-low text-on-surface-variant font-table-header text-table-header uppercase select-none">

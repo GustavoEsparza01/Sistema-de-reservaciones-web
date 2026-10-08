@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ArrowUpRight, LogOut, Scissors, X } from 'lucide-react'
+import { LogOut, Scissors, X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useBusiness } from '../../hooks/useBusiness'
 import { cn } from '../../lib/cn'
 import Avatar from '../ui/Avatar'
-import { FOOTER_NAV, LEGACY_LINKS, MAIN_NAV, visibleFor } from './navigation'
+import { FOOTER_NAV, MAIN_NAV, visibleFor } from './navigation'
 
 const itemBase =
   'flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-body-medium font-body-medium transition-colors'
@@ -107,16 +107,6 @@ export default function Sidebar({ open, onClose }) {
         <div className="p-space-sm border-t border-outline-variant flex flex-col gap-space-xs shrink-0">
           {visibleFor(FOOTER_NAV, auth).map((item) => (
             <NavItem key={item.to} item={item} />
-          ))}
-          {visibleFor(LEGACY_LINKS, auth).map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={cn(itemBase, 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface')}
-            >
-              <ArrowUpRight size={18} strokeWidth={1.75} aria-hidden />
-              <span>{link.label}</span>
-            </NavLink>
           ))}
 
           <div className="flex items-center justify-between gap-space-sm p-space-sm mt-space-xs rounded-lg bg-surface-container-low">

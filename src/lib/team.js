@@ -16,7 +16,7 @@ export const WEEK_DAYS = [
   { key: '0', short: 'D', name: 'Domingo' },
 ]
 
-// Mismo horario por defecto que usaba el panel anterior
+// Horario por defecto de un barbero nuevo
 export const DEFAULT_SCHEDULE = {
   1: { isWorking: true, start: '10:00', end: '20:00' },
   2: { isWorking: true, start: '10:00', end: '20:00' },
