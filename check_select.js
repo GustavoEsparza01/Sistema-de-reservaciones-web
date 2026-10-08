@@ -14,14 +14,27 @@ const supabase = createClient(url, key)
 
 async function test() {
   const email = `test_${Date.now()}@test.com`
-  await supabase.auth.signUp({
+  const { data: authData } = await supabase.auth.signUp({
     email: email,
     password: 'password123',
   })
   
+  if (authData?.user) {
+    // Insert profile so we can read it
+    await supabase.from('profiles').insert([{
+      id: authData.user.id,
+      full_name: 'Test Columns',
+      phone: '12345678',
+      role: 'client'
+    }])
+  }
+
   const { data, error } = await supabase.from('profiles').select('*')
   console.log("Logged in - Error:", error)
   console.log("Logged in - Data count:", data?.length)
+  const { data: blockedData, error: blockedError } = await supabase.from('blocked_slots').select('*').limit(1)
+  console.log("Blocked slots table error:", blockedError)
+  console.log("Blocked slots table exists?", blockedError === null)
 }
 
 test()
