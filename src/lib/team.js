@@ -76,7 +76,8 @@ export function scheduleErrors(schedule) {
 export async function fetchTeam() {
   const now = new Date()
   const [barbers, admins, today] = await Promise.all([
-    supabase.from('barbers').select('id, profile_id, is_active, schedule, bio, profiles ( id, full_name, phone, role )'),
+    // '*' incluye photo_url cuando ya existe la columna (20261008_barber_photos.sql)
+    supabase.from('barbers').select('*, profiles ( id, full_name, phone, role )'),
     supabase.from('profiles').select('id, full_name, phone, role').eq('role', 'admin'),
     supabase
       .from('appointments')
@@ -101,6 +102,7 @@ export async function fetchTeam() {
       active: !!b.is_active,
       schedule: normalizeSchedule(b.schedule),
       bio: b.bio ?? '',
+      photo: b.photo_url ?? null,
     }
   })
 
@@ -118,6 +120,7 @@ export async function fetchTeam() {
       active: true,
       schedule: null,
       bio: '',
+      photo: null,
     })
   }
 
@@ -152,4 +155,47 @@ export async function setBarberActive(barberId, active) {
 export async function updateBarber(barberId, { schedule, bio }) {
   const { error } = await supabase.from('barbers').update({ schedule, bio: bio?.trim() || null }).eq('id', barberId)
   if (error) throw error
+}
+
+// Fotos de barberos: bucket público barber-photos (supabase/migrations/20261008_barber_photos.sql)
+const PHOTO_BUCKET = 'barber-photos'
+export const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+export const PHOTO_MAX_MB = 2
+
+/** Mensaje de error si el archivo no sirve como foto, o null. */
+export function photoFileError(file) {
+  if (!PHOTO_TYPES.includes(file.type)) return 'Usa una imagen JPG, PNG o WebP.'
+  if (file.size > PHOTO_MAX_MB * 1024 * 1024) return `La foto debe pesar menos de ${PHOTO_MAX_MB} MB.`
+  return null
+}
+
+// Ruta dentro del bucket a partir de la URL pública
+function photoPath(url) {
+  const marker = `/${PHOTO_BUCKET}/`
+  const i = url ? url.indexOf(marker) : -1
+  return i === -1 ? null : decodeURIComponent(url.slice(i + marker.length))
+}
+
+/**
+ * Cambia la foto del barbero: sube el archivo (o la quita si file es null),
+ * guarda la dirección y borra la foto anterior. Devuelve la dirección nueva.
+ */
+export async function setBarberPhoto(barberId, file, previousUrl) {
+  let url = null
+  if (file) {
+    const ext = file.type === 'image/jpeg' ? 'jpg' : file.type.split('/')[1]
+    // Nombre nuevo en cada cambio para que el navegador no muestre la foto vieja guardada en caché
+    const path = `${barberId}/${Date.now()}.${ext}`
+    const up = await supabase.storage.from(PHOTO_BUCKET).upload(path, file, { contentType: file.type })
+    if (up.error) throw up.error
+    url = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl
+  }
+
+  const { error } = await supabase.from('barbers').update({ photo_url: url }).eq('id', barberId)
+  if (error) throw error
+
+  // Si falla, solo queda un archivo sin usar en el bucket
+  const old = photoPath(previousUrl)
+  if (old) await supabase.storage.from(PHOTO_BUCKET).remove([old])
+  return url
 }

@@ -288,7 +288,7 @@ export default function Reservar() {
                   {catalog.barbers.map((b) => (
                     <Choice key={b.id} selected={barber?.id === b.id} onClick={() => update({ barbero: b.id, hora: '' }, 3)}>
                       <div className="flex items-center gap-space-sm">
-                        <Avatar name={b.name} size="lg" />
+                        <Avatar name={b.name} src={b.photo} size="lg" />
                         <div className="min-w-0">
                           <p className="font-body-semibold truncate">{b.name}</p>
                           {b.bio && <p className="text-body-sm text-on-surface-variant line-clamp-2">{b.bio}</p>}

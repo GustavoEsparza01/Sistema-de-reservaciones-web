@@ -108,7 +108,7 @@ export default function Negocio() {
             ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-48 w-full rounded-lg" />)
             : barbers.map((b) => (
                 <Card key={b.id} className="flex flex-col items-center text-center gap-space-sm">
-                  <Avatar name={b.name} size="lg" />
+                  <Avatar name={b.name} src={b.photo} className="!w-24 !h-24 !text-[30px]" />
                   <h3 className="font-body-semibold">{b.name}</h3>
                   <p className="text-body-sm text-on-surface-variant flex-1">{b.bio || 'Barbero de Peludos Barber Shop.'}</p>
                   <Button as={Link} to={`${base}/reservar?barbero=${b.id}`} variant="ghost" size="sm">

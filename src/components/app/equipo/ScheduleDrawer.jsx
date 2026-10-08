@@ -1,20 +1,85 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Camera, Trash2 } from 'lucide-react'
 import { Avatar, Button, Drawer, Select, Switch, Tabs, Textarea } from '../../ui'
 import { cn } from '../../../lib/cn'
 import { formatDuration } from '../../../lib/format'
 import {
-  BIO_MAX, SCHEDULE_TEMPLATES, WEEK_DAYS, scheduleErrors, toMinutes, weeklyMinutes,
+  BIO_MAX, PHOTO_MAX_MB, PHOTO_TYPES, SCHEDULE_TEMPLATES, WEEK_DAYS,
+  photoFileError, scheduleErrors, toMinutes, weeklyMinutes,
 } from '../../../lib/team'
 
 const timeClasses =
   'h-9 w-[132px] rounded-lg border bg-surface-container-lowest px-2 text-body-default tabular-nums text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20'
 
-/** Panel para editar el horario semanal y la biografía pública de un barbero. */
+/**
+ * Foto pública del barbero. value: undefined = la guardada (current), null = sin foto, File = nueva.
+ * La foto nueva solo se previsualiza aquí; se sube al pulsar "Guardar cambios".
+ */
+function PhotoPicker({ name, current, value, onChange }) {
+  const inputRef = useRef(null)
+  const [error, setError] = useState(null)
+  const [preview, setPreview] = useState(null)
+
+  useEffect(() => {
+    if (!(value instanceof File)) {
+      setPreview(null)
+      return
+    }
+    const url = URL.createObjectURL(value)
+    setPreview(url)
+    return () => URL.revokeObjectURL(url)
+  }, [value])
+
+  const shown = value === undefined ? current : preview
+
+  function pick(file) {
+    if (!file) return
+    const problem = photoFileError(file)
+    setError(problem)
+    if (!problem) onChange(file)
+  }
+
+  // Quitar: si había una guardada se marca para borrar; si era una nueva, se vuelve a la guardada
+  function remove() {
+    setError(null)
+    onChange(value instanceof File ? undefined : null)
+  }
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="font-body-semibold text-body-sm">Foto</span>
+      <div className="flex items-center gap-space-md">
+        <Avatar name={name} src={shown} className="!w-20 !h-20 !text-[26px]" />
+        <div className="flex flex-col items-start gap-1">
+          <div className="flex gap-1">
+            <Button variant="secondary" size="sm" icon={Camera} onClick={() => inputRef.current?.click()}>
+              {shown ? 'Cambiar foto' : 'Subir foto'}
+            </Button>
+            {shown && <Button variant="ghost" size="icon-sm" icon={Trash2} aria-label="Quitar foto" onClick={remove} />}
+          </div>
+          <span className="text-[12px] text-on-surface-variant">JPG, PNG o WebP · máx. {PHOTO_MAX_MB} MB · de preferencia cuadrada</span>
+        </div>
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept={PHOTO_TYPES.join(',')}
+        className="hidden"
+        onChange={(e) => { pick(e.target.files?.[0]); e.target.value = '' }}
+      />
+      {error && <p className="text-body-sm text-error">{error}</p>}
+      <p className="text-body-sm text-on-surface-variant">Los clientes la verán en la página del negocio y al elegir barbero.</p>
+    </div>
+  )
+}
+
+/** Panel para editar el horario semanal, la foto y la biografía pública de un barbero. */
 export default function ScheduleDrawer({ member, saving, onClose, onSave }) {
   const [tab, setTab] = useState('horario')
   const [schedule, setSchedule] = useState(null)
   const [bio, setBio] = useState('')
   const [template, setTemplate] = useState('')
+  const [photo, setPhoto] = useState(undefined)
 
   useEffect(() => {
     if (!member) return
@@ -22,6 +87,7 @@ export default function ScheduleDrawer({ member, saving, onClose, onSave }) {
     setBio(member.bio ?? '')
     setTab('horario')
     setTemplate('')
+    setPhoto(undefined)
   }, [member])
 
   if (!member || !schedule) return <Drawer open={false} onClose={onClose} title="" />
@@ -53,13 +119,13 @@ export default function ScheduleDrawer({ member, saving, onClose, onSave }) {
       footer={
         <>
           <Button variant="secondary" onClick={onClose} disabled={saving}>Cancelar</Button>
-          <Button loading={saving} disabled={invalid} onClick={() => onSave({ schedule, bio })}>Guardar cambios</Button>
+          <Button loading={saving} disabled={invalid} onClick={() => onSave({ schedule, bio, photo })}>Guardar cambios</Button>
         </>
       }
     >
       <div className="flex flex-col gap-space-lg">
         <div className="flex items-center gap-space-md">
-          <Avatar name={member.name} size="lg" />
+          <Avatar name={member.name} src={member.photo} size="lg" />
           <div className="min-w-0">
             <p className="font-body-semibold text-on-surface truncate">{member.name}</p>
             {member.phone && <p className="text-body-sm text-on-surface-variant tabular-nums">{member.phone}</p>}
@@ -138,16 +204,19 @@ export default function ScheduleDrawer({ member, saving, onClose, onSave }) {
             </p>
           </div>
         ) : (
-          <Textarea
-            label="Biografía pública"
-            hint="Los clientes la verán al elegir barbero."
-            placeholder="Especialidades, experiencia, estilo de trabajo…"
-            rows={6}
-            maxLength={BIO_MAX}
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            error={bio.length > BIO_MAX ? `Máximo ${BIO_MAX} caracteres.` : undefined}
-          />
+          <div className="flex flex-col gap-space-lg">
+            <PhotoPicker name={member.name} current={member.photo} value={photo} onChange={setPhoto} />
+            <Textarea
+              label="Biografía pública"
+              hint="Los clientes la verán al elegir barbero."
+              placeholder="Especialidades, experiencia, estilo de trabajo…"
+              rows={6}
+              maxLength={BIO_MAX}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              error={bio.length > BIO_MAX ? `Máximo ${BIO_MAX} caracteres.` : undefined}
+            />
+          </div>
         )}
       </div>
     </Drawer>

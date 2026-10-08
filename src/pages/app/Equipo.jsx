@@ -1,7 +1,7 @@
 // Pantalla Equipo del administrador (design/stitch/05-equipo).
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CalendarClock, CircleAlert, Clock, Gauge, RefreshCw, Search, UserPlus, Users } from 'lucide-react'
-import { addBarber, fetchTeam, setBarberActive, updateBarber, weeklyMinutes, WEEK_DAYS } from '../../lib/team'
+import { addBarber, fetchTeam, setBarberActive, setBarberPhoto, updateBarber, weeklyMinutes, WEEK_DAYS } from '../../lib/team'
 import { teamOccupancy } from '../../lib/resumenStats'
 import { formatDuration } from '../../lib/format'
 import { cn } from '../../lib/cn'
@@ -90,15 +90,17 @@ export default function Equipo() {
       .filter((m) => !q || m.name.toLowerCase().includes(q) || m.phone?.includes(q))
   }, [members, tab, search])
 
-  async function saveSchedule(values) {
+  // photo: undefined = sin cambios, null = quitar la foto, File = foto nueva
+  async function saveSchedule({ photo, ...values }) {
     setSavingSchedule(true)
     try {
       await updateBarber(editing.barberId, values)
-      toast({ title: 'Horario guardado', description: editing.name })
+      if (photo !== undefined) await setBarberPhoto(editing.barberId, photo, editing.photo)
+      toast({ title: 'Cambios guardados', description: editing.name })
       setEditing(null)
       await load({ silent: true })
     } catch (err) {
-      toast({ tone: 'error', title: 'No se pudo guardar el horario', description: err.message })
+      toast({ tone: 'error', title: 'No se pudieron guardar los cambios', description: err.message })
     } finally {
       setSavingSchedule(false)
     }
@@ -141,7 +143,7 @@ export default function Equipo() {
       header: 'Miembro',
       render: (m) => (
         <div className="flex items-center gap-space-sm min-w-[180px]">
-          <Avatar name={m.name} size="sm" />
+          <Avatar name={m.name} src={m.photo} size="sm" />
           <span className="font-body-medium truncate">{m.name}</span>
         </div>
       ),

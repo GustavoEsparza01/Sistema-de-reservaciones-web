@@ -20,25 +20,35 @@ export async function fetchPublicServices() {
 }
 
 /**
- * Barberos activos con nombre, biografía y horario.
+ * Barberos activos con nombre, biografía, horario y foto.
  * Usa la vista public_barbers (supabase/migrations/20261007_public_barbers_view.sql)
  * para que los visitantes sin sesión vean los nombres. Si la vista aún no existe,
  * lee la tabla barbers (los nombres solo llegan si hay sesión).
+ * Se pide '*' para que funcione antes y después de agregar photo_url
+ * (supabase/migrations/20261008_barber_photos.sql).
  */
 export async function fetchPublicBarbers() {
-  const view = await supabase.from('public_barbers').select('id, full_name, bio, schedule')
+  const toBarber = (b, name) => ({
+    id: b.id,
+    name: name ?? 'Barbero',
+    bio: b.bio ?? '',
+    schedule: b.schedule ?? {},
+    photo: b.photo_url ?? null,
+  })
+
+  const view = await supabase.from('public_barbers').select('*')
   if (!view.error) {
     return view.data
-      .map((b) => ({ id: b.id, name: b.full_name ?? 'Barbero', bio: b.bio ?? '', schedule: b.schedule ?? {} }))
+      .map((b) => toBarber(b, b.full_name))
       .sort((x, y) => x.name.localeCompare(y.name, 'es'))
   }
 
   const { data, error } = await supabase
     .from('barbers')
-    .select('id, bio, schedule, profiles ( full_name )')
+    .select('*, profiles ( full_name )')
     .eq('is_active', true)
   if (error) throw error
   return data
-    .map((b) => ({ id: b.id, name: one(b.profiles)?.full_name ?? 'Barbero', bio: b.bio ?? '', schedule: b.schedule ?? {} }))
+    .map((b) => toBarber(b, one(b.profiles)?.full_name))
     .sort((x, y) => x.name.localeCompare(y.name, 'es'))
 }
