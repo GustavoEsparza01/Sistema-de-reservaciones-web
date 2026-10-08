@@ -241,7 +241,7 @@ Se revisan al construir cada pantalla; mientras no existan, se muestran ocultos 
 |---|---|---|
 | **0. Preparación** ✅ | Limpieza, pantallas de Stitch, Tailwind, iconos y este plan | Este documento está en `saas-redesign` |
 | **1. Base** ✅ | Componentes `ui/`, `AppLayout`, `RequireAuth`, router nuevo con redirecciones y la pantalla Resumen (01) | `/app/resumen` funciona con datos reales y el resto de la app sigue funcionando |
-| **2. Panel admin** | Pantallas 02–08 | El admin ya no necesita `/admin` |
+| **2. Panel admin** ✅ | Pantallas 02–08 | El admin ya no necesita `/admin` |
 | **3. Barbero** | Pantalla 09 | `/barber-agenda` solo redirige |
 | **4. Cliente** | `PortalLayout` y pantallas 10–13 | Se puede reservar de principio a fin en `/peludos` |
 | **5. SaaS** | Migración de la sección 6, login/registro (14), onboarding (15) y landing (16) | Se puede dar de alta un segundo negocio y sus datos no se mezclan con los de Peludos |
