@@ -134,7 +134,7 @@ src/
     portal/           Negocio, Reservar, MisCitas, DetalleCita, Perfil
     auth/             Login, Registro, Onboarding
     Landing.jsx
-  hooks/              se conservan y amplían (useAppointments, useBarbers, useServices, useAuth)
+  hooks/              useResumenData, useBusiness (los hooks viejos estaban vacíos)
   context/            AuthContext (+ BusinessContext en Fase 4/5)
   lib/ utils/         sin cambios
 ```
@@ -147,7 +147,7 @@ Las páginas y componentes viejos se borran cuando su reemplazo esté terminado,
 |---|---|
 | `lib/supabaseClient.js` | Igual |
 | `context/AuthContext.jsx` | Igual; se le agrega la redirección por rol |
-| `hooks/useAppointments.js`, `useBarbers.js`, `useServices.js` | Se reutilizan las consultas; se agregan filtros (rango de fechas, estado, barbero) y paginación |
+| `hooks/useAppointments.js`, `useBarbers.js`, `useServices.js`, `useAuth.js` | Estaban vacíos (0 bytes). Las consultas nuevas viven en `lib/appointments.js` y en un hook por pantalla; los archivos vacíos se borran en el cierre |
 | `utils/overlapCheck.js`, `utils/dateHelpers.js` | Igual (validación de horarios y formato de fechas) |
 | Lógica de `BookAppointment.jsx` | Cálculo de horarios libres, inserción en `appointments` y `appointment_services` |
 | `components/admin/ReportChart.jsx` (recharts) y exportación PDF (jspdf) | Se reutiliza la lógica; se rehace la parte visual |
@@ -208,6 +208,7 @@ Una sola barbería implícita. Tablas: `profiles` (con `role` global: `client`, 
    - Lectura pública de `businesses`, `services` y `barbers` activos (para la página pública y la reserva).
    - El personal solo lee y modifica filas de los negocios donde es miembro.
    - Un cliente solo ve sus propias citas (`client_id = auth.uid()`).
+   - **Hallazgo de la Fase 1:** hoy la tabla `appointments` se puede leer sin sesión (fechas, estados y notas; los nombres y teléfonos no, porque `profiles` sí está protegida). La reserva necesita saber qué horarios están ocupados, así que exponerlo con una vista o función que solo devuelva `barber_id`, `scheduled_at` y `ends_at`, y cerrar la lectura directa.
 
 ### Migración de los datos actuales
 
@@ -239,7 +240,7 @@ Se revisan al construir cada pantalla; mientras no existan, se muestran ocultos 
 | Fase | Contenido | Terminada cuando… |
 |---|---|---|
 | **0. Preparación** ✅ | Limpieza, pantallas de Stitch, Tailwind, iconos y este plan | Este documento está en `saas-redesign` |
-| **1. Base** | Componentes `ui/`, `AppLayout`, `RequireAuth`, router nuevo con redirecciones y la pantalla Resumen (01) | `/app/resumen` funciona con datos reales y el resto de la app sigue funcionando |
+| **1. Base** ✅ | Componentes `ui/`, `AppLayout`, `RequireAuth`, router nuevo con redirecciones y la pantalla Resumen (01) | `/app/resumen` funciona con datos reales y el resto de la app sigue funcionando |
 | **2. Panel admin** | Pantallas 02–08 | El admin ya no necesita `/admin` |
 | **3. Barbero** | Pantalla 09 | `/barber-agenda` solo redirige |
 | **4. Cliente** | `PortalLayout` y pantallas 10–13 | Se puede reservar de principio a fin en `/peludos` |
