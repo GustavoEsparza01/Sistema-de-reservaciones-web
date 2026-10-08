@@ -11,7 +11,7 @@ import {
 export const MAIN_NAV = [
   { to: '/app/resumen',   label: 'Resumen',   icon: LayoutDashboard, roles: ['admin'],  ready: true  },
   { to: '/app/agenda',    label: 'Agenda',    icon: Calendar,        roles: ['admin'],  ready: false },
-  { to: '/app/citas',     label: 'Citas',     icon: ClipboardList,   roles: ['admin'],  ready: false },
+  { to: '/app/citas',     label: 'Citas',     icon: ClipboardList,   roles: ['admin'],  ready: true  },
   { to: '/app/clientes',  label: 'Clientes',  icon: Users,           roles: ['admin'],  ready: false },
   { to: '/app/equipo',    label: 'Equipo',    icon: IdCard,          roles: ['admin'],  ready: false },
   { to: '/app/servicios', label: 'Servicios', icon: Scissors,        roles: ['admin'],  ready: false },

@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom'
 import { CircleCheckBig } from 'lucide-react'
 import { Avatar, Card, CardHeader, EmptyState, Skeleton } from '../../ui'
 import { formatDayMonth, formatRelative, formatTime } from '../../../lib/format'
 import { isToday } from 'date-fns'
-import AppointmentActions from './AppointmentActions'
+import AppointmentActions from '../appointments/AppointmentActions'
 
 /** Próximas citas pendientes de confirmar. */
 export default function PendingList({ items, total, loading, busyId, onOpen, onChangeStatus, onRequestCancel }) {
@@ -57,9 +58,9 @@ export default function PendingList({ items, total, loading, busyId, onOpen, onC
       )}
 
       {!loading && total > items.length && (
-        <p className="text-body-sm text-on-surface-variant">
-          y {total - items.length} más. Se podrán ver todas en Citas.
-        </p>
+        <Link to="/app/citas?estado=pending" className="text-body-sm font-body-medium text-primary hover:underline">
+          Ver las {total} pendientes
+        </Link>
       )}
     </Card>
   )

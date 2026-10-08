@@ -13,8 +13,8 @@ import { PERIODS, cancellationStats, periodStats, teamOccupancy } from '../../li
 import {
   Avatar, Button, Card, CardHeader, EmptyState, KpiCard, Modal, Select, StatusBadge, Table, useToast,
 } from '../../components/ui'
-import AppointmentActions from '../../components/app/resumen/AppointmentActions'
-import AppointmentDrawer from '../../components/app/resumen/AppointmentDrawer'
+import AppointmentActions from '../../components/app/appointments/AppointmentActions'
+import AppointmentDrawer from '../../components/app/appointments/AppointmentDrawer'
 import PendingList from '../../components/app/resumen/PendingList'
 import RevenueChart from '../../components/app/resumen/RevenueChart'
 import TeamOccupancy from '../../components/app/resumen/TeamOccupancy'
@@ -232,8 +232,8 @@ export default function Resumen() {
               {!data.loading && stats.list.length > TABLE_LIMIT && (
                 <div className="px-5 py-3 border-t border-outline-variant flex flex-wrap items-center justify-between gap-space-sm text-body-sm text-on-surface-variant">
                   <span>Mostrando {TABLE_LIMIT} de {stats.list.length} citas</span>
-                  <Link to="/anterior/admin" className="font-body-medium text-primary hover:underline">
-                    Ver todas en el panel anterior
+                  <Link to="/app/citas" className="font-body-medium text-primary hover:underline">
+                    Ver todas las citas
                   </Link>
                 </div>
               )}
