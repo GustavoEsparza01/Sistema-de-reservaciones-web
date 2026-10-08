@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { cn } from '../../lib/cn'
 
 /** Interruptor de encendido/apagado con etiqueta y descripción opcional. */
-export default function Switch({ checked, onChange, label, description, disabled, className }) {
+export default function Switch({ checked, onChange, label, description, disabled, className, 'aria-label': ariaLabel }) {
   const id = useId()
   return (
     <div className={cn('flex items-start justify-between gap-space-md', className)}>
@@ -17,6 +17,7 @@ export default function Switch({ checked, onChange, label, description, disabled
         type="button"
         role="switch"
         aria-checked={!!checked}
+        aria-label={label ? undefined : ariaLabel}
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(

@@ -20,6 +20,7 @@ import BarberAgenda      from './pages/barber/BarberAgenda'
 import Resumen           from './pages/app/Resumen'
 import Citas             from './pages/app/Citas'
 import Servicios         from './pages/app/Servicios'
+import Equipo            from './pages/app/Equipo'
 
 // El Navbar viejo solo se muestra en las páginas que aún no se rediseñan
 function LegacyNavbar() {
@@ -66,6 +67,7 @@ export default function App() {
                   <Route path="resumen" element={<Resumen />} />
                   <Route path="citas" element={<Citas />} />
                   <Route path="servicios" element={<Servicios />} />
+                  <Route path="equipo" element={<Equipo />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/app" replace />} />
               </Route>
