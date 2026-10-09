@@ -1,10 +1,10 @@
 // Flujo de reserva del cliente (design/stitch/11-reserva): servicio → barbero → fecha y hora → confirmar.
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { addDays, format, isToday, parseISO, startOfDay, endOfDay, isTomorrow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import {
-  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, ChevronUp, CircleAlert, Clock, LogIn, MapPin,
+  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, ChevronUp, CircleAlert, Clock, LogIn, MapPin, RotateCw,
   Scissors, Sun, Sunset, Timer, User, Users,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -16,13 +16,14 @@ import { createAppointment, normalizeAppointment } from '../../lib/appointments'
 import { availableSlots, shiftFor, toMinutes } from '../../lib/availability'
 import { formatDateLong, formatDuration, formatMoneyMXN } from '../../lib/format'
 import { cn } from '../../lib/cn'
-import { Avatar, Button, EmptyState, Skeleton, Spinner, Textarea, useToast } from '../../components/ui'
+import { Avatar, Button, EmptyState, Textarea, useToast } from '../../components/ui'
 import PortalCard from '../../components/portal/PortalCard'
 
 const ANY = 'cualquiera'
 const DAYS_AHEAD = 30
 const STEPS = ['Servicio', 'Barbero', 'Fecha y hora', 'Confirmar']
 const noDots = (s) => s.replace(/\./g, '')
+const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 /** Citas (no canceladas) de todos los barberos en un día. */
 async function fetchDayAppointments(date) {
@@ -207,18 +208,33 @@ export default function Reservar() {
       },
       { replace: false }
     )
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
   }
 
-  // Citas del día elegido para calcular horarios libres
+  // Al cambiar de paso, el foco va al título del paso nuevo (teclado y lector de pantalla).
+  // En la primera carga no se mueve el foco.
+  const stepHeading = useRef(null)
+  const firstStep = useRef(true)
+  useEffect(() => {
+    if (firstStep.current) { firstStep.current = false; return }
+    stepHeading.current?.focus({ preventScroll: true })
+  }, [step])
+
+  // Citas del día elegido para calcular horarios libres. Si la consulta falla
+  // no se muestran horarios (serían falsos): se avisa y se ofrece reintentar.
+  const [dayError, setDayError] = useState(false)
+  const [dayRetry, setDayRetry] = useState(0)
   useEffect(() => {
     if (!date) return
     let alive = true
     setDayAppointments(null)
-    fetchDayAppointments(date).then((r) => alive && setDayAppointments(r)).catch(() => alive && setDayAppointments([]))
+    setDayError(false)
+    fetchDayAppointments(date)
+      .then((r) => alive && setDayAppointments(r))
+      .catch(() => alive && setDayError(true))
     return () => { alive = false }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.get('fecha')])
+  }, [params.get('fecha'), dayRetry])
 
   const candidates = barber ? [barber] : catalog.barbers
 
@@ -238,7 +254,13 @@ export default function Reservar() {
 
   const assigned = time && slotMap ? slotMap.get(time) ?? null : null
   const days = Array.from({ length: DAYS_AHEAD }, (_, i) => addDays(startOfDay(new Date()), i))
-  const worksOn = (d) => candidates.some((b) => shiftFor(b.schedule, d))
+  // Un día se puede elegir si algún barbero trabaja y aún cabe el servicio
+  // (hoy puede quedar sin tiempo aunque sea día laboral)
+  const worksOn = (d) =>
+    candidates.some((b) =>
+      shiftFor(b.schedule, d) &&
+      (!service || availableSlots({ schedule: b.schedule, date: d, duration: service.duration, appointments: [] }).length > 0)
+    )
 
   async function confirm() {
     if (!assigned || !session) return
@@ -256,7 +278,7 @@ export default function Reservar() {
       setSubmitError(taken ? 'Ese horario se acaba de ocupar. Elige otro, por favor.' : 'No se pudo registrar tu cita. Inténtalo de nuevo.')
       if (taken) {
         update({ hora: '' }, 3)
-        setDayAppointments(await fetchDayAppointments(date).catch(() => []))
+        setDayRetry((n) => n + 1)
       }
       toast({ tone: 'error', title: 'No se pudo reservar', description: taken ? 'El horario ya no está disponible.' : err.message })
     } finally {
@@ -335,6 +357,8 @@ export default function Reservar() {
           <p className="text-body-default text-ink/70">{business.name} · {business.city}</p>
         </div>
         <Stepper step={step} />
+        {/* Anuncia el paso actual al lector de pantalla */}
+        <p className="sr-only" aria-live="polite">Paso {step} de {STEPS.length}: {STEPS[step - 1]}</p>
       </header>
 
       {catalog.error ? (
@@ -346,9 +370,9 @@ export default function Reservar() {
             {/* Paso 1: servicio */}
             {step === 1 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-display text-[22px] font-semibold text-ink">1. Selecciona tu servicio</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">1. Selecciona tu servicio</h2>
                 {catalog.loading ? (
-                  [0, 1, 2].map((i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+                  [0, 1, 2].map((i) => <div key={i} className="h-24 w-full rounded-xl bg-ink/10 animate-pulse" aria-hidden />)
                 ) : (
                   <div className="grid gap-space-sm">
                     {catalog.services.map((s) => (
@@ -371,7 +395,7 @@ export default function Reservar() {
             {/* Paso 2: barbero */}
             {step === 2 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-display text-[22px] font-semibold text-ink">2. Elige a tu barbero</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">2. Elige a tu barbero</h2>
                 <div className="grid sm:grid-cols-2 gap-space-sm">
                   <Choice selected={barberParam === ANY} onClick={() => update({ barbero: ANY, hora: '' }, 3)}>
                     <div className="flex items-center gap-space-sm">
@@ -400,7 +424,7 @@ export default function Reservar() {
             {/* Paso 3: fecha y hora */}
             {step === 3 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-display text-[22px] font-semibold text-ink">3. Selecciona fecha y hora</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">3. Selecciona fecha y hora</h2>
                 <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1" role="radiogroup" aria-label="Fecha">
                   {days.map((d) => {
                     const available = worksOn(d)
@@ -431,14 +455,33 @@ export default function Reservar() {
 
                 {!date ? (
                   <p className="text-body-sm text-ink/70">Elige un día para ver los horarios disponibles.</p>
+                ) : dayError ? (
+                  <PortalCard role="alert">
+                    <EmptyState
+                      icon={CircleAlert}
+                      title="No pudimos cargar los horarios"
+                      description="Revisa tu conexión e inténtalo de nuevo. Tu selección se conserva."
+                      action={<Button variant="outline-dark" icon={RotateCw} onClick={() => setDayRetry((n) => n + 1)}>Reintentar</Button>}
+                    />
+                  </PortalCard>
                 ) : slotMap == null ? (
-                  <div className="py-space-lg flex justify-center text-ink/70"><Spinner /></div>
+                  // Mismo acomodo que los horarios, para que no salte la pantalla al cargar
+                  <div className="flex flex-col gap-space-sm" aria-busy="true">
+                    <span className="sr-only" role="status">Cargando horarios disponibles…</span>
+                    <div className="h-4 w-24 rounded bg-ink/10 animate-pulse" />
+                    <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-1.5">
+                      {Array.from({ length: 9 }, (_, i) => <div key={i} className="h-10 rounded-lg bg-ink/10 animate-pulse" />)}
+                    </div>
+                  </div>
                 ) : slotMap.size === 0 ? (
                   <PortalCard>
                     <EmptyState
                       icon={Clock}
                       title="No quedan horarios este día"
-                      description={barber ? `Prueba otro día o elige "Cualquier barbero".` : 'Prueba con otro día.'}
+                      description={barber ? `${barber.name} ya no tiene lugar. Prueba otro día o con cualquier barbero.` : 'Prueba con otro día.'}
+                      action={barber && (
+                        <Button variant="outline-dark" icon={Users} onClick={() => update({ barbero: ANY, hora: '' })}>Ver con cualquier barbero</Button>
+                      )}
                     />
                   </PortalCard>
                 ) : (
@@ -475,7 +518,7 @@ export default function Reservar() {
             {/* Paso 4: confirmar */}
             {step === 4 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-display text-[22px] font-semibold text-ink">4. Revisa y confirma tu cita</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">4. Revisa y confirma tu cita</h2>
                 {/* En celular el resumen se revisa aquí, antes de confirmar */}
                 <div className="lg:hidden">
                   <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)} />
@@ -517,7 +560,17 @@ export default function Reservar() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                     />
-                    {!assigned && slotMap && (
+                    {/* Por qué "Confirmar" aún no está activo */}
+                    {dayError ? (
+                      <div role="alert" className="flex flex-wrap items-center gap-space-sm text-body-sm text-error bg-error-container rounded-lg px-3 py-2">
+                        <span className="flex-1 min-w-[12rem]">No pudimos comprobar que el horario siga libre.</span>
+                        <button type="button" onClick={() => setDayRetry((n) => n + 1)} className="inline-flex items-center gap-1 font-body-semibold underline underline-offset-2">
+                          <RotateCw size={14} strokeWidth={1.75} aria-hidden /> Reintentar
+                        </button>
+                      </div>
+                    ) : slotMap == null ? (
+                      <p role="status" className="text-body-sm text-ink/70">Comprobando que el horario siga libre…</p>
+                    ) : !assigned && (
                       <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">Ese horario ya no está disponible. Elige otro.</p>
                     )}
                     {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
