@@ -121,6 +121,11 @@ export default {
         'badge-label': ['12px', { lineHeight: '16px', fontWeight: '500' }],
         'numeric-metric': ['28px', { lineHeight: '36px', letterSpacing: '-0.02em', fontWeight: '600' }],
       },
+      // ease-out fuerte para respuestas de la interfaz (presionar, abrir, entrar);
+      // las curvas de CSS por defecto se sienten blandas
+      transitionTimingFunction: {
+        'out-strong': 'cubic-bezier(0.23, 1, 0.32, 1)',
+      },
       // Igual que en las exportaciones de Stitch (no como en DESIGN.md)
       borderRadius: {
         DEFAULT: '0.25rem',

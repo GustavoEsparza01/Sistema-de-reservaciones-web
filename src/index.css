@@ -81,6 +81,18 @@
   animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   animation-delay: var(--enter-delay, 0ms);
 }
+
+/* Paso de la reserva: al avanzar entra desde la derecha, con "Atrás" desde la
+   izquierda. Corto (260 ms) porque lo provoca el usuario y lo ve varias veces. */
+@keyframes step-in-next {
+  from { opacity: 0; transform: translateX(24px); }
+}
+@keyframes step-in-back {
+  from { opacity: 0; transform: translateX(-24px); }
+}
+.step-enter-next { animation: step-in-next 260ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.step-enter-back { animation: step-in-back 260ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+
 /* Foto del hero del portal: se acerca apenas al cargar y se queda quieta */
 @keyframes settle {
   from { opacity: 0; transform: scale(1.06); }

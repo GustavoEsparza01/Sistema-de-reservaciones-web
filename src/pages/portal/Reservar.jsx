@@ -23,7 +23,6 @@ const ANY = 'cualquiera'
 const DAYS_AHEAD = 30
 const STEPS = ['Servicio', 'Barbero', 'Fecha y hora', 'Confirmar']
 const noDots = (s) => s.replace(/\./g, '')
-const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 /** Flechas, Inicio y Fin mueven el foco entre los radios habilitados del grupo (no eligen). */
 function moveAmongRadios(e) {
@@ -138,7 +137,10 @@ function Stepper({ step }) {
         const current = n === step
         return (
           <li key={label} className="flex flex-col gap-1.5" aria-current={current ? 'step' : undefined}>
-            <div className={cn('h-1 rounded-full transition-colors duration-300', done || current ? 'bg-gold' : 'bg-ink/10')} />
+            {/* El dorado crece hacia la derecha al avanzar y se recoge al regresar */}
+            <div className="h-1 rounded-full bg-ink/10 overflow-hidden">
+              <div className={cn('h-full bg-gold origin-left transition-transform duration-[250ms] ease-out-strong', done || current ? 'scale-x-100' : 'scale-x-0')} />
+            </div>
             <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-ink' : 'text-ink/60')}>
               {done && <Check size={12} strokeWidth={2.5} aria-hidden />}
               {label}
@@ -158,7 +160,7 @@ function Choice({ selected, onClick, children, className }) {
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'group w-full text-left rounded-xl border p-space-md transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+        'group w-full text-left rounded-xl border p-space-md transition-[transform,box-shadow,border-color,background-color] duration-150 ease-out-strong active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
         selected ? 'border-ink bg-ink text-white' : 'border-ink/10 bg-white hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-18px_rgba(15,15,16,0.35)]',
         className
       )}
@@ -239,7 +241,7 @@ function MobileSummaryBar({ rows, step, total, onEdit, action }) {
   return (
     <div className="lg:hidden sticky bottom-0 z-30 mt-auto -mx-margin-mobile md:-mx-margin -mb-space-xl">
       <div className="bg-ink text-white border-t border-ink-line shadow-[0_-16px_32px_-16px_rgba(15,15,16,0.55)]">
-        <div id="resumen-movil" className={cn('grid transition-[grid-template-rows] duration-300 ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
+        <div id="resumen-movil" className={cn('grid transition-[grid-template-rows] duration-[250ms] ease-out-strong',open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
           <div className="overflow-hidden" inert={open ? undefined : ''}>
             <div className="px-margin-mobile md:px-margin pt-space-md pb-space-sm border-b border-dashed border-ink-line">
               <SummaryRows rows={rows} step={step} onEdit={(s) => { setOpen(false); onEdit(s) }} />
@@ -257,7 +259,7 @@ function MobileSummaryBar({ rows, step, total, onEdit, action }) {
             {/* Con botón a la derecha hay menos espacio: solo "Paso N de 4" */}
             <span className="flex items-center gap-1 text-[12px] text-ink-muted min-w-0">
               <span className="truncate">Paso {step} de {STEPS.length}{!action && <> · {open ? 'Ocultar' : 'Ver'} resumen</>}</span>
-              <ChevronUp size={14} strokeWidth={1.75} className={cn('shrink-0 transition-transform duration-300', !open && 'rotate-180')} aria-hidden />
+              <ChevronUp size={14} strokeWidth={1.75} className={cn('shrink-0 transition-transform duration-[250ms] ease-out-strong', !open && 'rotate-180')} aria-hidden />
               {action && <span className="sr-only">{open ? 'Ocultar' : 'Ver'} resumen</span>}
             </span>
             {/* Con botón, la segunda línea es el total (no cabe todo a 320 px); sin botón, lo elegido */}
@@ -333,8 +335,18 @@ export default function Reservar() {
       },
       { replace: false }
     )
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+    // Solo al cambiar de paso, y sin scroll suave: el paso nuevo ya entra deslizándose
+    // de lado y las dos animaciones juntas se veían en diagonal. Elegir un día no mueve la página.
+    if (nextStep || 'paso' in changes) window.scrollTo({ top: 0, behavior: 'auto' })
   }
+
+  // Dirección de la entrada del paso: hacia adelante desde la derecha, hacia atrás desde
+  // la izquierda (también con el botón Atrás del navegador, porque el paso vive en la URL).
+  // Solo cambia cuando cambia el paso, para no reiniciar la animación al elegir un día.
+  const shownStep = useRef(step)
+  const stepDirection = useRef('next')
+  if (step !== shownStep.current) stepDirection.current = step < shownStep.current ? 'back' : 'next'
+  useEffect(() => { shownStep.current = step }, [step])
 
   // Al cambiar de paso, el foco va al título del paso nuevo (teclado y lector de pantalla).
   // En la primera carga no se mueve el foco.
@@ -527,8 +539,8 @@ export default function Reservar() {
         <PortalCard><EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." /></PortalCard>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-gutter items-start">
-          {/* key={step}: cada paso entra con animación */}
-          <div key={step} className="animate-enter flex flex-col gap-space-lg min-w-0">
+          {/* key={step}: cada paso entra con animación, del lado que corresponde */}
+          <div key={step} className={cn(stepDirection.current === 'back' ? 'step-enter-back' : 'step-enter-next', 'flex flex-col gap-space-lg min-w-0')}>
             {/* Paso 1: servicio */}
             {step === 1 && (
               <section className="flex flex-col gap-space-md">
@@ -621,7 +633,7 @@ export default function Reservar() {
                         disabled={!available}
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
-                          'snap-start shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+                          'snap-start shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-[transform,border-color,background-color] duration-150 ease-out-strong enabled:active:scale-[0.95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
                           selected ? 'bg-ink border-ink text-white' : 'bg-white border-ink/10 hover:border-gold hover:-translate-y-0.5',
                           !available && 'opacity-40 cursor-not-allowed hover:border-ink/10 hover:translate-y-0'
                         )}
@@ -695,7 +707,7 @@ export default function Reservar() {
                                 tabIndex={s === tabbableSlot ? 0 : -1}
                                 onClick={() => update({ hora: s }, 4)}
                                 className={cn(
-                                  'h-11 rounded-lg border text-body-sm font-body-medium tabular-nums transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+                                  'h-11 rounded-lg border text-body-sm font-body-medium tabular-nums transition-[transform,border-color,background-color,color] duration-150 ease-out-strong active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
                                   time === s ? 'bg-ink border-ink text-gold-light' : 'bg-white border-ink/10 hover:border-gold hover:text-gold-deep hover:-translate-y-0.5'
                                 )}
                               >

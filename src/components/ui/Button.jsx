@@ -53,7 +53,7 @@ const Button = forwardRef(function Button(
       disabled={Comp === 'button' ? isDisabled : undefined}
       aria-disabled={isDisabled || undefined}
       className={cn(
-        'inline-flex items-center rounded-lg font-body-medium whitespace-nowrap transition-all duration-200 active:scale-[0.97]',
+        'inline-flex items-center rounded-lg font-body-medium whitespace-nowrap transition-[transform,background-color,border-color,color,box-shadow,opacity] duration-150 ease-out-strong active:scale-[0.97]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:pointer-events-none',
         VARIANTS[variant],
