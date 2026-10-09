@@ -12,10 +12,126 @@
   }
 }
 
+/* ── Movimiento del estilo premium (landing y portal público) ─────────── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(60px, -40px) scale(1.12); }
+  66%      { transform: translate(-40px, 30px) scale(0.92); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes shine {
+  from { left: -75%; }
+  to   { left: 125%; }
+}
+@keyframes pulse-gold {
+  0%   { box-shadow: 0 0 0 0 rgba(201, 164, 92, 0.55); }
+  100% { box-shadow: 0 0 0 16px rgba(201, 164, 92, 0); }
+}
+@keyframes barber-pole {
+  to { background-position: 40px 0; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Entrada al cargar: style={{ '--enter-delay': '120ms' }} para escalonar */
+.animate-enter {
+  opacity: 0;
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-drift { animation: drift 18s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 24s linear infinite; }
+.animate-pulse-gold { animation: pulse-gold 2s ease-out infinite; }
+
+/* Aparición al hacer scroll (componente <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-from='left']  { transform: translateX(-40px); }
+.reveal[data-from='right'] { transform: translateX(40px); }
+.reveal[data-from='scale'] { transform: scale(0.92); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Texto dorado con brillo que recorre las letras */
+.text-shimmer-gold {
+  background: linear-gradient(110deg, #8A6A2F 0%, #C9A45C 22%, #F6E3B4 45%, #C9A45C 68%, #8A6A2F 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Luz dorada que sigue al cursor dentro de una tarjeta (pointer.js) */
+.spotlight { position: relative; isolation: isolate; }
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(201, 164, 92, 0.18), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: -1;
+}
+.spotlight:hover::before { opacity: 1; }
+
+/* Destello que cruza el botón al pasar el cursor */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.btn-shine:hover::after { animation: shine 0.8s ease; }
+
+/* Cinta infinita (componente <Marquee>) */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Franjas de poste de barbería en movimiento */
+.barber-pole {
+  background: repeating-linear-gradient(-45deg, #C9A45C 0 10px, #0F0F10 10px 20px);
+  background-size: 40px 100%;
+  animation: barber-pole 1s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .reveal, .animate-enter { opacity: 1; transform: none; }
 }

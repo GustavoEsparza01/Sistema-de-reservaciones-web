@@ -8,7 +8,7 @@ const VARIANTS = {
   ghost:     'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low',
   danger:    'bg-error text-on-error hover:bg-red-800',
   // Estilo premium (landing y portal público)
-  gold:      'bg-gold text-ink hover:bg-gold-hover font-body-semibold focus-visible:ring-gold',
+  gold:      'btn-shine bg-gold text-ink hover:bg-gold-hover hover:shadow-[0_8px_24px_-6px_rgba(201,164,92,0.6)] font-body-semibold focus-visible:ring-gold',
   'outline-light': 'border border-white/25 text-white hover:bg-white/10 hover:border-white/40 focus-visible:ring-white focus-visible:ring-offset-ink',
 }
 
@@ -52,7 +52,7 @@ const Button = forwardRef(function Button(
       disabled={Comp === 'button' ? isDisabled : undefined}
       aria-disabled={isDisabled || undefined}
       className={cn(
-        'inline-flex items-center rounded-lg font-body-medium whitespace-nowrap transition-colors',
+        'inline-flex items-center rounded-lg font-body-medium whitespace-nowrap transition-all duration-200 active:scale-[0.97]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:pointer-events-none',
         VARIANTS[variant],
