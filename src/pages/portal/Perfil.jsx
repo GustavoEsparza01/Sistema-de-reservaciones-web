@@ -18,9 +18,9 @@ export default function Perfil() {
       <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-space-md">
         <div>
           <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Mi perfil</h1>
-          <p className="text-body-default text-on-surface-variant">Tus datos de contacto y el acceso a tu cuenta en {business.name}.</p>
+          <p className="text-body-default text-ink/70">Tus datos de contacto y el acceso a tu cuenta en {business.name}.</p>
         </div>
-        <Button as={Link} to={`/${business.slug}/mis-citas`} variant="secondary" icon={CalendarDays} className="self-start sm:self-auto">Mis citas</Button>
+        <Button as={Link} to={`/${business.slug}/mis-citas`} variant="outline-dark" icon={CalendarDays} className="self-start sm:self-auto">Mis citas</Button>
       </header>
 
       <ProfileForm
@@ -28,8 +28,9 @@ export default function Perfil() {
         description="La barbería usa estos datos para contactarte sobre tus citas."
         subtitle={loading ? ' ' : visits === 0 ? 'Aún sin visitas' : `${visits} ${visits === 1 ? 'visita' : 'visitas'} en ${business.name}`}
         showRoles={false}
+        premium
       />
-      <PasswordForm />
+      <PasswordForm premium />
     </div>
   )
 }

@@ -4,9 +4,10 @@ import Field, { controlClasses } from './Field'
 
 /**
  * Campo de texto con etiqueta, ayuda, error e icono opcional (lucide-react).
+ * tone="premium": colores del portal público.
  */
 const Input = forwardRef(function Input(
-  { id, label, hint, error, required, icon: Icon, suffix, className, inputClassName, ...props },
+  { id, label, hint, error, required, icon: Icon, suffix, tone, className, inputClassName, ...props },
   ref
 ) {
   const autoId = useId()
@@ -29,7 +30,7 @@ const Input = forwardRef(function Input(
           required={required}
           aria-invalid={error ? true : undefined}
           aria-describedby={error || hint ? `${inputId}-msg` : undefined}
-          className={cn(controlClasses(error), Icon ? 'pl-9' : 'pl-3', suffix ? 'pr-14' : 'pr-3', inputClassName)}
+          className={cn(controlClasses(error, tone), Icon ? 'pl-9' : 'pl-3', suffix ? 'pr-14' : 'pr-3', inputClassName)}
           {...props}
         />
         {suffix && (

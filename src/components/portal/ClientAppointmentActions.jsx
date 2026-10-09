@@ -21,7 +21,7 @@ export function useClientAppointmentActions(onChanged) {
     try {
       await updateAppointmentStatus(a.id, 'cancelled')
       setCancelling(null)
-      toast({ title: 'Cita cancelada', description: 'El horario quedó libre. Puedes reservar otra cuando quieras.' })
+      toast({ tone: 'gold', title: 'Cita cancelada', description: 'El horario quedó libre. Puedes reservar otra cuando quieras.' })
       await onChanged?.()
     } catch (err) {
       toast({ tone: 'error', title: 'No se pudo cancelar la cita', description: 'Tu cita sigue activa. Revisa tu conexión e inténtalo de nuevo.' })
@@ -56,7 +56,7 @@ export function useClientAppointmentActions(onChanged) {
         onClose={() => setRescheduling(null)}
         onDone={async (r) => {
           setRescheduling(null)
-          toast({ title: 'Cita reprogramada', description: `${formatDateLong(r.start)} a las ${formatTime(r.start)} h con ${r.barberName}` })
+          toast({ tone: 'gold', title: 'Cita reprogramada', description: `${formatDateLong(r.start)} a las ${formatTime(r.start)} h con ${r.barberName}` })
           await onChanged?.()
         }}
       />
