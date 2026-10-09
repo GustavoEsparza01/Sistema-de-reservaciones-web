@@ -135,3 +135,6 @@
   }
   .reveal, .animate-enter { opacity: 1; transform: none; }
 }
+
+/* Gira solo mientras el cursor está sobre la tarjeta (.group) */
+.group:hover .spin-on-hover { animation: spin-slow 8s linear infinite; }

@@ -44,7 +44,7 @@ function Stepper({ step }) {
         const current = n === step
         return (
           <li key={label} className="flex flex-col gap-1.5" aria-current={current ? 'step' : undefined}>
-            <div className={cn('h-1 rounded-full', done || current ? 'bg-gold' : 'bg-surface-container-high')} />
+            <div className={cn('h-1 rounded-full transition-colors duration-700', done || current ? 'bg-gold' : 'bg-surface-container-high')} />
             <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-on-surface' : 'text-outline')}>
               {done && <Check size={12} strokeWidth={2.5} aria-hidden />}
               <span className="hidden sm:inline">Paso {n} · </span>{label}
@@ -63,7 +63,7 @@ function Choice({ selected, onClick, children, className }) {
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'w-full text-left rounded-lg border p-space-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+        'w-full text-left rounded-lg border p-space-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
         selected ? 'border-gold bg-gold-soft ring-1 ring-gold' : 'border-outline-variant bg-surface-container-lowest hover:border-gold',
         className
       )}
@@ -235,7 +235,7 @@ export default function Reservar() {
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
       <header className="flex flex-col gap-space-md">
         <div>
-          <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar cita</h1>
+          <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar <em className="text-shimmer-gold pr-1">cita</em></h1>
           <p className="text-body-default text-on-surface-variant">{business.name} · {business.city}</p>
         </div>
         <Stepper step={step} />
@@ -245,7 +245,8 @@ export default function Reservar() {
         <Card><EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." /></Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-gutter items-start">
-          <div className="flex flex-col gap-space-lg min-w-0">
+          {/* key={step}: cada paso entra con animación */}
+          <div key={step} className="animate-enter flex flex-col gap-space-lg min-w-0">
             {/* Paso 1: servicio */}
             {step === 1 && (
               <section className="flex flex-col gap-space-md">
@@ -317,8 +318,8 @@ export default function Reservar() {
                         disabled={!available}
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
-                          'shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-colors',
-                          selected ? 'bg-ink border-ink text-white' : 'bg-surface-container-lowest border-outline-variant hover:border-gold',
+                          'shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-all duration-200',
+                          selected ? 'bg-ink border-ink text-white scale-105 shadow-lg' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:-translate-y-0.5',
                           !available && 'opacity-40 cursor-not-allowed hover:border-outline-variant'
                         )}
                       >
@@ -359,8 +360,8 @@ export default function Reservar() {
                                 aria-checked={time === s}
                                 onClick={() => update({ hora: s }, 4)}
                                 className={cn(
-                                  'h-10 rounded-lg border text-body-sm font-body-medium tabular-nums transition-colors',
-                                  time === s ? 'bg-ink border-ink text-white' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:text-gold-deep'
+                                  'h-10 rounded-lg border text-body-sm font-body-medium tabular-nums transition-all duration-200',
+                                  time === s ? 'bg-ink border-ink text-white scale-105 shadow-lg' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:text-gold-deep hover:-translate-y-0.5'
                                 )}
                               >
                                 {s}

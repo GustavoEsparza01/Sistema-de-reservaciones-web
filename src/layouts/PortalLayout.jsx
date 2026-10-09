@@ -6,6 +6,7 @@ import { useBusiness } from '../hooks/useBusiness'
 import { cn } from '../lib/cn'
 import { Avatar, Button } from '../components/ui'
 import Logo from '../components/app/Logo'
+import { ScrollProgress, useScrollState } from '../components/motion'
 
 /** Menú de la cuenta del cliente (o botón para iniciar sesión). */
 function AccountMenu() {
@@ -82,6 +83,7 @@ export default function PortalLayout() {
   const { session } = useAuth()
   const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const { scrolled } = useScrollState()
 
   useEffect(() => setMenuOpen(false), [pathname])
 
@@ -98,8 +100,9 @@ export default function PortalLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans text-on-surface">
-      <header className="sticky top-0 z-40 bg-ink/95 backdrop-blur border-b border-ink-line text-white">
-        <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin h-16 flex items-center gap-space-md">
+      <ScrollProgress />
+      <header className={cn('sticky top-0 z-40 backdrop-blur border-b text-white transition-all duration-300', scrolled ? 'bg-ink/95 border-ink-line shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]' : 'bg-ink border-ink-line')}>
+        <div className={`max-w-[1200px] mx-auto px-margin-mobile md:px-margin flex items-center gap-space-md transition-all duration-300 ${scrolled ? 'h-14' : 'h-16'}`}>
           <Link to={base} className="flex items-center gap-space-sm min-w-0">
             <span className="w-9 h-9 rounded-full border border-gold/50 bg-gold/10 text-gold flex items-center justify-center shrink-0">
               <Scissors size={18} strokeWidth={1.75} aria-hidden />

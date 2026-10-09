@@ -1,12 +1,13 @@
 // Página pública del negocio (design/stitch/10-pagina-publica), con el estilo premium del portal.
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowRight, CalendarCheck, CalendarPlus, Clock, CircleAlert, MapPin, Store, Timer, Undo2 } from 'lucide-react'
+import { ArrowRight, CalendarCheck, CalendarPlus, Clock, CircleAlert, MapPin, Scissors, Store, Timer, Undo2 } from 'lucide-react'
 import { openStatus, useBusiness } from '../../hooks/useBusiness'
 import { fetchPublicBarbers, fetchPublicServices } from '../../lib/publicData'
 import { formatDuration, formatMoneyMXN } from '../../lib/format'
 import { cn } from '../../lib/cn'
 import { Avatar, Button, Card, EmptyState, Skeleton } from '../../components/ui'
+import { Marquee, Reveal, trackPointer } from '../../components/motion'
 
 function usePublicData() {
   const [state, setState] = useState({ services: [], barbers: [], loading: true, error: null })
@@ -22,7 +23,7 @@ function usePublicData() {
 
 function SectionTitle({ id, eyebrow, title, description }) {
   return (
-    <div id={id} className="scroll-mt-24 flex flex-col gap-space-sm">
+    <Reveal id={id} className="scroll-mt-24 flex flex-col gap-space-sm">
       {eyebrow && (
         <span className="inline-flex items-center gap-space-sm text-[12px] font-semibold uppercase tracking-[0.18em] text-gold-deep">
           <span className="w-6 h-px bg-current" aria-hidden /> {eyebrow}
@@ -30,7 +31,7 @@ function SectionTitle({ id, eyebrow, title, description }) {
       )}
       <h2 className="font-display text-[30px] md:text-[40px] leading-[1.1] font-semibold text-ink">{title}</h2>
       {description && <p className="text-body-default md:text-[16px] text-on-surface-variant max-w-2xl">{description}</p>}
-    </div>
+    </Reveal>
   )
 }
 
@@ -53,27 +54,28 @@ export default function Negocio() {
   return (
     <>
       {/* Presentación */}
-      <section className="relative overflow-hidden bg-ink text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(201,164,92,0.22),transparent_55%)]" aria-hidden />
+      <section onMouseMove={trackPointer} className="spotlight relative overflow-hidden bg-ink text-white">
+        <div className="absolute -top-32 -right-24 w-[520px] h-[520px] rounded-full bg-gold/20 blur-[120px] animate-drift" aria-hidden />
+        <div className="absolute -bottom-40 left-1/4 w-[380px] h-[380px] rounded-full bg-gold-deep/20 blur-[110px] animate-drift [animation-delay:-9s]" aria-hidden />
         <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden />
         <div className="relative max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[64px] md:py-[96px] flex flex-col md:flex-row md:items-end md:justify-between gap-space-xl">
           <div className="flex flex-col gap-space-lg max-w-2xl">
             <span
               className={cn(
-                'self-start inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold border',
+                'animate-enter self-start inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold border',
                 status.open ? 'border-emerald-400/30 bg-emerald-500/10 text-emerald-300' : 'border-white/15 bg-white/5 text-ink-muted'
               )}
             >
-              <span className={cn('w-1.5 h-1.5 rounded-full', status.open ? 'bg-emerald-400' : 'bg-ink-muted')} aria-hidden />
+              <span className={cn('w-1.5 h-1.5 rounded-full', status.open ? 'bg-emerald-400 animate-pulse-gold' : 'bg-ink-muted')} aria-hidden />
               {status.text}
             </span>
-            <h1 className="font-display text-[44px] md:text-[64px] leading-[1.02] font-semibold text-balance">{business.name}</h1>
-            <p className="text-[17px] md:text-[18px] leading-8 text-ink-muted">{business.tagline}</p>
-            <p className="flex items-center gap-1.5 text-body-sm text-gold-light">
+            <h1 style={{ '--enter-delay': '120ms' }} className="animate-enter font-display text-[44px] md:text-[64px] leading-[1.02] font-semibold text-balance">{business.name}</h1>
+            <p style={{ '--enter-delay': '240ms' }} className="animate-enter text-[17px] md:text-[18px] leading-8 text-ink-muted">{business.tagline}</p>
+            <p style={{ '--enter-delay': '340ms' }} className="animate-enter flex items-center gap-1.5 text-body-sm text-gold-light">
               <MapPin size={16} strokeWidth={1.75} className="text-gold" aria-hidden /> {business.city}
             </p>
           </div>
-          <div className="flex flex-wrap gap-space-sm self-start md:self-auto">
+          <div style={{ '--enter-delay': '440ms' }} className="animate-enter flex flex-wrap gap-space-sm self-start md:self-auto">
             <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="h-12 px-space-lg text-[15px]">
               Reservar cita
             </Button>
@@ -83,6 +85,20 @@ export default function Negocio() {
           </div>
         </div>
       </section>
+
+      {/* Cinta con los servicios reales del negocio */}
+      {services.length > 0 && (
+        <section className="bg-ink-soft border-y border-ink-line py-space-md" aria-label="Servicios">
+          <Marquee duration={35}>
+            {[...services, ...services, ...services].map((s, i) => (
+              <Link key={`${s.id}-${i}`} to={`${base}/reservar?servicio=${s.id}`} className="flex items-center gap-space-md pr-space-xl font-display italic text-[20px] md:text-[24px] text-white/85 hover:text-gold transition-colors whitespace-nowrap">
+                {s.name} <span className="not-italic font-sans text-body-sm text-gold">{formatMoneyMXN(s.price)}</span>
+                <Scissors size={16} className="text-gold/70" aria-hidden />
+              </Link>
+            ))}
+          </Marquee>
+        </section>
+      )}
 
       <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[64px] md:py-[80px] flex flex-col gap-[72px]">
         {error && (
@@ -97,8 +113,9 @@ export default function Negocio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
             {loading
               ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-48 w-full rounded-2xl" />)
-              : services.map((s) => (
-                  <div key={s.id} className={cn(premiumCard, 'group p-space-lg flex flex-col gap-space-sm')}>
+              : services.map((s, i) => (
+                  <Reveal key={s.id} delay={(i % 3) * 120}>
+                  <div onMouseMove={trackPointer} className={cn(premiumCard, 'spotlight group h-full p-space-lg flex flex-col gap-space-sm')}>
                     <div className="flex items-start justify-between gap-space-sm">
                       <h3 className="font-display text-[21px] font-semibold text-ink">{s.name}</h3>
                       <span className="font-display text-[21px] font-semibold text-gold-deep tabular-nums whitespace-nowrap">{formatMoneyMXN(s.price)}</span>
@@ -114,6 +131,7 @@ export default function Negocio() {
                       Reservar <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" aria-hidden />
                     </Link>
                   </div>
+                  </Reveal>
                 ))}
           </div>
           {!loading && !error && services.length === 0 && (
@@ -127,10 +145,13 @@ export default function Negocio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
             {loading
               ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-56 w-full rounded-2xl" />)
-              : barbers.map((b) => (
-                  <div key={b.id} className={cn(premiumCard, 'p-space-lg flex flex-col items-center text-center gap-space-sm')}>
-                    <span className="rounded-full p-1 ring-2 ring-gold/60">
-                      <Avatar name={b.name} src={b.photo} className="!w-24 !h-24 !text-[30px]" />
+              : barbers.map((b, i) => (
+                  <Reveal key={b.id} from="scale" delay={(i % 4) * 110}>
+                  <div onMouseMove={trackPointer} className={cn(premiumCard, 'spotlight group h-full p-space-lg flex flex-col items-center text-center gap-space-sm')}>
+                    <span className="relative rounded-full p-1.5">
+                      {/* Aro punteado que gira al pasar el cursor */}
+                      <span className="absolute inset-0 rounded-full border-2 border-dashed border-gold/60 transition-colors group-hover:border-gold spin-on-hover" aria-hidden />
+                      <Avatar name={b.name} src={b.photo} className="!w-24 !h-24 !text-[30px] transition-transform duration-500 group-hover:scale-105" />
                     </span>
                     <h3 className="font-display text-[20px] font-semibold text-ink mt-space-xs">{b.name}</h3>
                     <p className="text-body-sm text-on-surface-variant flex-1">{b.bio || 'Barbero de Peludos Barber Shop.'}</p>
@@ -138,6 +159,7 @@ export default function Negocio() {
                       Reservar con {b.name === 'Barbero' ? 'este barbero' : b.name.split(' ')[0]}
                     </Button>
                   </div>
+                  </Reveal>
                 ))}
           </div>
         </section>
@@ -146,11 +168,12 @@ export default function Negocio() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-[40px] items-start">
           <div className="flex flex-col gap-space-xl">
             <SectionTitle id="horarios" eyebrow="Visítanos" title="Horarios y ubicación" />
-            <div className="rounded-2xl border border-outline-variant bg-white flex flex-col divide-y divide-outline-variant overflow-hidden">
+            <Reveal from="left" className="rounded-2xl border border-outline-variant bg-white flex flex-col divide-y divide-outline-variant overflow-hidden">
               {business.hours.map((h) => {
                 const today = h.days.includes(new Date().getDay())
                 return (
-                  <div key={h.label} className={cn('flex items-center justify-between px-5 py-3.5', today && 'bg-gold-soft')}>
+                  <div key={h.label} className={cn('relative flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-cream', today && 'bg-gold-soft hover:bg-gold-soft')}>
+                    {today && <span className="absolute left-0 inset-y-0 w-1 barber-pole" aria-hidden />}
                     <span className={cn('text-body-default', today && 'font-body-semibold')}>
                       {h.label}{today && <span className="text-gold-deep text-body-sm"> · hoy</span>}
                     </span>
@@ -158,7 +181,7 @@ export default function Negocio() {
                   </div>
                 )
               })}
-            </div>
+            </Reveal>
             <Button
               as="a"
               href={`https://www.google.com/maps/search/${encodeURIComponent(`${business.name} ${business.city}`)}`}
@@ -172,14 +195,16 @@ export default function Negocio() {
             </Button>
           </div>
 
-          <div className="rounded-2xl bg-ink text-white p-space-lg md:p-space-xl flex flex-col gap-space-lg lg:mt-[76px]">
+          <Reveal from="right" className="lg:mt-[76px]">
+          <div onMouseMove={trackPointer} className="spotlight overflow-hidden rounded-2xl bg-ink text-white p-space-lg md:p-space-xl flex flex-col gap-space-lg">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-gold/15 blur-[80px] animate-drift" aria-hidden />
             {[
               { icon: CalendarCheck, title: 'Reserva en minutos', text: 'Elige servicio, barbero y horario disponible desde tu celular.' },
               { icon: Undo2, title: 'Cancela desde tu cuenta', text: 'Consulta o cancela tus citas en "Mis citas" cuando lo necesites.' },
               { icon: Clock, title: 'Pagas en el local', text: 'No se cobra nada por adelantado al reservar.' },
             ].map(({ icon: Icon, title, text }) => (
-              <div key={title} className="flex gap-space-md items-start">
-                <span className="w-10 h-10 rounded-full border border-gold/40 bg-gold/10 text-gold flex items-center justify-center shrink-0">
+              <div key={title} className="group relative flex gap-space-md items-start">
+                <span className="w-10 h-10 rounded-full border border-gold/40 bg-gold/10 text-gold flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold group-hover:text-ink group-hover:scale-110">
                   <Icon size={18} strokeWidth={1.75} aria-hidden />
                 </span>
                 <div>
@@ -188,10 +213,11 @@ export default function Negocio() {
                 </div>
               </div>
             ))}
-            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="justify-center h-11">
+            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="relative justify-center h-11">
               Reservar cita
             </Button>
           </div>
+          </Reveal>
         </section>
       </div>
     </>
