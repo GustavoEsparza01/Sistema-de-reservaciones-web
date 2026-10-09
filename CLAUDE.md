@@ -27,8 +27,8 @@ No hay tests, linter ni formateador configurados. Para comprobar un cambio: `npm
 
 - `src/App.jsx`: todas las rutas; páginas con `lazy()`. Tres zonas:
   - `/app/*` panel de admin y barbero (`AppLayout`), protegido con `RequireAuth roles={[...]}`.
-  - `/:slug/*` portal público del negocio (`PortalLayout`); `/` redirige a `/peludos`.
-  - `/login`, `/registro`, … (`AuthLayout`); `/barber-os` (landing) y `/onboarding` (solo frontend, borrador en el navegador).
+  - `/:slug/*` portal público del negocio (`PortalLayout`).
+  - `/login`, `/registro`, … (`AuthLayout`); `/` (landing de Barber OS; `/barber-os` redirige ahí) y `/onboarding` (solo frontend, borrador en el navegador).
 - `src/hooks/useBusiness.js`: el negocio está **fijo en código** (Peludos) hasta la Fase 5 (tabla `businesses`, varios negocios). No asumir que existe esa tabla.
 - `src/lib/`: consultas a Supabase y lógica pura. `availability.js` calcula horarios libres (turno del barbero, duración, sin encimarse, nunca en el pasado); `roles.js` decide la página de inicio por rol y valida `?volver=`.
 - `src/hooks/use*Data.js`: carga de datos por pantalla.

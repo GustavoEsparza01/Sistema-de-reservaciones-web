@@ -63,9 +63,10 @@ export default function App() {
       <ToastProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to="/peludos" replace />} />
-            {/* Landing de Barber OS (pasará a / cuando haya varios negocios) */}
-            <Route path="/barber-os" element={page(Landing)} />
+            {/* Landing de Barber OS: la presentación del sistema. El negocio vive en /peludos */}
+            <Route path="/" element={page(Landing)} />
+            {/* Dirección anterior del landing, por si alguien la guardó */}
+            <Route path="/barber-os" element={<Navigate to="/" replace />} />
             {/* Alta del negocio (por ahora solo frontend: borrador en el navegador) */}
             <Route path="/onboarding" element={page(Onboarding)} />
 

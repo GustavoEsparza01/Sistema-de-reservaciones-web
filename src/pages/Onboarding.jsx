@@ -55,10 +55,10 @@ export default function Onboarding() {
       <header className="h-16 border-b border-outline-variant bg-surface-container-lowest">
         <div className="max-w-[760px] mx-auto h-full px-margin-mobile md:px-margin flex items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-md">
-            <Link to="/barber-os" aria-label="Barber OS"><Logo /></Link>
+            <Link to="/" aria-label="Barber OS"><Logo /></Link>
             <span className="hidden sm:inline text-body-sm text-on-surface-variant border-l border-outline-variant pl-space-md">Crea tu barbería</span>
           </div>
-          <Button as={Link} to="/barber-os" variant="ghost" size="sm">Guardar y salir</Button>
+          <Button as={Link} to="/" variant="ghost" size="sm">Guardar y salir</Button>
         </div>
       </header>
 

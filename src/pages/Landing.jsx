@@ -78,7 +78,7 @@ export default function Landing() {
     <div className="min-h-[100dvh] bg-cream font-sans text-ink overflow-x-clip">
       <header className="sticky top-0 z-40 bg-ink/90 backdrop-blur border-b border-ink-line text-white pt-[env(safe-area-inset-top)]">
         <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin h-16 flex items-center gap-space-lg">
-          <Link to="/barber-os" aria-label="Barber OS, inicio"><Logo tone="premium" /></Link>
+          <Link to="/" aria-label="Barber OS, inicio"><Logo tone="premium" /></Link>
           <nav aria-label="Secciones" className="hidden md:flex items-center gap-space-lg">
             {NAV.map(([href, label]) => (
               <a key={href} href={href} className="text-body-sm font-body-medium text-ink-muted hover:text-white transition-colors">{label}</a>
