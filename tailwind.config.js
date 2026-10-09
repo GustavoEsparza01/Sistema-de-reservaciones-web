@@ -11,6 +11,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   darkMode: 'class',
+  // hover: solo con mouse (@media (hover: hover)); en celular el primer toque
+  // dejaba la tarjeta "levantada" con borde dorado hasta tocar otra cosa
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {

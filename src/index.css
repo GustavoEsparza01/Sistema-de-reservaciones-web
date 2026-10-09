@@ -6,9 +6,36 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Sin el recuadro gris que pinta el navegador del celular al tocar algo;
+       cada control tiene su propio estado al presionar */
+    -webkit-tap-highlight-color: transparent;
+    /* Sin agrandar la letra al girar el teléfono */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-on-surface font-sans;
+    /* Con viewport-fit=cover, en horizontal el contenido no se mete bajo el notch */
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  /* Toque inmediato (sin la espera de doble toque) y sin seleccionar el texto
+     del botón al dejar el dedo presionado. Los enlaces de texto sí se pueden copiar. */
+  a, button, [role='button'], [role='radio'], [role='tab'], label, summary {
+    touch-action: manipulation;
+  }
+  button, [role='button'], [role='radio'], [role='tab'] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* iOS hace zoom al enfocar un campo con letra menor a 16px y no regresa;
+     en pantallas táctiles los campos usan 16px (en escritorio siguen en 14px) */
+  @media (pointer: coarse) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
   }
 }
 
@@ -101,7 +128,9 @@
   pointer-events: none;
   z-index: -1;
 }
-.spotlight:hover::before { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .spotlight:hover::before { opacity: 1; }
+}
 
 /* Destello que cruza el botón al pasar el cursor */
 .btn-shine { position: relative; overflow: hidden; }
@@ -116,7 +145,9 @@
   transform: skewX(-20deg);
   pointer-events: none;
 }
-.btn-shine:hover::after { animation: shine 0.8s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-shine:hover::after { animation: shine 0.8s ease; }
+}
 
 /* Cinta infinita (componente <Marquee>) */
 .marquee-track {
@@ -124,7 +155,9 @@
   width: max-content;
   animation: marquee var(--marquee-duration, 40s) linear infinite;
 }
-.marquee:hover .marquee-track { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+}
 
 /* Franjas de poste de barbería en movimiento */
 .barber-pole {
@@ -144,4 +177,6 @@
 }
 
 /* Gira solo mientras el cursor está sobre la tarjeta (.group) */
-.group:hover .spin-on-hover { animation: spin-slow 8s linear infinite; }
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .spin-on-hover { animation: spin-slow 8s linear infinite; }
+}

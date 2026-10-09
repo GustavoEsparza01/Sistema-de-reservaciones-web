@@ -36,7 +36,7 @@ export function ToastProvider({ children }) {
       {createPortal(
         <div
           aria-live="polite"
-          className="fixed bottom-0 right-0 z-[60] flex flex-col items-end gap-space-sm p-space-md sm:p-space-lg pointer-events-none"
+          className="fixed bottom-0 right-0 z-[60] flex flex-col items-end gap-space-sm p-space-md sm:p-space-lg pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] pointer-events-none"
         >
           {toasts.map((t) => (
             <ToastItem key={t.id} toast={t} onDismiss={dismiss} />

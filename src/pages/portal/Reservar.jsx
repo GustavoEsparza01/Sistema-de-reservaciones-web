@@ -601,7 +601,7 @@ export default function Reservar() {
                 {/* Si el horario se ocupó al confirmar, el aviso queda aquí, donde se elige otro */}
                 {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
                 <div
-                  className={cn('flex gap-1.5 overflow-x-auto snap-x pt-1 pb-2 -mx-1 px-1 [scrollbar-width:thin] [scrollbar-color:rgba(15,15,16,0.2)_transparent]', tabbableDay == null && 'hidden')}
+                  className={cn('flex gap-1.5 overflow-x-auto overscroll-x-contain snap-x snap-mandatory pt-1 pb-2 -mx-1 px-1 [scrollbar-width:thin] [scrollbar-color:rgba(15,15,16,0.2)_transparent]', tabbableDay == null && 'hidden')}
                   role="radiogroup"
                   aria-label="Día"
                   onKeyDown={moveAmongRadios}

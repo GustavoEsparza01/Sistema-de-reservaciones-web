@@ -24,7 +24,7 @@ export default function Modal({ open, onClose, title, description, footer, size 
         aria-labelledby={titleId}
         tabIndex={-1}
         className={cn(
-          'relative w-full bg-surface-container-lowest rounded-xl shadow-xl outline-none flex flex-col max-h-[90vh]',
+          'relative w-full bg-surface-container-lowest rounded-xl shadow-xl outline-none flex flex-col max-h-[90dvh]',
           size === 'sm' ? 'max-w-sm' : size === 'lg' ? 'max-w-2xl' : 'max-w-md'
         )}
       >

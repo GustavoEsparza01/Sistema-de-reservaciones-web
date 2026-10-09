@@ -87,6 +87,15 @@ export default function PortalLayout() {
 
   useEffect(() => setMenuOpen(false), [pathname])
 
+  // Barra del navegador del celular en carbón, igual que el encabezado del portal
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (!meta) return
+    const previous = meta.content
+    meta.content = '#0F0F10'
+    return () => { meta.content = previous }
+  }, [])
+
   // Hasta la Fase 5 solo existe un negocio
   if (slug !== business.slug) return <Navigate to={`/${business.slug}`} replace />
 
@@ -99,9 +108,9 @@ export default function PortalLayout() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream font-sans text-on-surface">
+    <div className="min-h-[100dvh] flex flex-col bg-cream font-sans text-on-surface">
       <ScrollProgress />
-      <header className={cn('sticky top-0 z-40 backdrop-blur border-b text-white transition-all duration-300', scrolled ? 'bg-ink/95 border-ink-line shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]' : 'bg-ink border-ink-line')}>
+      <header className={cn('sticky top-0 z-40 pt-[env(safe-area-inset-top)] backdrop-blur border-b text-white transition-all duration-300', scrolled ? 'bg-ink/95 border-ink-line shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]' : 'bg-ink border-ink-line')}>
         <div className={`max-w-[1200px] mx-auto px-margin-mobile md:px-margin flex items-center gap-space-md transition-all duration-300 ${scrolled ? 'h-14' : 'h-16'}`}>
           <Link to={base} className="flex items-center gap-space-sm min-w-0">
             <span className="w-9 h-9 rounded-full border border-gold/50 bg-gold/10 text-gold flex items-center justify-center shrink-0">
@@ -157,7 +166,7 @@ export default function PortalLayout() {
         <Outlet />
       </main>
 
-      <footer className="bg-ink text-ink-muted">
+      <footer className="bg-ink text-ink-muted pb-[env(safe-area-inset-bottom)]">
         <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[48px] grid gap-space-lg sm:grid-cols-3 text-body-sm">
           <div className="flex flex-col gap-1">
             <p className="font-display text-[20px] font-semibold text-white">{business.name}</p>
