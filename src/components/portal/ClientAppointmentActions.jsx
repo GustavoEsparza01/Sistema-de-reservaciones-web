@@ -24,7 +24,7 @@ export function useClientAppointmentActions(onChanged) {
       toast({ title: 'Cita cancelada', description: 'El horario quedó libre. Puedes reservar otra cuando quieras.' })
       await onChanged?.()
     } catch (err) {
-      toast({ tone: 'error', title: 'No se pudo cancelar la cita', description: err.message })
+      toast({ tone: 'error', title: 'No se pudo cancelar la cita', description: 'Tu cita sigue activa. Revisa tu conexión e inténtalo de nuevo.' })
     } finally {
       setBusy(false)
     }

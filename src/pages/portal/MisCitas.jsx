@@ -79,7 +79,7 @@ export default function MisCitas() {
 
       {data.error ? (
         <Card>
-          <EmptyState icon={CircleAlert} title="No se pudieron cargar tus citas" description={data.error.message}
+          <EmptyState icon={CircleAlert} title="No pudimos cargar tus citas" description="Revisa tu conexión e inténtalo de nuevo."
             action={<Button variant="secondary" icon={RefreshCw} onClick={() => data.reload()}>Reintentar</Button>} />
         </Card>
       ) : data.loading ? (

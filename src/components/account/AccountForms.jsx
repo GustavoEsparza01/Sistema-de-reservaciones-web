@@ -41,7 +41,7 @@ export function ProfileForm({ title = 'Mi perfil', description = 'Así te ven tu
       .eq('id', session.user.id)
     setSaving(false)
     if (error) {
-      toast({ tone: 'error', title: 'No se pudieron guardar tus datos', description: error.message })
+      toast({ tone: 'error', title: 'No se pudieron guardar tus datos', description: 'Revisa tu conexión e inténtalo de nuevo.' })
       return
     }
     await refreshProfile()
@@ -96,7 +96,9 @@ export function PasswordForm() {
     const { error } = await supabase.auth.updateUser({ password: form.password })
     setSaving(false)
     if (error) {
-      toast({ tone: 'error', title: 'No se pudo cambiar la contraseña', description: error.message })
+      // Supabase responde en inglés: solo el caso que el usuario puede corregir tiene mensaje propio
+      const same = /different from the old/i.test(error.message)
+      toast({ tone: 'error', title: 'No se pudo cambiar la contraseña', description: same ? 'La nueva contraseña debe ser distinta de la actual.' : 'Revisa tu conexión e inténtalo de nuevo.' })
       return
     }
     setForm({ password: '', confirm: '' })

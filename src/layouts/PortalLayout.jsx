@@ -16,13 +16,26 @@ function AccountMenu() {
   const location = useLocation()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
+  const trigger = useRef(null)
 
+  // Abierto: el foco entra a la primera opción; se cierra al tocar fuera (mouse o dedo)
   useEffect(() => {
     if (!open) return
+    ref.current?.querySelector('[role="menuitem"]')?.focus()
     const close = (e) => !ref.current?.contains(e.target) && setOpen(false)
-    document.addEventListener('mousedown', close)
-    return () => document.removeEventListener('mousedown', close)
+    document.addEventListener('pointerdown', close)
+    return () => document.removeEventListener('pointerdown', close)
   }, [open])
+
+  // Teclado dentro del menú: flechas, Inicio y Fin recorren las opciones; Escape cierra y regresa al botón
+  function onMenuKeyDown(e) {
+    const items = [...e.currentTarget.querySelectorAll('[role="menuitem"]')]
+    const i = items.indexOf(document.activeElement)
+    const go = { ArrowDown: (i + 1) % items.length, ArrowUp: (i - 1 + items.length) % items.length, Home: 0, End: items.length - 1 }[e.key]
+    if (go != null) { e.preventDefault(); items[go].focus() }
+    if (e.key === 'Escape') { e.preventDefault(); setOpen(false); trigger.current?.focus() }
+    if (e.key === 'Tab') setOpen(false)
+  }
 
   if (!session) {
     const volver = encodeURIComponent(location.pathname + location.search)
@@ -37,22 +50,26 @@ function AccountMenu() {
   return (
     <div className="relative" ref={ref}>
       <button
+        ref={trigger}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex items-center gap-space-xs rounded-full pl-0.5 pr-2 py-0.5 text-white hover:bg-white/10"
+        aria-label={`Mi cuenta: ${name}`}
+        className="flex items-center gap-space-xs h-11 rounded-full pl-1 pr-2 text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
       >
-        <Avatar name={name} size="sm" />
-        <span className="hidden sm:inline text-body-sm font-body-medium max-w-[140px] truncate">{name.split(' ')[0]}</span>
+        <span aria-hidden className="contents">
+          <Avatar name={name} size="sm" />
+          <span className="hidden sm:inline text-body-sm font-body-medium max-w-[140px] truncate">{name.split(' ')[0]}</span>
+        </span>
         <ChevronDown size={16} strokeWidth={1.75} aria-hidden />
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 mt-2 w-48 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface shadow-xl py-1 z-50">
-          <Link role="menuitem" to={`/${business.slug}/mis-citas`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
+        <div role="menu" aria-label="Mi cuenta" onKeyDown={onMenuKeyDown} className="absolute right-0 mt-2 w-48 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface shadow-xl py-1 z-50">
+          <Link role="menuitem" to={`/${business.slug}/mis-citas`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-3 text-body-sm hover:bg-surface-container-low focus:bg-surface-container-low focus:outline-none">
             <CalendarPlus size={16} strokeWidth={1.75} aria-hidden /> Mis citas
           </Link>
-          <Link role="menuitem" to={`/${business.slug}/perfil`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
+          <Link role="menuitem" to={`/${business.slug}/perfil`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-3 text-body-sm hover:bg-surface-container-low focus:bg-surface-container-low focus:outline-none">
             <User size={16} strokeWidth={1.75} aria-hidden /> Mi perfil
           </Link>
           <button
@@ -63,7 +80,7 @@ function AccountMenu() {
               await signOut()
               navigate('.', { replace: true })
             }}
-            className="w-full flex items-center gap-space-sm px-3 py-2 text-body-sm text-left hover:bg-surface-container-low"
+            className="w-full flex items-center gap-space-sm px-3 py-3 text-body-sm text-left hover:bg-surface-container-low focus:bg-surface-container-low focus:outline-none"
           >
             <LogOut size={16} strokeWidth={1.75} aria-hidden /> Cerrar sesión
           </button>
