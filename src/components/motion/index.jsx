@@ -150,7 +150,8 @@ export function ScrollProgress({ className }) {
   const { progress } = useScrollState()
   return (
     <div className={cn('fixed top-0 inset-x-0 z-50 h-[3px] pointer-events-none', className)} aria-hidden>
-      <div className="barber-pole h-full origin-left" style={{ transform: `scaleX(${progress})` }} />
+      {/* Arriba de todo la barra mide 0: sin animar las franjas mientras no se ven */}
+      <div className="barber-pole h-full origin-left" style={{ transform: `scaleX(${progress})`, animationPlayState: progress > 0 ? 'running' : 'paused' }} />
     </div>
   )
 }
