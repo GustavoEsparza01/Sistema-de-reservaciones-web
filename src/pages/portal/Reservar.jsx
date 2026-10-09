@@ -25,6 +25,20 @@ const STEPS = ['Servicio', 'Barbero', 'Fecha y hora', 'Confirmar']
 const noDots = (s) => s.replace(/\./g, '')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
+/** Flechas, Inicio y Fin mueven el foco entre los radios habilitados del grupo (no eligen). */
+function moveAmongRadios(e) {
+  const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1, Home: 'first', End: 'last' }
+  const dir = keys[e.key]
+  if (!dir) return
+  const radios = [...e.currentTarget.querySelectorAll('[role="radio"]:not(:disabled)')]
+  const i = radios.indexOf(document.activeElement)
+  if (i === -1) return
+  e.preventDefault()
+  const next = dir === 'first' ? 0 : dir === 'last' ? radios.length - 1 : Math.min(Math.max(i + dir, 0), radios.length - 1)
+  radios[next].focus()
+  radios[next].scrollIntoView({ block: 'nearest', inline: 'nearest' })
+}
+
 /** Citas (no canceladas) de todos los barberos en un día. */
 async function fetchDayAppointments(date) {
   const { data, error } = await supabase
@@ -104,10 +118,10 @@ function Stepper({ step }) {
         const current = n === step
         return (
           <li key={label} className="flex flex-col gap-1.5" aria-current={current ? 'step' : undefined}>
-            <div className={cn('h-1 rounded-full transition-colors duration-700', done || current ? 'bg-gold' : 'bg-ink/10')} />
-            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-ink' : 'text-ink/50')}>
+            <div className={cn('h-1 rounded-full transition-colors duration-300', done || current ? 'bg-gold' : 'bg-ink/10')} />
+            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-ink' : 'text-ink/60')}>
               {done && <Check size={12} strokeWidth={2.5} aria-hidden />}
-              <span className="hidden sm:inline">Paso {n} · </span>{label}
+              {label}
             </span>
           </li>
         )
@@ -124,7 +138,7 @@ function Choice({ selected, onClick, children, className }) {
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'group w-full text-left rounded-xl border p-space-md transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+        'group w-full text-left rounded-xl border p-space-md transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
         selected ? 'border-ink bg-ink text-white' : 'border-ink/10 bg-white hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-18px_rgba(15,15,16,0.35)]',
         className
       )}
@@ -143,10 +157,18 @@ function SummaryRows({ rows, step, onEdit }) {
           <Icon size={16} strokeWidth={1.75} className="text-gold mt-0.5 shrink-0" aria-hidden />
           <div className="min-w-0 flex-1">
             <dt className="text-ink-muted">{label}</dt>
-            <dd className={cn('first-letter:uppercase', value ? 'text-white font-body-medium' : 'text-white/40')}>{value ?? 'Por elegir'}</dd>
+            <dd className={cn('first-letter:uppercase', value ? 'text-white font-body-medium' : 'text-white/60')}>{value ?? 'Por elegir'}</dd>
           </div>
           {value && editStep && editStep < step && (
-            <button type="button" onClick={() => onEdit(editStep)} className="text-gold-light text-[12px] hover:text-gold hover:underline self-start py-1 -my-1">Cambiar</button>
+            // Área de toque de ~44 px sin mover el acomodo
+            <button
+              type="button"
+              onClick={() => onEdit(editStep)}
+              aria-label={`Cambiar ${label.toLowerCase()}`}
+              className="self-start -my-3 -mr-2 px-2 py-3 text-[12px] text-gold-light hover:text-gold hover:underline underline-offset-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              Cambiar
+            </button>
           )}
         </div>
       ))}
@@ -165,7 +187,7 @@ function Summary({ rows, step, total, onEdit, children }) {
         <span className="text-body-sm text-ink-muted">Total a pagar en el local</span>
         {total != null
           ? <span className="font-display text-[26px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>
-          : <span className="text-body-sm text-white/40">Por elegir</span>}
+          : <span className="text-body-sm text-white/60">Por elegir</span>}
       </div>
       {children}
     </PortalCard>
@@ -257,6 +279,7 @@ export default function Reservar() {
   const step = Math.min(Number(params.get('paso')) || maxStep, maxStep)
 
   function update(changes, nextStep) {
+    if (changes.hora) setSubmitError(null)
     setParams(
       (prev) => {
         const next = new URLSearchParams(prev)
@@ -361,7 +384,7 @@ export default function Reservar() {
         update({ hora: '' }, 3)
         setDayRetry((n) => n + 1)
       }
-      toast({ tone: 'error', title: 'No se pudo reservar', description: taken ? 'El horario ya no está disponible.' : err.message })
+      toast({ tone: 'error', title: 'No se pudo reservar', description: taken ? 'Ese horario ya no está disponible. Elige otro.' : 'Revisa tu conexión e inténtalo de nuevo.' })
     } finally {
       setSaving(false)
     }
@@ -372,22 +395,21 @@ export default function Reservar() {
     return (
       <div className="max-w-[640px] mx-auto px-margin-mobile md:px-margin py-space-xl">
         <PortalCard className="flex flex-col items-center text-center gap-space-md p-space-xl">
-          <span className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <span className="w-14 h-14 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center">
             <CalendarCheck size={28} strokeWidth={1.75} aria-hidden />
           </span>
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-wide text-emerald-700">Solicitud enviada</p>
-            <h1 className="font-display text-[30px] leading-tight font-semibold text-ink mt-1">¡Tu cita quedó registrada!</h1>
-            <p className="text-body-default text-ink/70 mt-space-xs">
-              La barbería la revisará y la verás como <span className="font-body-medium text-ink">Confirmada</span> en "Mis citas".
+            <h1 className="font-display text-[30px] leading-tight font-semibold text-ink">¡Tu cita quedó registrada!</h1>
+            <p className="text-body-default text-ink/70 mt-space-xs max-w-[46ch] mx-auto">
+              Queda pendiente hasta que la barbería la confirme; te avisarán por WhatsApp o llamada. También verás el cambio en "Mis citas".
             </p>
           </div>
-          <dl className="w-full text-left rounded-lg border border-ink/10 divide-y divide-ink/10">
+          <dl className="w-full text-left rounded-xl border border-ink/10 divide-y divide-ink/10">
             {[
               ['Folio', `#${booked.id.slice(0, 8).toUpperCase()}`],
               ['Servicio', `${booked.service.name} · ${formatMoneyMXN(booked.service.price)}`],
               ['Fecha', formatDateLong(booked.start)],
-              ['Hora', `${format(booked.start, 'HH:mm')} – ${format(booked.end, 'HH:mm')} h`],
+              ['Hora', `${format(booked.start, 'HH:mm')} a ${format(booked.end, 'HH:mm')} h`],
               ['Barbero', booked.barber.name],
               ['Lugar', `${business.name}, ${business.city}`],
             ].map(([k, v]) => (
@@ -403,7 +425,7 @@ export default function Reservar() {
               href={googleCalendarLink({ title: `${booked.service.name} · ${business.name}`, start: booked.start, end: booked.end, location: `${business.name}, ${business.city}` })}
               target="_blank"
               rel="noreferrer"
-              variant="secondary"
+              variant="outline-dark"
               icon={CalendarPlus}
               className="justify-center"
             >
@@ -417,8 +439,14 @@ export default function Reservar() {
     )
   }
 
-  const morning = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) < 14 * 60) : []
-  const afternoon = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) >= 14 * 60) : []
+  const morning = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) < 12 * 60) : []
+  const afternoon = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) >= 12 * 60) : []
+
+  // Teclado en días y horas: un solo Tab entra al grupo (el elegido o el primero
+  // disponible) y las flechas recorren las opciones; Enter o Espacio elige.
+  const tabbableDay = (date && worksOn(date) ? date : days.find(worksOn))?.getTime()
+  const tabbableSlot = time && slotMap?.has(time) ? time : (slotMap ? [...slotMap.keys()][0] : null)
+
 
   // [icono, etiqueta, valor, paso donde se cambia]
   const summaryRows = [
@@ -445,7 +473,7 @@ export default function Reservar() {
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg min-h-[calc(100dvh-4rem)] lg:min-h-0">
       <header className="flex flex-col gap-space-md">
         <div>
-          <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar <em className="text-shimmer-gold pr-1">cita</em></h1>
+          <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar cita</h1>
           <p className="text-body-default text-ink/70">{business.name} · {business.city}</p>
         </div>
         <Stepper step={step} />
@@ -462,7 +490,7 @@ export default function Reservar() {
             {/* Paso 1: servicio */}
             {step === 1 && (
               <section className="flex flex-col gap-space-md">
-                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">1. Selecciona tu servicio</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige tu servicio</h2>
                 {catalog.loading ? (
                   [0, 1, 2].map((i) => <div key={i} className="h-24 w-full rounded-xl bg-ink/10 animate-pulse" aria-hidden />)
                 ) : (
@@ -487,7 +515,7 @@ export default function Reservar() {
             {/* Paso 2: barbero */}
             {step === 2 && (
               <section className="flex flex-col gap-space-md">
-                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">2. Elige a tu barbero</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige a tu barbero</h2>
                 <div className="grid sm:grid-cols-2 gap-space-sm">
                   <Choice selected={barberParam === ANY} onClick={() => chooseBarber(ANY, earliestSlot)}>
                     <div className="flex items-center gap-space-sm">
@@ -518,8 +546,15 @@ export default function Reservar() {
             {/* Paso 3: fecha y hora */}
             {step === 3 && (
               <section className="flex flex-col gap-space-md">
-                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">3. Selecciona fecha y hora</h2>
-                <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1" role="radiogroup" aria-label="Fecha">
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige día y hora</h2>
+                {/* Si el horario se ocupó al confirmar, el aviso queda aquí, donde se elige otro */}
+                {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
+                <div
+                  className="flex gap-1.5 overflow-x-auto snap-x pt-1 pb-2 -mx-1 px-1 [scrollbar-width:thin] [scrollbar-color:rgba(15,15,16,0.2)_transparent]"
+                  role="radiogroup"
+                  aria-label="Día"
+                  onKeyDown={moveAmongRadios}
+                >
                   {days.map((d) => {
                     const available = worksOn(d)
                     const selected = date && d.getTime() === date.getTime()
@@ -529,17 +564,19 @@ export default function Reservar() {
                         type="button"
                         role="radio"
                         aria-checked={!!selected}
+                        aria-label={`${formatDateLong(d)}${available ? '' : ', sin horarios'}`}
+                        tabIndex={d.getTime() === tabbableDay ? 0 : -1}
                         data-selected-day={selected ? '' : undefined}
                         disabled={!available}
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
-                          'shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-all duration-200',
+                          'snap-start shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
                           selected ? 'bg-ink border-ink text-white' : 'bg-white border-ink/10 hover:border-gold hover:-translate-y-0.5',
-                          !available && 'opacity-40 cursor-not-allowed hover:border-ink/10'
+                          !available && 'opacity-40 cursor-not-allowed hover:border-ink/10 hover:translate-y-0'
                         )}
                       >
                         <span className={cn('text-[11px] uppercase font-semibold', selected ? 'text-gold-light' : 'text-ink/70')}>
-                          {isToday(d) ? 'Hoy' : isTomorrow(d) ? 'Mañ.' : noDots(format(d, 'EEE', { locale: es }))}
+                          {isToday(d) ? 'Hoy' : isTomorrow(d) ? 'Mañana' : noDots(format(d, 'EEE', { locale: es }))}
                         </span>
                         <span className="font-body-semibold tabular-nums">{format(d, 'd')}</span>
                         <span className={cn('text-[11px]', selected ? 'text-gold-light' : 'text-ink/70')}>{noDots(format(d, 'MMM', { locale: es }))}</span>
@@ -580,8 +617,8 @@ export default function Reservar() {
                     />
                   </PortalCard>
                 ) : (
-                  <div className="flex flex-col gap-space-md" role="radiogroup" aria-label="Hora">
-                    {[['Mañana', Sun, morning], ['Tarde', Sunset, afternoon]].map(([label, Icon, list]) =>
+                  <div className="flex flex-col gap-space-md" role="radiogroup" aria-label="Hora" onKeyDown={moveAmongRadios}>
+                    {[['Por la mañana', Sun, morning], ['Por la tarde', Sunset, afternoon]].map(([label, Icon, list]) =>
                       list.length ? (
                         <div key={label} className="flex flex-col gap-space-sm">
                           <p className="flex items-center gap-1.5 text-body-sm font-body-semibold text-ink/70"><Icon size={16} strokeWidth={1.75} aria-hidden /> {label}</p>
@@ -592,9 +629,10 @@ export default function Reservar() {
                                 type="button"
                                 role="radio"
                                 aria-checked={time === s}
+                                tabIndex={s === tabbableSlot ? 0 : -1}
                                 onClick={() => update({ hora: s }, 4)}
                                 className={cn(
-                                  'h-10 rounded-lg border text-body-sm font-body-medium tabular-nums transition-all duration-200',
+                                  'h-11 rounded-lg border text-body-sm font-body-medium tabular-nums transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
                                   time === s ? 'bg-ink border-ink text-gold-light' : 'bg-white border-ink/10 hover:border-gold hover:text-gold-deep hover:-translate-y-0.5'
                                 )}
                               >
@@ -613,7 +651,7 @@ export default function Reservar() {
             {/* Paso 4: confirmar */}
             {step === 4 && (
               <section className="flex flex-col gap-space-md">
-                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">4. Revisa y confirma tu cita</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Revisa y confirma</h2>
                 {/* En celular el resumen se revisa aquí, antes de confirmar */}
                 <div className="lg:hidden">
                   <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)} />
@@ -683,7 +721,7 @@ export default function Reservar() {
               <button
                 type="button"
                 onClick={() => update({}, step - 1)}
-                className="self-start inline-flex items-center gap-space-xs h-9 text-body-medium text-ink/70 hover:text-gold-deep transition-colors"
+                className="self-start inline-flex items-center gap-space-xs h-11 -ml-1 px-1 rounded text-body-medium text-ink/70 hover:text-gold-deep transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
               >
                 <ArrowLeft size={18} strokeWidth={1.75} aria-hidden /> Volver al paso anterior
               </button>
