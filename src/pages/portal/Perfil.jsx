@@ -17,7 +17,7 @@ export default function Perfil() {
     <div className="max-w-[860px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
       <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-space-md">
         <div>
-          <h1 className="font-headline-page-mobile text-headline-page-mobile md:font-headline-page md:text-headline-page">Mi perfil</h1>
+          <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Mi perfil</h1>
           <p className="text-body-default text-on-surface-variant">Tus datos de contacto y el acceso a tu cuenta en {business.name}.</p>
         </div>
         <Button as={Link} to={`/${business.slug}/mis-citas`} variant="secondary" icon={CalendarDays} className="self-start sm:self-auto">Mis citas</Button>

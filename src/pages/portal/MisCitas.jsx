@@ -17,7 +17,7 @@ function Row({ a, base, action }) {
     <li className="flex flex-wrap sm:flex-nowrap items-center gap-x-space-md gap-y-space-sm px-5 py-space-md hover:bg-surface-container-low transition-colors">
       <Link
         to={`${base}/mis-citas/${a.id}`}
-        className="flex flex-1 min-w-0 flex-wrap sm:flex-nowrap items-center gap-space-md rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="flex flex-1 min-w-0 flex-wrap sm:flex-nowrap items-center gap-space-md rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
       >
         <div className="w-36 shrink-0">
           <p className="font-body-semibold tabular-nums whitespace-nowrap first-letter:uppercase">{formatDate(a.start)}</p>
@@ -59,7 +59,7 @@ export default function MisCitas() {
     <div className="max-w-[960px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
       <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-space-md">
         <div>
-          <h1 className="font-headline-page-mobile text-headline-page-mobile md:font-headline-page md:text-headline-page">Mis citas</h1>
+          <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Mis citas</h1>
           <p className="text-body-default text-on-surface-variant">
             Tus reservaciones en {business.name}{!data.loading && visits > 0 ? ` · ${visits} ${visits === 1 ? 'visita' : 'visitas'}` : ''}
           </p>
@@ -93,13 +93,13 @@ export default function MisCitas() {
         ) : (
           <>
             {/* Próxima cita */}
-            <Card className="flex flex-col gap-space-md border-primary/40">
+            <Card className="flex flex-col gap-space-md border-gold/60">
               <div className="flex flex-wrap items-center justify-between gap-space-sm">
-                <span className="text-[12px] font-semibold uppercase tracking-wide text-primary">Tu próxima cita · {formatRelative(next.start)}</span>
+                <span className="text-[12px] font-semibold uppercase tracking-wide text-gold-deep">Tu próxima cita · {formatRelative(next.start)}</span>
                 <StatusBadge status={next.status} />
               </div>
               <div>
-                <p className="font-headline-page-mobile text-headline-page-mobile first-letter:uppercase">{formatDateLong(next.start)}</p>
+                <p className="font-display text-[24px] font-semibold text-ink first-letter:uppercase">{formatDateLong(next.start)}</p>
                 <p className="text-body-default text-on-surface-variant tabular-nums">
                   {formatTime(next.start)}{next.end ? ` – ${formatTime(next.end)}` : ''} h · {formatDuration(next.duration)}
                 </p>

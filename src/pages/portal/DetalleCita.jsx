@@ -78,7 +78,7 @@ export default function DetalleCita() {
           <p className="text-body-sm text-on-surface-variant tabular-nums">
             Folio #{a.id.slice(0, 8).toUpperCase()}{a.createdAt ? ` · reservada el ${formatDate(a.createdAt)}` : ''}
           </p>
-          <h1 className="font-headline-page-mobile text-headline-page-mobile md:font-headline-page md:text-headline-page">{a.serviceName}</h1>
+          <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">{a.serviceName}</h1>
         </div>
         <StatusBadge status={a.status} />
       </header>

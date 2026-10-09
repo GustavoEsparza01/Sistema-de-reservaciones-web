@@ -44,8 +44,8 @@ function Stepper({ step }) {
         const current = n === step
         return (
           <li key={label} className="flex flex-col gap-1.5" aria-current={current ? 'step' : undefined}>
-            <div className={cn('h-1 rounded-full', done || current ? 'bg-primary' : 'bg-surface-container-high')} />
-            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-primary' : done ? 'text-on-surface' : 'text-outline')}>
+            <div className={cn('h-1 rounded-full', done || current ? 'bg-gold' : 'bg-surface-container-high')} />
+            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-on-surface' : 'text-outline')}>
               {done && <Check size={12} strokeWidth={2.5} aria-hidden />}
               <span className="hidden sm:inline">Paso {n} · </span>{label}
             </span>
@@ -63,8 +63,8 @@ function Choice({ selected, onClick, children, className }) {
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'w-full text-left rounded-lg border p-space-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-        selected ? 'border-primary bg-primary-fixed/30 ring-1 ring-primary' : 'border-outline-variant bg-surface-container-lowest hover:border-primary',
+        'w-full text-left rounded-lg border p-space-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+        selected ? 'border-gold bg-gold-soft ring-1 ring-gold' : 'border-outline-variant bg-surface-container-lowest hover:border-gold',
         className
       )}
     >
@@ -188,7 +188,7 @@ export default function Reservar() {
           </span>
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-wide text-emerald-700">Solicitud enviada</p>
-            <h1 className="font-headline-page text-headline-page mt-1">¡Tu cita quedó registrada!</h1>
+            <h1 className="font-display text-[30px] leading-tight font-semibold text-ink mt-1">¡Tu cita quedó registrada!</h1>
             <p className="text-body-default text-on-surface-variant mt-space-xs">
               La barbería la revisará y la verás como <span className="font-body-medium text-on-surface">Confirmada</span> en "Mis citas".
             </p>
@@ -220,9 +220,9 @@ export default function Reservar() {
             >
               Agregar a Google Calendar
             </Button>
-            <Button as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
+            <Button variant="gold" as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
           </div>
-          <Link to={`/${business.slug}`} className="text-body-sm text-primary hover:underline">Volver a la página principal</Link>
+          <Link to={`/${business.slug}`} className="text-body-sm text-gold-deep hover:underline">Volver a la página principal</Link>
         </Card>
       </div>
     )
@@ -235,7 +235,7 @@ export default function Reservar() {
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
       <header className="flex flex-col gap-space-md">
         <div>
-          <h1 className="font-headline-page-mobile text-headline-page-mobile md:font-headline-page md:text-headline-page">Reservar cita</h1>
+          <h1 className="font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar cita</h1>
           <p className="text-body-default text-on-surface-variant">{business.name} · {business.city}</p>
         </div>
         <Stepper step={step} />
@@ -249,7 +249,7 @@ export default function Reservar() {
             {/* Paso 1: servicio */}
             {step === 1 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-headline-section text-headline-section">1. Selecciona tu servicio</h2>
+                <h2 className="font-display text-[22px] font-semibold text-ink">1. Selecciona tu servicio</h2>
                 {catalog.loading ? (
                   [0, 1, 2].map((i) => <Skeleton key={i} className="h-24 w-full rounded-lg" />)
                 ) : (
@@ -274,11 +274,11 @@ export default function Reservar() {
             {/* Paso 2: barbero */}
             {step === 2 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-headline-section text-headline-section">2. Elige a tu barbero</h2>
+                <h2 className="font-display text-[22px] font-semibold text-ink">2. Elige a tu barbero</h2>
                 <div className="grid sm:grid-cols-2 gap-space-sm">
                   <Choice selected={barberParam === ANY} onClick={() => update({ barbero: ANY, hora: '' }, 3)}>
                     <div className="flex items-center gap-space-sm">
-                      <span className="w-12 h-12 rounded-full bg-primary-fixed text-primary flex items-center justify-center shrink-0"><Sparkles size={22} strokeWidth={1.75} aria-hidden /></span>
+                      <span className="w-12 h-12 rounded-full bg-ink text-gold flex items-center justify-center shrink-0"><Sparkles size={22} strokeWidth={1.75} aria-hidden /></span>
                       <div>
                         <p className="font-body-semibold">Cualquier barbero</p>
                         <p className="text-body-sm text-on-surface-variant">Te asignamos al primero disponible</p>
@@ -303,7 +303,7 @@ export default function Reservar() {
             {/* Paso 3: fecha y hora */}
             {step === 3 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-headline-section text-headline-section">3. Selecciona fecha y hora</h2>
+                <h2 className="font-display text-[22px] font-semibold text-ink">3. Selecciona fecha y hora</h2>
                 <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1" role="radiogroup" aria-label="Fecha">
                   {days.map((d) => {
                     const available = worksOn(d)
@@ -318,15 +318,15 @@ export default function Reservar() {
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
                           'shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-colors',
-                          selected ? 'bg-primary border-primary text-on-primary' : 'bg-surface-container-lowest border-outline-variant hover:border-primary',
+                          selected ? 'bg-ink border-ink text-white' : 'bg-surface-container-lowest border-outline-variant hover:border-gold',
                           !available && 'opacity-40 cursor-not-allowed hover:border-outline-variant'
                         )}
                       >
-                        <span className={cn('text-[11px] uppercase font-semibold', selected ? 'text-on-primary/80' : 'text-on-surface-variant')}>
+                        <span className={cn('text-[11px] uppercase font-semibold', selected ? 'text-gold-light' : 'text-on-surface-variant')}>
                           {isToday(d) ? 'Hoy' : isTomorrow(d) ? 'Mañ.' : noDots(format(d, 'EEE', { locale: es }))}
                         </span>
                         <span className="font-body-semibold tabular-nums">{format(d, 'd')}</span>
-                        <span className={cn('text-[11px]', selected ? 'text-on-primary/80' : 'text-on-surface-variant')}>{noDots(format(d, 'MMM', { locale: es }))}</span>
+                        <span className={cn('text-[11px]', selected ? 'text-gold-light' : 'text-on-surface-variant')}>{noDots(format(d, 'MMM', { locale: es }))}</span>
                       </button>
                     )
                   })}
@@ -360,7 +360,7 @@ export default function Reservar() {
                                 onClick={() => update({ hora: s }, 4)}
                                 className={cn(
                                   'h-10 rounded-lg border text-body-sm font-body-medium tabular-nums transition-colors',
-                                  time === s ? 'bg-primary border-primary text-on-primary' : 'bg-surface-container-lowest border-outline-variant hover:border-primary hover:text-primary'
+                                  time === s ? 'bg-ink border-ink text-white' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:text-gold-deep'
                                 )}
                               >
                                 {s}
@@ -378,7 +378,7 @@ export default function Reservar() {
             {/* Paso 4: confirmar */}
             {step === 4 && (
               <section className="flex flex-col gap-space-md">
-                <h2 className="font-headline-section text-headline-section">4. Revisa y confirma tu cita</h2>
+                <h2 className="font-display text-[22px] font-semibold text-ink">4. Revisa y confirma tu cita</h2>
                 {!session ? (
                   <Card className="flex flex-col gap-space-md">
                     <p className="text-body-default">Para confirmar necesitas una cuenta. Así podrás ver, cambiar o cancelar tu cita después.</p>
@@ -405,7 +405,7 @@ export default function Reservar() {
                         <p className="font-body-semibold">{profile?.full_name || 'Cliente'}</p>
                         <p className="text-body-sm text-on-surface-variant tabular-nums">{profile?.phone || session.user.email}</p>
                       </div>
-                      <Link to={`/${business.slug}/perfil`} className="ml-auto text-body-sm text-primary hover:underline">Editar mis datos</Link>
+                      <Link to={`/${business.slug}/perfil`} className="ml-auto text-body-sm text-gold-deep hover:underline">Editar mis datos</Link>
                     </div>
                     <Textarea
                       label="Notas para tu barbero (opcional)"
@@ -419,7 +419,7 @@ export default function Reservar() {
                       <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">Ese horario ya no está disponible. Elige otro.</p>
                     )}
                     {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
-                    <Button onClick={confirm} loading={saving} disabled={!assigned || notes.length > 300} icon={CalendarCheck} className="justify-center h-11">
+                    <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned || notes.length > 300} icon={CalendarCheck} className="justify-center h-11">
                       Confirmar reserva{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
                     </Button>
                     <p className="text-body-sm text-on-surface-variant text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
@@ -438,7 +438,7 @@ export default function Reservar() {
           {/* Resumen */}
           <aside className="lg:sticky lg:top-24">
             <Card className="flex flex-col gap-space-md">
-              <h2 className="font-headline-section text-headline-section">Resumen de tu cita</h2>
+              <h2 className="font-display text-[20px] font-semibold text-ink">Resumen de tu cita</h2>
               <dl className="flex flex-col gap-space-sm text-body-sm">
                 {[
                   [Scissors, 'Servicio', service ? `${service.name} · ${formatDuration(service.duration)}` : null, 1],
@@ -454,7 +454,7 @@ export default function Reservar() {
                       <dd className={cn('first-letter:uppercase', value ? 'text-on-surface font-body-medium' : 'text-outline')}>{value ?? 'Por elegir'}</dd>
                     </div>
                     {value && editStep && editStep < step && (
-                      <button type="button" onClick={() => update({}, editStep)} className="text-primary text-[12px] hover:underline self-start">Cambiar</button>
+                      <button type="button" onClick={() => update({}, editStep)} className="text-gold-deep text-[12px] hover:underline self-start">Cambiar</button>
                     )}
                   </div>
                 ))}

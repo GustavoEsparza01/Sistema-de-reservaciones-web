@@ -26,9 +26,9 @@ function AccountMenu() {
   if (!session) {
     const volver = encodeURIComponent(location.pathname + location.search)
     return (
-      <Button as={Link} to={`/login?volver=${volver}`} variant="ghost" icon={LogIn}>
-        Iniciar sesión
-      </Button>
+      <Link to={`/login?volver=${volver}`} className="inline-flex items-center gap-space-xs h-9 px-space-sm text-body-medium text-ink-muted hover:text-white transition-colors">
+        <LogIn size={18} strokeWidth={1.75} aria-hidden /> Iniciar sesión
+      </Link>
     )
   }
 
@@ -40,14 +40,14 @@ function AccountMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex items-center gap-space-xs rounded-full pl-0.5 pr-2 py-0.5 hover:bg-surface-container-low"
+        className="flex items-center gap-space-xs rounded-full pl-0.5 pr-2 py-0.5 text-white hover:bg-white/10"
       >
         <Avatar name={name} size="sm" />
         <span className="hidden sm:inline text-body-sm font-body-medium max-w-[140px] truncate">{name.split(' ')[0]}</span>
         <ChevronDown size={16} strokeWidth={1.75} aria-hidden />
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 mt-2 w-48 rounded-lg border border-outline-variant bg-surface-container-lowest shadow-xl py-1 z-50">
+        <div role="menu" className="absolute right-0 mt-2 w-48 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface shadow-xl py-1 z-50">
           <Link role="menuitem" to={`/${business.slug}/mis-citas`} onClick={() => setOpen(false)} className="flex items-center gap-space-sm px-3 py-2 text-body-sm hover:bg-surface-container-low">
             <CalendarPlus size={16} strokeWidth={1.75} aria-hidden /> Mis citas
           </Link>
@@ -98,15 +98,15 @@ export default function PortalLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans text-on-surface">
-      <header className="sticky top-0 z-40 bg-surface-container-lowest/95 backdrop-blur border-b border-outline-variant">
+      <header className="sticky top-0 z-40 bg-ink/95 backdrop-blur border-b border-ink-line text-white">
         <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin h-16 flex items-center gap-space-md">
           <Link to={base} className="flex items-center gap-space-sm min-w-0">
-            <span className="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center shrink-0">
+            <span className="w-9 h-9 rounded-full border border-gold/50 bg-gold/10 text-gold flex items-center justify-center shrink-0">
               <Scissors size={18} strokeWidth={1.75} aria-hidden />
             </span>
             <span className="min-w-0">
-              <span className="block font-body-semibold leading-tight truncate">{business.name}</span>
-              <span className="hidden sm:flex items-center gap-1 text-[12px] text-on-surface-variant">
+              <span className="block font-display text-[18px] font-semibold leading-tight truncate">{business.name}</span>
+              <span className="hidden sm:flex items-center gap-1 text-[12px] text-ink-muted">
                 <MapPin size={12} strokeWidth={1.75} aria-hidden /> {business.city}
               </span>
             </span>
@@ -114,7 +114,7 @@ export default function PortalLayout() {
 
           <nav aria-label="Secciones" className="hidden md:flex items-center gap-space-md ml-space-lg">
             {links.map((l) => (
-              <NavLink key={l.label} to={l.to} className="text-body-sm font-body-medium text-on-surface-variant hover:text-on-surface">
+              <NavLink key={l.label} to={l.to} className="text-body-sm font-body-medium text-ink-muted hover:text-gold transition-colors">
                 {l.label}
               </NavLink>
             ))}
@@ -122,7 +122,7 @@ export default function PortalLayout() {
 
           <div className="ml-auto flex items-center gap-space-sm">
             {!pathname.endsWith('/reservar') && (
-              <Button as={Link} to={`${base}/reservar`} icon={CalendarPlus} className="hidden sm:inline-flex">
+              <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="hidden sm:inline-flex">
                 Agendar cita
               </Button>
             )}
@@ -132,7 +132,7 @@ export default function PortalLayout() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={menuOpen}
-              className="md:hidden p-1.5 rounded text-on-surface-variant hover:bg-surface-container-low"
+              className="md:hidden p-1.5 rounded text-white hover:bg-white/10"
             >
               {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
             </button>
@@ -140,11 +140,11 @@ export default function PortalLayout() {
         </div>
 
         {menuOpen && (
-          <nav aria-label="Secciones" className="md:hidden border-t border-outline-variant px-margin-mobile py-space-sm flex flex-col">
+          <nav aria-label="Secciones" className="md:hidden border-t border-ink-line px-margin-mobile py-space-sm flex flex-col">
             {links.map((l) => (
-              <Link key={l.label} to={l.to} className="py-2 text-body-default text-on-surface">{l.label}</Link>
+              <Link key={l.label} to={l.to} className="py-2 text-body-default text-white">{l.label}</Link>
             ))}
-            <Button as={Link} to={`${base}/reservar`} icon={CalendarPlus} className="mt-space-sm justify-center">Agendar cita</Button>
+            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="mt-space-sm justify-center">Agendar cita</Button>
           </nav>
         )}
       </header>
@@ -153,21 +153,21 @@ export default function PortalLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-outline-variant bg-surface-container-lowest">
-        <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl grid gap-space-lg sm:grid-cols-3 text-body-sm">
+      <footer className="bg-ink text-ink-muted">
+        <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[48px] grid gap-space-lg sm:grid-cols-3 text-body-sm">
           <div className="flex flex-col gap-1">
-            <p className="font-body-semibold text-on-surface">{business.name}</p>
-            <p className="text-on-surface-variant">{business.city}</p>
+            <p className="font-display text-[20px] font-semibold text-white">{business.name}</p>
+            <p>{business.city}</p>
           </div>
           <div className="flex flex-col gap-1">
-            <p className="font-body-semibold text-on-surface">Horario</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-gold mb-1">Horario</p>
             {business.hours.map((h) => (
-              <p key={h.label} className="text-on-surface-variant tabular-nums">{h.label}: {h.open} – {h.close}</p>
+              <p key={h.label} className="tabular-nums">{h.label}: {h.open} – {h.close}</p>
             ))}
           </div>
           <div className={cn('flex flex-col gap-1 sm:items-end')}>
-            <p className="text-on-surface-variant">Reservas con</p>
-            <Logo />
+            <p>Reservas con</p>
+            <Logo tone="premium" />
           </div>
         </div>
       </footer>
