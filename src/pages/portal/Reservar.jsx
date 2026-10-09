@@ -4,7 +4,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { addDays, format, isToday, parseISO, startOfDay, endOfDay, isTomorrow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import {
-  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, CircleAlert, Clock, LogIn, MapPin,
+  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, ChevronUp, CircleAlert, Clock, LogIn, MapPin,
   Scissors, Sun, Sunset, Timer, User, Users,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -75,32 +75,88 @@ function Choice({ selected, onClick, children, className }) {
   )
 }
 
-/** Resumen de la cita como comprobante carbón: lo elegido, "Cambiar" por fila y el total. */
+/** Filas del resumen (sobre fondo carbón) con "Cambiar" en lo ya elegido. */
+function SummaryRows({ rows, step, onEdit }) {
+  return (
+    <dl className="flex flex-col gap-space-sm text-body-sm">
+      {rows.map(([Icon, label, value, editStep]) => (
+        <div key={label} className="flex gap-space-sm">
+          <Icon size={16} strokeWidth={1.75} className="text-gold mt-0.5 shrink-0" aria-hidden />
+          <div className="min-w-0 flex-1">
+            <dt className="text-ink-muted">{label}</dt>
+            <dd className={cn('first-letter:uppercase', value ? 'text-white font-body-medium' : 'text-white/40')}>{value ?? 'Por elegir'}</dd>
+          </div>
+          {value && editStep && editStep < step && (
+            <button type="button" onClick={() => onEdit(editStep)} className="text-gold-light text-[12px] hover:text-gold hover:underline self-start py-1 -my-1">Cambiar</button>
+          )}
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+/** Resumen de la cita como comprobante carbón: lo elegido y el total. */
 function Summary({ rows, step, total, onEdit, children }) {
   return (
     <PortalCard tone="ink" className="flex flex-col gap-space-md">
       <h2 className="font-display text-[20px] font-semibold">Resumen de tu cita</h2>
-      <dl className="flex flex-col gap-space-sm text-body-sm">
-        {rows.map(([Icon, label, value, editStep]) => (
-          <div key={label} className="flex gap-space-sm">
-            <Icon size={16} strokeWidth={1.75} className="text-gold mt-0.5 shrink-0" aria-hidden />
-            <div className="min-w-0 flex-1">
-              <dt className="text-ink-muted">{label}</dt>
-              <dd className={cn('first-letter:uppercase', value ? 'text-white font-body-medium' : 'text-white/40')}>{value ?? 'Por elegir'}</dd>
-            </div>
-            {value && editStep && editStep < step && (
-              <button type="button" onClick={() => onEdit(editStep)} className="text-gold-light text-[12px] hover:text-gold hover:underline self-start">Cambiar</button>
-            )}
-          </div>
-        ))}
-      </dl>
+      <SummaryRows rows={rows} step={step} onEdit={onEdit} />
       {/* Corte de comprobante */}
       <div className="border-t border-dashed border-ink-line pt-space-md flex items-baseline justify-between gap-space-sm">
         <span className="text-body-sm text-ink-muted">Total a pagar en el local</span>
-        <span className="font-display text-[26px] font-semibold text-gold tabular-nums">{total != null ? formatMoneyMXN(total) : '$0'}</span>
+        {total != null
+          ? <span className="font-display text-[26px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>
+          : <span className="text-body-sm text-white/40">Por elegir</span>}
       </div>
       {children}
     </PortalCard>
+  )
+}
+
+/**
+ * Barra fija abajo en celular (pasos 1 a 3): lo elegido, el total y "Continuar".
+ * Al tocarla se despliega el resumen completo. Es sticky dentro de la página,
+ * así que al final se detiene antes del pie.
+ */
+function MobileSummaryBar({ rows, step, total, onEdit, onContinue }) {
+  const [open, setOpen] = useState(false)
+  useEffect(() => setOpen(false), [step])
+  const service = rows[0][2]
+  const time = rows[3][2]
+
+  return (
+    <div className="lg:hidden sticky bottom-0 z-30 mt-auto -mx-margin-mobile md:-mx-margin -mb-space-xl">
+      <div className="bg-ink text-white border-t border-ink-line shadow-[0_-16px_32px_-16px_rgba(15,15,16,0.55)]">
+        <div id="resumen-movil" className={cn('grid transition-[grid-template-rows] duration-300 ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
+          <div className="overflow-hidden" inert={open ? undefined : ''}>
+            <div className="px-margin-mobile md:px-margin pt-space-md pb-space-sm border-b border-dashed border-ink-line">
+              <SummaryRows rows={rows} step={step} onEdit={(s) => { setOpen(false); onEdit(s) }} />
+            </div>
+          </div>
+        </div>
+        <div className="px-margin-mobile md:px-margin pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-space-sm">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="resumen-movil"
+            className="min-w-0 flex-1 text-left py-1"
+          >
+            <span className="flex items-center gap-1 text-[12px] text-ink-muted">
+              Paso {step} de {STEPS.length} · {open ? 'Ocultar' : 'Ver'} resumen
+              <ChevronUp size={14} strokeWidth={1.75} className={cn('transition-transform duration-300', !open && 'rotate-180')} aria-hidden />
+            </span>
+            <span className="block truncate text-body-medium">
+              {service ? service.split(' · ')[0] : 'Elige un servicio'}{time ? ` · ${time}` : ''}
+            </span>
+          </button>
+          {total != null && <span className="font-display text-[22px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>}
+          {onContinue && (
+            <Button variant="gold" iconRight={ArrowRight} className="h-11" onClick={onContinue}>Continuar</Button>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -269,9 +325,10 @@ export default function Reservar() {
     [Clock, 'Hora', time ? `${time} h` : null, 3],
     [MapPin, 'Lugar', `${business.name}, ${business.city}`, null],
   ]
+  const canContinue = step < 4 && step < maxStep
 
   return (
-    <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
+    <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg min-h-[calc(100dvh-4rem)] lg:min-h-0">
       <header className="flex flex-col gap-space-md">
         <div>
           <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar <em className="text-shimmer-gold pr-1">cita</em></h1>
@@ -419,6 +476,10 @@ export default function Reservar() {
             {step === 4 && (
               <section className="flex flex-col gap-space-md">
                 <h2 className="font-display text-[22px] font-semibold text-ink">4. Revisa y confirma tu cita</h2>
+                {/* En celular el resumen se revisa aquí, antes de confirmar */}
+                <div className="lg:hidden">
+                  <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)} />
+                </div>
                 {!session ? (
                   <PortalCard className="flex flex-col gap-space-md">
                     <p className="text-body-default">Para confirmar necesitas una cuenta. Así podrás ver, cambiar o cancelar tu cita después.</p>
@@ -480,15 +541,25 @@ export default function Reservar() {
             )}
           </div>
 
-          {/* Resumen: comprobante carbón */}
-          <aside className="lg:sticky lg:top-24">
+          {/* Resumen: comprobante carbón (en celular va en la barra de abajo) */}
+          <aside className="hidden lg:block lg:sticky lg:top-24">
             <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)}>
-              {step < 4 && step < maxStep && (
+              {canContinue && (
                 <Button variant="gold" iconRight={ArrowRight} className="justify-center h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
               )}
             </Summary>
           </aside>
         </div>
+      )}
+
+      {!catalog.error && step < 4 && (
+        <MobileSummaryBar
+          rows={summaryRows}
+          step={step}
+          total={service?.price}
+          onEdit={(s) => update({}, s)}
+          onContinue={canContinue ? () => update({}, step + 1) : null}
+        />
       )}
     </div>
   )
