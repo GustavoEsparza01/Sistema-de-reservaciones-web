@@ -58,7 +58,7 @@ export default function Recuperar() {
       </div>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-space-md">
         <Input label="Correo electrónico" type="email" autoComplete="email" icon={Mail} placeholder="tu@correo.com" value={email} onChange={(e) => setEmail(e.target.value)} error={error} autoFocus />
-        <Button type="submit" loading={sending} className="justify-center h-11">Enviar enlace</Button>
+        <Button type="submit" loading={sending} size="lg" className="justify-center">Enviar enlace</Button>
       </form>
       <Link to={withReturn('/login', params)} className="self-center inline-flex items-center gap-1 text-body-sm text-primary hover:underline">
         <ArrowLeft size={14} aria-hidden /> Volver a iniciar sesión

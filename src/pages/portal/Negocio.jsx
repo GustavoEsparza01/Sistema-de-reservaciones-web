@@ -88,10 +88,10 @@ export default function Negocio() {
               <MapPin size={16} strokeWidth={1.75} className="text-gold" aria-hidden /> {business.city}
             </p>
             <div style={{ '--enter-delay': '440ms' }} className="animate-enter grid grid-cols-2 sm:flex gap-space-sm mt-space-xs">
-              <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="h-12 px-space-lg text-[15px] justify-center">
+              <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} size="xl" className="justify-center">
                 Reservar cita
               </Button>
-              <Button as="a" href="#servicios" variant="outline-light" className="h-12 px-space-lg text-[15px] justify-center backdrop-blur-sm">
+              <Button as="a" href="#servicios" variant="outline-light" size="xl" className="justify-center backdrop-blur-sm">
                 Ver servicios
               </Button>
             </div>
@@ -226,7 +226,7 @@ export default function Negocio() {
                 </div>
               </div>
             ))}
-            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="relative justify-center h-11">
+            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} size="lg" className="relative justify-center">
               Reservar cita
             </Button>
           </div>

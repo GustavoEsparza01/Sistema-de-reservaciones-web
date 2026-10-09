@@ -27,7 +27,7 @@ function AccountMenu() {
   if (!session) {
     const volver = encodeURIComponent(location.pathname + location.search)
     return (
-      <Link to={`/login?volver=${volver}`} className="inline-flex items-center gap-space-xs h-9 px-space-sm text-body-medium text-ink-muted hover:text-white transition-colors">
+      <Link to={`/login?volver=${volver}`} className="inline-flex items-center gap-space-xs h-11 px-space-sm text-body-medium text-ink-muted hover:text-white transition-colors">
         <LogIn size={18} strokeWidth={1.75} aria-hidden /> Iniciar sesión
       </Link>
     )
@@ -144,7 +144,7 @@ export default function PortalLayout() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={menuOpen}
-              className="md:hidden p-1.5 rounded text-white hover:bg-white/10"
+              className="md:hidden -mr-2 w-11 h-11 flex items-center justify-center rounded text-white hover:bg-white/10"
             >
               {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
             </button>
@@ -154,7 +154,7 @@ export default function PortalLayout() {
         {menuOpen && (
           <nav aria-label="Secciones" className="md:hidden border-t border-ink-line px-margin-mobile py-space-sm flex flex-col">
             {links.map((l) => (
-              <Link key={l.label} to={l.to} className="py-2 text-body-default text-white">{l.label}</Link>
+              <Link key={l.label} to={l.to} className="py-3 text-body-default text-white">{l.label}</Link>
             ))}
             <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="mt-space-sm justify-center">Agendar cita</Button>
           </nav>

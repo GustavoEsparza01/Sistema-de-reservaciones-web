@@ -101,12 +101,12 @@ export default function Onboarding() {
             <Button variant="ghost" icon={RotateCcw} onClick={() => setConfirmReset(true)}>Empezar de nuevo</Button>
           )}
           {step < LAST ? (
-            <Button iconRight={ArrowRight} onClick={next} className="h-11 px-space-lg">
+            <Button iconRight={ArrowRight} onClick={next} size="lg">
               {step === LAST - 1 ? 'Ver vista previa' : `Continuar a ${STEPS[step + 1].label.toLowerCase()}`}
             </Button>
           ) : (
             <div className="flex flex-col items-end gap-1">
-              <Button icon={Store} disabled className="h-11 px-space-lg">Crear mi barbería</Button>
+              <Button icon={Store} disabled size="lg">Crear mi barbería</Button>
               <span className="text-[12px] text-on-surface-variant">Disponible cuando se conecte la base de datos</span>
             </div>
           )}

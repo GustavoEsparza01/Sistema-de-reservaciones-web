@@ -86,7 +86,7 @@ export default function Login() {
 
         {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
 
-        <Button type="submit" loading={submitting} iconRight={ArrowRight} className="justify-center h-11">
+        <Button type="submit" loading={submitting} iconRight={ArrowRight} size="lg" className="justify-center">
           Iniciar sesión
         </Button>
       </form>

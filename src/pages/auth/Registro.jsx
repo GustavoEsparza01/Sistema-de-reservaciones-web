@@ -103,7 +103,7 @@ export default function Registro() {
 
         {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
 
-        <Button type="submit" loading={submitting} iconRight={ArrowRight} className="justify-center h-11">Crear cuenta</Button>
+        <Button type="submit" loading={submitting} iconRight={ArrowRight} size="lg" className="justify-center">Crear cuenta</Button>
       </form>
 
       <p className="text-body-sm text-center text-on-surface-variant">

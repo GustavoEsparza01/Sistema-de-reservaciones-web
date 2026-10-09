@@ -267,8 +267,8 @@ export default function Landing() {
                 Agenda, equipo, clientes e ingresos en un solo lugar. Tus clientes reservan en línea a cualquier hora y tú solo ves horarios que de verdad están libres.
               </p>
               <div className="animate-enter flex flex-wrap gap-space-sm" style={enter(500)}>
-                <Button as={Link} to="/onboarding" variant="gold" iconRight={ArrowRight} className="group h-12 px-space-lg text-[15px] [&>svg]:transition-transform hover:[&>svg]:translate-x-1">Crear mi barbería</Button>
-                <Button as={Link} to={demoUrl} variant="outline-light" className="h-12 px-space-lg text-[15px]">Ver demo en vivo</Button>
+                <Button as={Link} to="/onboarding" variant="gold" iconRight={ArrowRight} size="xl" className="group [&>svg]:transition-transform hover:[&>svg]:translate-x-1">Crear mi barbería</Button>
+                <Button as={Link} to={demoUrl} variant="outline-light" size="xl">Ver demo en vivo</Button>
               </div>
               <ul className="animate-enter flex flex-wrap gap-x-space-lg gap-y-space-xs text-body-sm text-ink-muted" style={enter(620)}>
                 {['Funciona en el navegador', 'Sin app para tus clientes', 'Exporta tus datos cuando quieras'].map((t) => (
@@ -422,7 +422,7 @@ export default function Landing() {
                 <h2 className="font-display text-[32px] md:text-[42px] leading-[1.1] font-semibold">Mira cómo lo usa <em className="text-shimmer-gold pr-1">{business.name}</em></h2>
                 <p className="text-ink-muted text-[17px] leading-7">Recorre su página pública y el flujo de reserva, tal como lo ven sus clientes en {business.city}.</p>
               </div>
-              <Button as={Link} to={demoUrl} variant="gold" iconRight={ArrowRight} className="relative h-12 px-space-lg text-[15px] self-start md:self-auto">Abrir {business.name}</Button>
+              <Button as={Link} to={demoUrl} variant="gold" iconRight={ArrowRight} size="xl" className="relative self-start md:self-auto">Abrir {business.name}</Button>
             </div>
           </Reveal>
         </section>
@@ -453,7 +453,7 @@ export default function Landing() {
                         <li key={f} className="flex items-start gap-space-sm text-body-default"><Check size={18} className={cn('shrink-0 mt-0.5', p.highlight ? 'text-gold' : 'text-gold-deep')} aria-hidden /> {f}</li>
                       ))}
                     </ul>
-                    <Button as={Link} to="/onboarding" variant={p.highlight ? 'gold' : 'secondary'} className="justify-center h-11">Empezar</Button>
+                    <Button as={Link} to="/onboarding" variant={p.highlight ? 'gold' : 'secondary'} size="lg" className="justify-center">Empezar</Button>
                   </div>
                 </Reveal>
               ))}

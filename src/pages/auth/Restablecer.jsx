@@ -62,7 +62,7 @@ export default function Restablecer() {
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-space-md">
         <PasswordInput label="Nueva contraseña" autoComplete="new-password" value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} error={errors.password} hint="Mínimo 8 caracteres." autoFocus />
         <PasswordInput label="Confirmar contraseña" autoComplete="new-password" value={form.confirm} onChange={(e) => setForm((f) => ({ ...f, confirm: e.target.value }))} error={errors.confirm} />
-        <Button type="submit" loading={saving} className="justify-center h-11">Guardar contraseña</Button>
+        <Button type="submit" loading={saving} size="lg" className="justify-center">Guardar contraseña</Button>
       </form>
     </div>
   )

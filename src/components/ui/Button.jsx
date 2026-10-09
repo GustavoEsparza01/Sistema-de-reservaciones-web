@@ -16,6 +16,10 @@ const VARIANTS = {
 const SIZES = {
   sm:   'h-8 px-2.5 gap-1.5 text-body-sm font-medium',
   md:   'h-9 px-space-md gap-space-xs text-body-medium',
+  // 44 px: acción principal en celular (área de toque mínima recomendada)
+  lg:   'h-11 px-space-md gap-space-xs text-body-medium',
+  // 48 px: llamados a la acción de los héroes (landing y portal)
+  xl:   'h-12 px-space-lg gap-space-xs text-[15px]',
   icon: 'h-9 w-9 justify-center',
   'icon-sm': 'h-8 w-8 justify-center',
 }
@@ -23,7 +27,9 @@ const SIZES = {
 /**
  * Botón estándar.
  * - variant: primary | secondary | ghost | danger | gold | outline-light | outline-dark
- * - size: sm | md | icon | icon-sm
+ * - size: sm | md | lg | xl | icon | icon-sm
+ *   La altura se cambia con size, no con className="h-11": cn() no usa tailwind-merge
+ *   y en el CSS generado h-11/h-12 quedan antes que h-9, así que pierden.
  * - icon / iconRight: componente de lucide-react
  * - as: elemento o componente a renderizar (por ejemplo Link de react-router)
  */

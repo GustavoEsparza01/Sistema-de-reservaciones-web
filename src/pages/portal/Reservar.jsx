@@ -547,11 +547,11 @@ export default function Reservar() {
   // Acción de la barra de abajo en celular: siempre al alcance del pulgar
   let mobileAction = null
   if (step < 4) {
-    if (canContinue) mobileAction = <Button variant="gold" iconRight={ArrowRight} className="h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
+    if (canContinue) mobileAction = <Button variant="gold" iconRight={ArrowRight} size="lg" onClick={() => update({}, step + 1)}>Continuar</Button>
   } else if (!session) {
-    mobileAction = <Button as={Link} to={loginUrl} variant="gold" icon={LogIn} className="h-11">Entrar o registrarme</Button>
+    mobileAction = <Button as={Link} to={loginUrl} variant="gold" icon={LogIn} size="lg">Entrar o registrarme</Button>
   } else if (profile?.role !== 'banned') {
-    mobileAction = <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="h-11">Solicitar</Button>
+    mobileAction = <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} size="lg">Solicitar</Button>
   }
 
   return (
@@ -827,7 +827,7 @@ export default function Reservar() {
                       </div>
                     )}
                     {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
-                    <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="max-lg:hidden justify-center h-11">
+                    <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} size="lg" className="max-lg:hidden justify-center">
                       Solicitar cita{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
                     </Button>
                     <p className="text-body-sm text-ink/70 text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
@@ -851,7 +851,7 @@ export default function Reservar() {
           <aside className="hidden lg:block lg:sticky lg:top-24">
             <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)}>
               {canContinue && (
-                <Button variant="gold" iconRight={ArrowRight} className="justify-center h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
+                <Button variant="gold" iconRight={ArrowRight} size="lg" className="justify-center" onClick={() => update({}, step + 1)}>Continuar</Button>
               )}
             </Summary>
           </aside>
