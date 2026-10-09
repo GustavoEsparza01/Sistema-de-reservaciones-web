@@ -110,7 +110,7 @@ function NextSlot({ loading, slot }) {
 
 // Interruptor de datos de prueba: solo se dibuja en desarrollo. Es herramienta, no diseño.
 const DEMO_MODES = [['', 'Real'], ['peor', 'Peor caso'], ['vacio', 'Vacío'], ['uno', 'Uno'], ['sinlugar', 'Sin horarios']]
-function DemoDataToggle({ mode, onChange }) {
+function DemoDataToggle({ mode, onChange, onPreviewBooked }) {
   if (!import.meta.env.DEV) return null
   return (
     <div className="fixed top-[76px] left-1/2 -translate-x-1/2 z-50 flex gap-0.5 rounded-full bg-neutral-200 p-0.5 text-[12px] shadow" style={{ fontFamily: 'system-ui, sans-serif' }} role="group" aria-label="Datos de prueba (solo desarrollo)">
@@ -124,6 +124,10 @@ function DemoDataToggle({ mode, onChange }) {
           {label}
         </button>
       ))}
+      {/* Muestra la pantalla de cita registrada con datos de ejemplo; no guarda nada */}
+      <button type="button" onClick={onPreviewBooked} className="rounded-full px-2.5 py-1 whitespace-nowrap text-neutral-600">
+        Pantalla final
+      </button>
     </div>
   )
 }
@@ -357,6 +361,13 @@ export default function Reservar() {
     stepHeading.current?.focus({ preventScroll: true })
   }, [step])
 
+  // Con la cita registrada, el foco pasa al título "¡Tu cita quedó registrada!"
+  // (el botón Confirmar ya no existe y el lector de pantalla debe leer el resultado)
+  const bookedHeading = useRef(null)
+  useEffect(() => {
+    if (booked) bookedHeading.current?.focus({ preventScroll: true })
+  }, [booked])
+
   // En el paso 3, la tira de días se desplaza hasta el día elegido (p. ej. el próximo lugar del barbero)
   useEffect(() => {
     if (step !== 3) return
@@ -428,8 +439,7 @@ export default function Reservar() {
     setSubmitError(null)
     try {
       const id = await createAppointment({ clientId: session.user.id, barberId: assigned.id, service, start, notes, status: 'pending' })
-      setBooked({ id, start, end: new Date(start.getTime() + service.duration * 60000), barber: assigned, service })
-      window.scrollTo({ top: 0 })
+      showBooked({ id, start, barber: assigned, service })
     } catch (err) {
       const taken = /overlap|traslap|solap/i.test(err.message)
       setSubmitError(taken ? 'Ese horario se acaba de ocupar. Elige otro, por favor.' : 'No se pudo registrar tu cita. Inténtalo de nuevo.')
@@ -443,16 +453,38 @@ export default function Reservar() {
     }
   }
 
+  function showBooked({ id, start, barber, service }) {
+    setBooked({ id, start, end: new Date(start.getTime() + service.duration * 60000), barber, service })
+    window.scrollTo({ top: 0 })
+    const day = formatDateLong(start)
+    toast({ tone: 'gold', title: 'Cita registrada', description: `${day.charAt(0).toUpperCase()}${day.slice(1)}, ${format(start, 'HH:mm')} h` })
+  }
+
+  // Solo desarrollo: la pantalla final con datos de ejemplo, para revisar la animación sin crear citas
+  function previewBooked() {
+    const start = addDays(startOfDay(new Date()), 1)
+    start.setHours(10, 30, 0, 0)
+    showBooked({
+      id: 'demo0000',
+      start,
+      barber: catalog.barbers[0] ?? { name: 'Barbero de ejemplo' },
+      service: catalog.services[0] ?? { name: 'Corte de ejemplo', price: 150, duration: 45 },
+    })
+  }
+
   // ── Reserva registrada ───────────────────────────────────────
   if (booked) {
     return (
       <div className="max-w-[640px] mx-auto px-margin-mobile md:px-margin py-space-xl">
         <PortalCard className="flex flex-col items-center text-center gap-space-md p-space-xl">
-          <span className="w-14 h-14 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center">
-            <CalendarCheck size={28} strokeWidth={1.75} aria-hidden />
+          {/* Check dorado que se dibuja; la secuencia completa está en index.css (.confirm-*) */}
+          <span className="confirm-badge w-14 h-14 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path className="confirm-check" pathLength="1" d="M5.5 12.5l4.25 4.25L18.5 7.5" />
+            </svg>
           </span>
-          <div>
-            <h1 className="font-display text-[30px] leading-tight font-semibold text-ink">¡Tu cita quedó registrada!</h1>
+          <div className="confirm-item" style={{ '--i': 0 }}>
+            <h1 ref={bookedHeading} tabIndex={-1} className="font-display text-[30px] leading-tight font-semibold text-ink focus:outline-none">¡Tu cita quedó registrada!</h1>
             <p className="text-body-default text-ink/70 mt-space-xs max-w-[46ch] mx-auto">
               Queda pendiente hasta que la barbería la confirme; te avisarán por WhatsApp o llamada. También verás el cambio en "Mis citas".
             </p>
@@ -465,14 +497,14 @@ export default function Reservar() {
               ['Hora', `${format(booked.start, 'HH:mm')} a ${format(booked.end, 'HH:mm')} h`],
               ['Barbero', booked.barber.name],
               ['Lugar', `${business.name}, ${business.city}`],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-space-md px-space-md py-2.5 text-body-sm">
+            ].map(([k, v], i) => (
+              <div key={k} className="confirm-item flex justify-between gap-space-md px-space-md py-2.5 text-body-sm" style={{ '--i': i + 1 }}>
                 <dt className="text-ink/70">{k}</dt>
                 <dd className="text-right font-body-medium first-letter:uppercase">{v}</dd>
               </div>
             ))}
           </dl>
-          <div className="w-full grid sm:grid-cols-2 gap-space-sm">
+          <div className="confirm-item w-full grid sm:grid-cols-2 gap-space-sm" style={{ '--i': 7 }}>
             <Button
               as="a"
               href={googleCalendarLink({ title: `${booked.service.name} · ${business.name}`, start: booked.start, end: booked.end, location: `${business.name}, ${business.city}` })}
@@ -486,7 +518,7 @@ export default function Reservar() {
             </Button>
             <Button variant="gold" as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
           </div>
-          <Link to={`/${business.slug}`} className="text-body-sm text-gold-deep hover:underline">Volver a la página principal</Link>
+          <Link to={`/${business.slug}`} className="confirm-item text-body-sm text-gold-deep hover:underline" style={{ '--i': 7 }}>Volver a la página principal</Link>
         </PortalCard>
       </div>
     )
@@ -524,7 +556,7 @@ export default function Reservar() {
 
   return (
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg min-h-[calc(100dvh-4rem)] lg:min-h-0">
-      <DemoDataToggle mode={demoMode} onChange={(v) => update({ datos: v, servicio: '', barbero: '', fecha: '', hora: '', paso: '' })} />
+      <DemoDataToggle mode={demoMode} onPreviewBooked={previewBooked} onChange={(v) => update({ datos: v, servicio: '', barbero: '', fecha: '', hora: '', paso: '' })} />
       <header className="flex flex-col gap-space-md">
         <div>
           <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar cita</h1>

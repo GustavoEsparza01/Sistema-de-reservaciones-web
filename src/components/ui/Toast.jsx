@@ -9,13 +9,15 @@ const TONES = {
   success: { icon: CircleCheck, box: 'bg-emerald-500/20 text-emerald-400' },
   error:   { icon: CircleAlert, box: 'bg-rose-500/20 text-rose-300' },
   info:    { icon: Info,        box: 'bg-blue-500/20 text-blue-300' },
+  // Portal público: éxito en dorado, sin verde
+  gold:    { icon: CircleCheck, box: 'bg-gold/20 text-gold-light' },
 }
 
 const DURATION = 4000
 
 /**
  * Envuelve la app. Uso: const toast = useToast(); toast({ title, description, tone })
- * tone: success (por defecto) | error | info
+ * tone: success (por defecto) | error | info | gold (portal público)
  */
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([])
@@ -59,7 +61,7 @@ function ToastItem({ toast, onDismiss }) {
   return (
     <div
       role={toast.tone === 'error' ? 'alert' : 'status'}
-      className="pointer-events-auto flex items-center gap-space-md bg-inverse-surface text-inverse-on-surface px-space-md py-3 rounded-lg shadow-xl w-full max-w-sm"
+      className="toast-item pointer-events-auto flex items-center gap-space-md bg-inverse-surface text-inverse-on-surface px-space-md py-3 rounded-lg shadow-xl w-full max-w-sm"
     >
       <span className={cn('w-6 h-6 rounded-full flex items-center justify-center shrink-0', box)}>
         <Icon size={16} strokeWidth={2} aria-hidden />
