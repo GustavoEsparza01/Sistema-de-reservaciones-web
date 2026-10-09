@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { cn } from '../../lib/cn'
 
 const COLORS = [
@@ -35,17 +36,21 @@ function colorFor(name = '') {
 
 /** Avatar con iniciales (o imagen si se pasa src). tone="premium": carbón y dorado (portal público). */
 export default function Avatar({ name, src, size = 'md', tone, className }) {
+  // Si la foto no carga (URL rota, sin permiso), se muestran las iniciales
+  const [failed, setFailed] = useState(false)
+  useEffect(() => setFailed(false), [src])
+  const showImage = src && !failed
   return (
     <span
       className={cn(
         'inline-flex items-center justify-center rounded-full shrink-0 font-semibold overflow-hidden',
         SIZES[size],
-        !src && (tone === 'premium' ? 'bg-ink text-gold-light' : colorFor(name)),
+        !showImage && (tone === 'premium' ? 'bg-ink text-gold-light' : colorFor(name)),
         className
       )}
       title={name}
     >
-      {src ? <img src={src} alt={name} className="w-full h-full object-cover" /> : initials(name)}
+      {showImage ? <img src={src} alt={name} onError={() => setFailed(true)} className="w-full h-full object-cover" /> : initials(name)}
     </span>
   )
 }

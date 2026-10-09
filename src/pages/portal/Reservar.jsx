@@ -58,7 +58,7 @@ const NEXT_SLOT_DAYS = 14
  * día (máx. 2 semanas) y se detiene cuando ya encontró lugar para todos.
  * map: id → { date, time } o null si no hay lugar. Si falla, simplemente no se muestra.
  */
-function useNextSlots(barbers, service, enabled) {
+function useNextSlots(barbers, service, enabled, loadDay) {
   const [state, setState] = useState({ loading: false, map: null })
   useEffect(() => {
     if (!enabled || !service || barbers.length === 0) return
@@ -72,7 +72,7 @@ function useNextSlots(barbers, service, enabled) {
         const day = addDays(today, i)
         const working = barbers.filter((b) => pending.has(b.id) && shiftFor(b.schedule, day))
         if (working.length === 0) continue
-        const appointments = await fetchDayAppointments(day)
+        const appointments = await loadDay(day)
         if (!alive) return
         for (const b of working) {
           const [first] = availableSlots({ schedule: b.schedule, date: day, duration: service.duration, appointments: appointments.filter((a) => a.barberId === b.id) })
@@ -106,6 +106,26 @@ function NextSlot({ loading, slot }) {
     <p className="flex items-center gap-1 text-body-sm font-body-medium text-gold-deep group-aria-pressed:text-gold-light mt-1 tabular-nums">
       <Clock size={14} strokeWidth={1.75} aria-hidden /> Próximo lugar: {slotLabel(slot)}
     </p>
+  )
+}
+
+// Interruptor de datos de prueba: solo se dibuja en desarrollo. Es herramienta, no diseño.
+const DEMO_MODES = [['', 'Real'], ['peor', 'Peor caso'], ['vacio', 'Vacío'], ['uno', 'Uno'], ['sinlugar', 'Sin horarios']]
+function DemoDataToggle({ mode, onChange }) {
+  if (!import.meta.env.DEV) return null
+  return (
+    <div className="fixed top-[76px] left-1/2 -translate-x-1/2 z-50 flex gap-0.5 rounded-full bg-neutral-200 p-0.5 text-[12px] shadow" style={{ fontFamily: 'system-ui, sans-serif' }} role="group" aria-label="Datos de prueba (solo desarrollo)">
+      {DEMO_MODES.map(([value, label]) => (
+        <button
+          key={value || 'real'}
+          type="button"
+          onClick={() => onChange(value)}
+          className={cn('rounded-full px-2.5 py-1 whitespace-nowrap', mode === value ? 'bg-white text-black shadow-sm' : 'text-neutral-600')}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
   )
 }
 
@@ -176,6 +196,16 @@ function SummaryRows({ rows, step, onEdit }) {
   )
 }
 
+/** "$4,850.50" grande y "MXN" chico: el total no se parte en dos líneas. */
+function Price({ amount, className }) {
+  const [value, currency] = formatMoneyMXN(amount).split(' ')
+  return (
+    <span className={cn('font-display font-semibold text-gold tabular-nums whitespace-nowrap', className)}>
+      {value}{currency && <span className="ml-1 font-sans text-[11px] font-medium tracking-wide text-gold-light">{currency}</span>}
+    </span>
+  )
+}
+
 /** Resumen de la cita como comprobante carbón: lo elegido y el total. */
 function Summary({ rows, step, total, onEdit, children }) {
   return (
@@ -184,9 +214,9 @@ function Summary({ rows, step, total, onEdit, children }) {
       <SummaryRows rows={rows} step={step} onEdit={onEdit} />
       {/* Corte de comprobante */}
       <div className="border-t border-dashed border-ink-line pt-space-md flex items-baseline justify-between gap-space-sm">
-        <span className="text-body-sm text-ink-muted">Total a pagar en el local</span>
+        <span className="text-body-sm text-ink-muted min-w-0">Total a pagar en el local</span>
         {total != null
-          ? <span className="font-display text-[26px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>
+          ? <Price amount={total} className="text-[26px] shrink-0" />
           : <span className="text-body-sm text-white/60">Por elegir</span>}
       </div>
       {children}
@@ -225,17 +255,20 @@ function MobileSummaryBar({ rows, step, total, onEdit, action }) {
             className="min-w-0 flex-1 text-left py-1"
           >
             {/* Con botón a la derecha hay menos espacio: solo "Paso N de 4" */}
-            <span className="flex items-center gap-1 text-[12px] text-ink-muted whitespace-nowrap">
-              Paso {step} de {STEPS.length}{!action && <> · {open ? 'Ocultar' : 'Ver'} resumen</>}
-              <ChevronUp size={14} strokeWidth={1.75} className={cn('transition-transform duration-300', !open && 'rotate-180')} aria-hidden />
+            <span className="flex items-center gap-1 text-[12px] text-ink-muted min-w-0">
+              <span className="truncate">Paso {step} de {STEPS.length}{!action && <> · {open ? 'Ocultar' : 'Ver'} resumen</>}</span>
+              <ChevronUp size={14} strokeWidth={1.75} className={cn('shrink-0 transition-transform duration-300', !open && 'rotate-180')} aria-hidden />
               {action && <span className="sr-only">{open ? 'Ocultar' : 'Ver'} resumen</span>}
             </span>
+            {/* Con botón, la segunda línea es el total (no cabe todo a 320 px); sin botón, lo elegido */}
+            {action && total != null ? <Price amount={total} className="block text-[18px] leading-tight" /> : (
             <span className="block truncate text-body-medium">
               {service ? service.split(' · ')[0] : 'Elige un servicio'}{time ? ` · ${time}` : ''}
             </span>
+            )}
           </button>
-          {total != null && (
-            <span className={cn('font-display font-semibold text-gold tabular-nums whitespace-nowrap', action ? 'text-[18px]' : 'text-[22px]')}>{formatMoneyMXN(total)}</span>
+          {!action && total != null && (
+            <Price amount={total} className="text-[22px] shrink-0" />
           )}
           {action}
         </div>
@@ -258,13 +291,21 @@ export default function Reservar() {
   const [submitError, setSubmitError] = useState(null)
   const [booked, setBooked] = useState(null)
 
+  // Solo en desarrollo: ?datos=peor|vacio|uno|sinlugar cambia los datos por los de prueba
+  const demoMode = import.meta.env.DEV ? params.get('datos') ?? '' : ''
+  const loadDay = demoMode ? async () => [] : fetchDayAppointments
+
   useEffect(() => {
     let alive = true
-    Promise.all([fetchPublicServices(), fetchPublicBarbers()])
+    setCatalog({ services: [], barbers: [], loading: true, error: null })
+    const load = demoMode
+      ? import('./reservarDemoData').then(({ DEMO_DATA }) => [DEMO_DATA[demoMode]?.services ?? [], DEMO_DATA[demoMode]?.barbers ?? []])
+      : Promise.all([fetchPublicServices(), fetchPublicBarbers()])
+    load
       .then(([services, barbers]) => alive && setCatalog({ services, barbers, loading: false, error: null }))
       .catch((error) => alive && setCatalog((c) => ({ ...c, loading: false, error })))
     return () => { alive = false }
-  }, [])
+  }, [demoMode])
 
   // Selección actual (vive en la URL)
   const service = catalog.services.find((s) => s.id === params.get('servicio')) ?? null
@@ -320,7 +361,7 @@ export default function Reservar() {
     let alive = true
     setDayAppointments(null)
     setDayError(false)
-    fetchDayAppointments(date)
+    loadDay(date)
       .then((r) => alive && setDayAppointments(r))
       .catch(() => alive && setDayError(true))
     return () => { alive = false }
@@ -330,7 +371,7 @@ export default function Reservar() {
   const candidates = barber ? [barber] : catalog.barbers
 
   // Paso 2: próximo lugar de cada barbero (y el más pronto para "Cualquier barbero")
-  const nextSlots = useNextSlots(catalog.barbers, service, step >= 2)
+  const nextSlots = useNextSlots(catalog.barbers, service, step >= 2, loadDay)
   const earliestSlot = nextSlots.map
     ? [...nextSlots.map.values()].filter(Boolean).sort((a, b) => a.date - b.date || toMinutes(a.time) - toMinutes(b.time))[0] ?? null
     : undefined
@@ -471,6 +512,7 @@ export default function Reservar() {
 
   return (
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg min-h-[calc(100dvh-4rem)] lg:min-h-0">
+      <DemoDataToggle mode={demoMode} onChange={(v) => update({ datos: v, servicio: '', barbero: '', fecha: '', hora: '', paso: '' })} />
       <header className="flex flex-col gap-space-md">
         <div>
           <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar cita</h1>
@@ -493,18 +535,26 @@ export default function Reservar() {
                 <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige tu servicio</h2>
                 {catalog.loading ? (
                   [0, 1, 2].map((i) => <div key={i} className="h-24 w-full rounded-xl bg-ink/10 animate-pulse" aria-hidden />)
+                ) : catalog.services.length === 0 ? (
+                  <PortalCard>
+                    <EmptyState
+                      icon={Scissors}
+                      title="Todavía no hay servicios para reservar"
+                      description={`${business.name} aún no publica sus servicios. Vuelve pronto o visita el local.`}
+                      action={<Button as={Link} to={`/${business.slug}`} variant="outline-dark" icon={ArrowLeft}>Volver al inicio</Button>}
+                    />
+                  </PortalCard>
                 ) : (
-                  <div className="grid gap-space-sm">
+                  <div className="grid grid-cols-1 gap-space-sm">
                     {catalog.services.map((s) => (
                       <Choice key={s.id} selected={service?.id === s.id} onClick={() => update({ servicio: s.id, hora: '' }, 2)}>
-                        <div className="flex items-start justify-between gap-space-md">
-                          <div className="min-w-0">
-                            <p className="font-body-semibold">{s.name}</p>
-                            <p className="flex items-center gap-1 text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-0.5"><Timer size={14} strokeWidth={1.75} aria-hidden /> {formatDuration(s.duration)}</p>
-                            {s.description && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-1">{s.description}</p>}
-                          </div>
+                        {/* Nombre a todo lo ancho; duración y precio debajo, para que un precio largo no aplaste el nombre */}
+                        <p className="font-body-semibold [overflow-wrap:anywhere]">{s.name}</p>
+                        <div className="flex items-baseline justify-between gap-space-md mt-0.5">
+                          <p className="flex items-center gap-1 text-body-sm text-ink/70 group-aria-pressed:text-white/70"><Timer size={14} strokeWidth={1.75} aria-hidden /> {formatDuration(s.duration)}</p>
                           <span className="font-body-semibold tabular-nums whitespace-nowrap text-gold-deep group-aria-pressed:text-gold-light">{formatMoneyMXN(s.price)}</span>
                         </div>
+                        {s.description && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-1 [overflow-wrap:anywhere]">{s.description}</p>}
                       </Choice>
                     ))}
                   </div>
@@ -516,7 +566,8 @@ export default function Reservar() {
             {step === 2 && (
               <section className="flex flex-col gap-space-md">
                 <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige a tu barbero</h2>
-                <div className="grid sm:grid-cols-2 gap-space-sm">
+                {/* grid-cols-1 explícito: con una columna implícita, un texto largo ensancha la pista más que la pantalla */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
                   <Choice selected={barberParam === ANY} onClick={() => chooseBarber(ANY, earliestSlot)}>
                     <div className="flex items-center gap-space-sm">
                       <span className="w-12 h-12 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center shrink-0"><Users size={20} strokeWidth={1.75} aria-hidden /></span>
@@ -532,7 +583,7 @@ export default function Reservar() {
                       <div className="flex items-center gap-space-sm">
                         <Avatar name={b.name} src={b.photo} size="lg" tone="premium" className="ring-1 ring-gold/40" />
                         <div className="min-w-0">
-                          <p className="font-body-semibold truncate">{b.name}</p>
+                          <p className="font-body-semibold line-clamp-2 [overflow-wrap:anywhere]" title={b.name}>{b.name}</p>
                           {b.bio && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 line-clamp-2">{b.bio}</p>}
                           <NextSlot loading={nextSlots.loading} slot={nextSlots.map?.get(b.id)} />
                         </div>
@@ -550,7 +601,7 @@ export default function Reservar() {
                 {/* Si el horario se ocupó al confirmar, el aviso queda aquí, donde se elige otro */}
                 {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
                 <div
-                  className="flex gap-1.5 overflow-x-auto snap-x pt-1 pb-2 -mx-1 px-1 [scrollbar-width:thin] [scrollbar-color:rgba(15,15,16,0.2)_transparent]"
+                  className={cn('flex gap-1.5 overflow-x-auto snap-x pt-1 pb-2 -mx-1 px-1 [scrollbar-width:thin] [scrollbar-color:rgba(15,15,16,0.2)_transparent]', tabbableDay == null && 'hidden')}
                   role="radiogroup"
                   aria-label="Día"
                   onKeyDown={moveAmongRadios}
@@ -585,7 +636,19 @@ export default function Reservar() {
                   })}
                 </div>
 
-                {!date ? (
+                {tabbableDay == null ? (
+                  // Ningún día de los próximos 30 tiene turno: no tiene sentido pedir "elige un día"
+                  <PortalCard>
+                    <EmptyState
+                      icon={CalendarDays}
+                      title={`Sin horarios en los próximos ${DAYS_AHEAD} días`}
+                      description={barber ? `${barber.name} no tiene turnos en estas fechas.` : 'La barbería aún no tiene turnos abiertos en estas fechas.'}
+                      action={barber
+                        ? <Button variant="outline-dark" icon={Users} onClick={() => update({ barbero: ANY, fecha: '', hora: '' })}>Ver con cualquier barbero</Button>
+                        : <Button as={Link} to={`/${business.slug}`} variant="outline-dark" icon={ArrowLeft}>Volver al inicio</Button>}
+                    />
+                  </PortalCard>
+                ) : !date ? (
                   <p className="text-body-sm text-ink/70">Elige un día para ver los horarios disponibles.</p>
                 ) : dayError ? (
                   <PortalCard role="alert">
@@ -739,7 +802,7 @@ export default function Reservar() {
         </div>
       )}
 
-      {!catalog.error && (
+      {!catalog.error && catalog.services.length > 0 && (
         <MobileSummaryBar
           rows={summaryRows}
           step={step}
