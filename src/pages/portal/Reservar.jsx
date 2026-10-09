@@ -37,6 +37,64 @@ async function fetchDayAppointments(date) {
   return data.map(normalizeAppointment)
 }
 
+const NEXT_SLOT_DAYS = 14
+
+/**
+ * Próximo horario libre de cada barbero para el servicio elegido: revisa día por
+ * día (máx. 2 semanas) y se detiene cuando ya encontró lugar para todos.
+ * map: id → { date, time } o null si no hay lugar. Si falla, simplemente no se muestra.
+ */
+function useNextSlots(barbers, service, enabled) {
+  const [state, setState] = useState({ loading: false, map: null })
+  useEffect(() => {
+    if (!enabled || !service || barbers.length === 0) return
+    let alive = true
+    setState({ loading: true, map: null })
+    ;(async () => {
+      const map = new Map()
+      const pending = new Set(barbers.map((b) => b.id))
+      const today = startOfDay(new Date())
+      for (let i = 0; i < NEXT_SLOT_DAYS && pending.size > 0; i++) {
+        const day = addDays(today, i)
+        const working = barbers.filter((b) => pending.has(b.id) && shiftFor(b.schedule, day))
+        if (working.length === 0) continue
+        const appointments = await fetchDayAppointments(day)
+        if (!alive) return
+        for (const b of working) {
+          const [first] = availableSlots({ schedule: b.schedule, date: day, duration: service.duration, appointments: appointments.filter((a) => a.barberId === b.id) })
+          if (first) {
+            map.set(b.id, { date: day, time: first })
+            pending.delete(b.id)
+          }
+        }
+      }
+      for (const id of pending) map.set(id, null)
+      if (alive) setState({ loading: false, map })
+    })().catch(() => alive && setState({ loading: false, map: null }))
+    return () => { alive = false }
+  }, [enabled, service, barbers])
+  return state
+}
+
+/** "Hoy 17:00", "Mañana 09:00" o "jue 10 oct, 09:00" */
+function slotLabel({ date, time }) {
+  if (isToday(date)) return `Hoy ${time}`
+  if (isTomorrow(date)) return `Mañana ${time}`
+  return `${noDots(format(date, 'EEE d MMM', { locale: es }))}, ${time}`
+}
+
+/** Línea "Próximo lugar" dentro de la tarjeta del barbero (cambia de tono si está elegida). */
+function NextSlot({ loading, slot }) {
+  if (loading) return <span className="block h-4 w-36 mt-1 rounded bg-ink/10 group-aria-pressed:bg-white/15 animate-pulse" aria-hidden />
+  if (slot === undefined) return null
+  if (slot === null) return <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-1">Sin lugar en las próximas 2 semanas</p>
+  return (
+    <p className="flex items-center gap-1 text-body-sm font-body-medium text-gold-deep group-aria-pressed:text-gold-light mt-1 tabular-nums">
+      <Clock size={14} strokeWidth={1.75} aria-hidden /> Próximo lugar: {slotLabel(slot)}
+    </p>
+  )
+}
+
 function Stepper({ step }) {
   return (
     <ol className="grid grid-cols-4 gap-space-xs" aria-label="Pasos de la reserva">
@@ -144,15 +202,19 @@ function MobileSummaryBar({ rows, step, total, onEdit, action }) {
             aria-controls="resumen-movil"
             className="min-w-0 flex-1 text-left py-1"
           >
-            <span className="flex items-center gap-1 text-[12px] text-ink-muted">
-              Paso {step} de {STEPS.length} · {open ? 'Ocultar' : 'Ver'} resumen
+            {/* Con botón a la derecha hay menos espacio: solo "Paso N de 4" */}
+            <span className="flex items-center gap-1 text-[12px] text-ink-muted whitespace-nowrap">
+              Paso {step} de {STEPS.length}{!action && <> · {open ? 'Ocultar' : 'Ver'} resumen</>}
               <ChevronUp size={14} strokeWidth={1.75} className={cn('transition-transform duration-300', !open && 'rotate-180')} aria-hidden />
+              {action && <span className="sr-only">{open ? 'Ocultar' : 'Ver'} resumen</span>}
             </span>
             <span className="block truncate text-body-medium">
               {service ? service.split(' · ')[0] : 'Elige un servicio'}{time ? ` · ${time}` : ''}
             </span>
           </button>
-          {total != null && <span className="font-display text-[22px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>}
+          {total != null && (
+            <span className={cn('font-display font-semibold text-gold tabular-nums whitespace-nowrap', action ? 'text-[18px]' : 'text-[22px]')}>{formatMoneyMXN(total)}</span>
+          )}
           {action}
         </div>
       </div>
@@ -219,6 +281,13 @@ export default function Reservar() {
     stepHeading.current?.focus({ preventScroll: true })
   }, [step])
 
+  // En el paso 3, la tira de días se desplaza hasta el día elegido (p. ej. el próximo lugar del barbero)
+  useEffect(() => {
+    if (step !== 3) return
+    document.querySelector('[data-selected-day]')?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, params.get('fecha')])
+
   // Citas del día elegido para calcular horarios libres. Si la consulta falla
   // no se muestran horarios (serían falsos): se avisa y se ofrece reintentar.
   const [dayError, setDayError] = useState(false)
@@ -236,6 +305,19 @@ export default function Reservar() {
   }, [params.get('fecha'), dayRetry])
 
   const candidates = barber ? [barber] : catalog.barbers
+
+  // Paso 2: próximo lugar de cada barbero (y el más pronto para "Cualquier barbero")
+  const nextSlots = useNextSlots(catalog.barbers, service, step >= 2)
+  const earliestSlot = nextSlots.map
+    ? [...nextSlots.map.values()].filter(Boolean).sort((a, b) => a.date - b.date || toMinutes(a.time) - toMinutes(b.time))[0] ?? null
+    : undefined
+
+  // Al elegir barbero, el paso 3 abre en el día de su próximo lugar
+  // (salvo que ya haya un día elegido en el que ese barbero trabaje)
+  function chooseBarber(id, next) {
+    const keep = date && (id === ANY ? catalog.barbers : catalog.barbers.filter((b) => b.id === id)).some((b) => shiftFor(b.schedule, date))
+    update({ barbero: id, hora: '', ...(!keep && next ? { fecha: format(next.date, 'yyyy-MM-dd') } : {}) }, 3)
+  }
 
   // Horario → barbero que lo atiende (con "cualquiera", el primero libre)
   const slotMap = useMemo(() => {
@@ -407,22 +489,24 @@ export default function Reservar() {
               <section className="flex flex-col gap-space-md">
                 <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">2. Elige a tu barbero</h2>
                 <div className="grid sm:grid-cols-2 gap-space-sm">
-                  <Choice selected={barberParam === ANY} onClick={() => update({ barbero: ANY, hora: '' }, 3)}>
+                  <Choice selected={barberParam === ANY} onClick={() => chooseBarber(ANY, earliestSlot)}>
                     <div className="flex items-center gap-space-sm">
                       <span className="w-12 h-12 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center shrink-0"><Users size={20} strokeWidth={1.75} aria-hidden /></span>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-body-semibold">Cualquier barbero</p>
                         <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70">Te asignamos al primero disponible</p>
+                        <NextSlot loading={nextSlots.loading} slot={nextSlots.map ? earliestSlot : undefined} />
                       </div>
                     </div>
                   </Choice>
                   {catalog.barbers.map((b) => (
-                    <Choice key={b.id} selected={barber?.id === b.id} onClick={() => update({ barbero: b.id, hora: '' }, 3)}>
+                    <Choice key={b.id} selected={barber?.id === b.id} onClick={() => chooseBarber(b.id, nextSlots.map?.get(b.id))}>
                       <div className="flex items-center gap-space-sm">
                         <Avatar name={b.name} src={b.photo} size="lg" tone="premium" className="ring-1 ring-gold/40" />
                         <div className="min-w-0">
                           <p className="font-body-semibold truncate">{b.name}</p>
                           {b.bio && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 line-clamp-2">{b.bio}</p>}
+                          <NextSlot loading={nextSlots.loading} slot={nextSlots.map?.get(b.id)} />
                         </div>
                       </div>
                     </Choice>
@@ -445,6 +529,7 @@ export default function Reservar() {
                         type="button"
                         role="radio"
                         aria-checked={!!selected}
+                        data-selected-day={selected ? '' : undefined}
                         disabled={!available}
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
