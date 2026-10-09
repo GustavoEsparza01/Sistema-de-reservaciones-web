@@ -33,14 +33,14 @@ function colorFor(name = '') {
   return COLORS[h % COLORS.length]
 }
 
-/** Avatar con iniciales (o imagen si se pasa src). */
-export default function Avatar({ name, src, size = 'md', className }) {
+/** Avatar con iniciales (o imagen si se pasa src). tone="premium": carbón y dorado (portal público). */
+export default function Avatar({ name, src, size = 'md', tone, className }) {
   return (
     <span
       className={cn(
         'inline-flex items-center justify-center rounded-full shrink-0 font-semibold overflow-hidden',
         SIZES[size],
-        !src && colorFor(name),
+        !src && (tone === 'premium' ? 'bg-ink text-gold-light' : colorFor(name)),
         className
       )}
       title={name}

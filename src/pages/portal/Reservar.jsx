@@ -5,7 +5,7 @@ import { addDays, format, isToday, parseISO, startOfDay, endOfDay, isTomorrow } 
 import { es } from 'date-fns/locale'
 import {
   ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, CircleAlert, Clock, LogIn, MapPin,
-  Scissors, Sparkles, Sun, Sunset, Timer, User,
+  Scissors, Sun, Sunset, Timer, User, Users,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useBusiness } from '../../hooks/useBusiness'
@@ -16,7 +16,8 @@ import { createAppointment, normalizeAppointment } from '../../lib/appointments'
 import { availableSlots, shiftFor, toMinutes } from '../../lib/availability'
 import { formatDateLong, formatDuration, formatMoneyMXN } from '../../lib/format'
 import { cn } from '../../lib/cn'
-import { Avatar, Button, Card, EmptyState, Skeleton, Spinner, Textarea, useToast } from '../../components/ui'
+import { Avatar, Button, EmptyState, Skeleton, Spinner, Textarea, useToast } from '../../components/ui'
+import PortalCard from '../../components/portal/PortalCard'
 
 const ANY = 'cualquiera'
 const DAYS_AHEAD = 30
@@ -44,8 +45,8 @@ function Stepper({ step }) {
         const current = n === step
         return (
           <li key={label} className="flex flex-col gap-1.5" aria-current={current ? 'step' : undefined}>
-            <div className={cn('h-1 rounded-full transition-colors duration-700', done || current ? 'bg-gold' : 'bg-surface-container-high')} />
-            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-on-surface' : 'text-outline')}>
+            <div className={cn('h-1 rounded-full transition-colors duration-700', done || current ? 'bg-gold' : 'bg-ink/10')} />
+            <span className={cn('text-[12px] font-body-medium flex items-center gap-1', current ? 'text-gold-deep' : done ? 'text-ink' : 'text-ink/50')}>
               {done && <Check size={12} strokeWidth={2.5} aria-hidden />}
               <span className="hidden sm:inline">Paso {n} · </span>{label}
             </span>
@@ -56,6 +57,7 @@ function Stepper({ step }) {
   )
 }
 
+// Opción elegida en carbón; los hijos ajustan sus tonos con group-aria-pressed:
 function Choice({ selected, onClick, children, className }) {
   return (
     <button
@@ -63,8 +65,8 @@ function Choice({ selected, onClick, children, className }) {
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'w-full text-left rounded-lg border p-space-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
-        selected ? 'border-gold bg-gold-soft ring-1 ring-gold' : 'border-outline-variant bg-surface-container-lowest hover:border-gold',
+        'group w-full text-left rounded-xl border p-space-md transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+        selected ? 'border-ink bg-ink text-white' : 'border-ink/10 bg-white hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-18px_rgba(15,15,16,0.35)]',
         className
       )}
     >
@@ -73,6 +75,34 @@ function Choice({ selected, onClick, children, className }) {
   )
 }
 
+/** Resumen de la cita como comprobante carbón: lo elegido, "Cambiar" por fila y el total. */
+function Summary({ rows, step, total, onEdit, children }) {
+  return (
+    <PortalCard tone="ink" className="flex flex-col gap-space-md">
+      <h2 className="font-display text-[20px] font-semibold">Resumen de tu cita</h2>
+      <dl className="flex flex-col gap-space-sm text-body-sm">
+        {rows.map(([Icon, label, value, editStep]) => (
+          <div key={label} className="flex gap-space-sm">
+            <Icon size={16} strokeWidth={1.75} className="text-gold mt-0.5 shrink-0" aria-hidden />
+            <div className="min-w-0 flex-1">
+              <dt className="text-ink-muted">{label}</dt>
+              <dd className={cn('first-letter:uppercase', value ? 'text-white font-body-medium' : 'text-white/40')}>{value ?? 'Por elegir'}</dd>
+            </div>
+            {value && editStep && editStep < step && (
+              <button type="button" onClick={() => onEdit(editStep)} className="text-gold-light text-[12px] hover:text-gold hover:underline self-start">Cambiar</button>
+            )}
+          </div>
+        ))}
+      </dl>
+      {/* Corte de comprobante */}
+      <div className="border-t border-dashed border-ink-line pt-space-md flex items-baseline justify-between gap-space-sm">
+        <span className="text-body-sm text-ink-muted">Total a pagar en el local</span>
+        <span className="font-display text-[26px] font-semibold text-gold tabular-nums">{total != null ? formatMoneyMXN(total) : '$0'}</span>
+      </div>
+      {children}
+    </PortalCard>
+  )
+}
 
 export default function Reservar() {
   const business = useBusiness()
@@ -182,18 +212,18 @@ export default function Reservar() {
   if (booked) {
     return (
       <div className="max-w-[640px] mx-auto px-margin-mobile md:px-margin py-space-xl">
-        <Card className="flex flex-col items-center text-center gap-space-md p-space-xl">
+        <PortalCard className="flex flex-col items-center text-center gap-space-md p-space-xl">
           <span className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
             <CalendarCheck size={28} strokeWidth={1.75} aria-hidden />
           </span>
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-wide text-emerald-700">Solicitud enviada</p>
             <h1 className="font-display text-[30px] leading-tight font-semibold text-ink mt-1">¡Tu cita quedó registrada!</h1>
-            <p className="text-body-default text-on-surface-variant mt-space-xs">
-              La barbería la revisará y la verás como <span className="font-body-medium text-on-surface">Confirmada</span> en "Mis citas".
+            <p className="text-body-default text-ink/70 mt-space-xs">
+              La barbería la revisará y la verás como <span className="font-body-medium text-ink">Confirmada</span> en "Mis citas".
             </p>
           </div>
-          <dl className="w-full text-left rounded-lg border border-outline-variant divide-y divide-outline-variant">
+          <dl className="w-full text-left rounded-lg border border-ink/10 divide-y divide-ink/10">
             {[
               ['Folio', `#${booked.id.slice(0, 8).toUpperCase()}`],
               ['Servicio', `${booked.service.name} · ${formatMoneyMXN(booked.service.price)}`],
@@ -203,7 +233,7 @@ export default function Reservar() {
               ['Lugar', `${business.name}, ${business.city}`],
             ].map(([k, v]) => (
               <div key={k} className="flex justify-between gap-space-md px-space-md py-2.5 text-body-sm">
-                <dt className="text-on-surface-variant">{k}</dt>
+                <dt className="text-ink/70">{k}</dt>
                 <dd className="text-right font-body-medium first-letter:uppercase">{v}</dd>
               </div>
             ))}
@@ -223,7 +253,7 @@ export default function Reservar() {
             <Button variant="gold" as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
           </div>
           <Link to={`/${business.slug}`} className="text-body-sm text-gold-deep hover:underline">Volver a la página principal</Link>
-        </Card>
+        </PortalCard>
       </div>
     )
   }
@@ -231,18 +261,27 @@ export default function Reservar() {
   const morning = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) < 14 * 60) : []
   const afternoon = slotMap ? [...slotMap.keys()].filter((s) => toMinutes(s) >= 14 * 60) : []
 
+  // [icono, etiqueta, valor, paso donde se cambia]
+  const summaryRows = [
+    [Scissors, 'Servicio', service ? `${service.name} · ${formatDuration(service.duration)}` : null, 1],
+    [User, 'Barbero', barberParam === ANY ? (assigned ? `${assigned.name} (asignado)` : 'Cualquier barbero') : barber?.name, 2],
+    [CalendarDays, 'Fecha', date ? formatDateLong(date) : null, 3],
+    [Clock, 'Hora', time ? `${time} h` : null, 3],
+    [MapPin, 'Lugar', `${business.name}, ${business.city}`, null],
+  ]
+
   return (
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg">
       <header className="flex flex-col gap-space-md">
         <div>
           <h1 className="animate-enter font-display text-[32px] md:text-[40px] leading-tight font-semibold text-ink">Reservar <em className="text-shimmer-gold pr-1">cita</em></h1>
-          <p className="text-body-default text-on-surface-variant">{business.name} · {business.city}</p>
+          <p className="text-body-default text-ink/70">{business.name} · {business.city}</p>
         </div>
         <Stepper step={step} />
       </header>
 
       {catalog.error ? (
-        <Card><EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." /></Card>
+        <PortalCard><EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." /></PortalCard>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-gutter items-start">
           {/* key={step}: cada paso entra con animación */}
@@ -252,7 +291,7 @@ export default function Reservar() {
               <section className="flex flex-col gap-space-md">
                 <h2 className="font-display text-[22px] font-semibold text-ink">1. Selecciona tu servicio</h2>
                 {catalog.loading ? (
-                  [0, 1, 2].map((i) => <Skeleton key={i} className="h-24 w-full rounded-lg" />)
+                  [0, 1, 2].map((i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
                 ) : (
                   <div className="grid gap-space-sm">
                     {catalog.services.map((s) => (
@@ -260,10 +299,10 @@ export default function Reservar() {
                         <div className="flex items-start justify-between gap-space-md">
                           <div className="min-w-0">
                             <p className="font-body-semibold">{s.name}</p>
-                            <p className="flex items-center gap-1 text-body-sm text-on-surface-variant mt-0.5"><Timer size={14} strokeWidth={1.75} aria-hidden /> {formatDuration(s.duration)}</p>
-                            {s.description && <p className="text-body-sm text-on-surface-variant mt-1">{s.description}</p>}
+                            <p className="flex items-center gap-1 text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-0.5"><Timer size={14} strokeWidth={1.75} aria-hidden /> {formatDuration(s.duration)}</p>
+                            {s.description && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-1">{s.description}</p>}
                           </div>
-                          <span className="font-body-semibold tabular-nums whitespace-nowrap">{formatMoneyMXN(s.price)}</span>
+                          <span className="font-body-semibold tabular-nums whitespace-nowrap text-gold-deep group-aria-pressed:text-gold-light">{formatMoneyMXN(s.price)}</span>
                         </div>
                       </Choice>
                     ))}
@@ -279,20 +318,20 @@ export default function Reservar() {
                 <div className="grid sm:grid-cols-2 gap-space-sm">
                   <Choice selected={barberParam === ANY} onClick={() => update({ barbero: ANY, hora: '' }, 3)}>
                     <div className="flex items-center gap-space-sm">
-                      <span className="w-12 h-12 rounded-full bg-ink text-gold flex items-center justify-center shrink-0"><Sparkles size={22} strokeWidth={1.75} aria-hidden /></span>
+                      <span className="w-12 h-12 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center shrink-0"><Users size={20} strokeWidth={1.75} aria-hidden /></span>
                       <div>
                         <p className="font-body-semibold">Cualquier barbero</p>
-                        <p className="text-body-sm text-on-surface-variant">Te asignamos al primero disponible</p>
+                        <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70">Te asignamos al primero disponible</p>
                       </div>
                     </div>
                   </Choice>
                   {catalog.barbers.map((b) => (
                     <Choice key={b.id} selected={barber?.id === b.id} onClick={() => update({ barbero: b.id, hora: '' }, 3)}>
                       <div className="flex items-center gap-space-sm">
-                        <Avatar name={b.name} src={b.photo} size="lg" />
+                        <Avatar name={b.name} src={b.photo} size="lg" tone="premium" className="ring-1 ring-gold/40" />
                         <div className="min-w-0">
                           <p className="font-body-semibold truncate">{b.name}</p>
-                          {b.bio && <p className="text-body-sm text-on-surface-variant line-clamp-2">{b.bio}</p>}
+                          {b.bio && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 line-clamp-2">{b.bio}</p>}
                         </div>
                       </div>
                     </Choice>
@@ -319,38 +358,38 @@ export default function Reservar() {
                         onClick={() => update({ fecha: format(d, 'yyyy-MM-dd'), hora: '' })}
                         className={cn(
                           'shrink-0 w-16 rounded-lg border py-2 flex flex-col items-center gap-0.5 transition-all duration-200',
-                          selected ? 'bg-ink border-ink text-white scale-105 shadow-lg' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:-translate-y-0.5',
-                          !available && 'opacity-40 cursor-not-allowed hover:border-outline-variant'
+                          selected ? 'bg-ink border-ink text-white' : 'bg-white border-ink/10 hover:border-gold hover:-translate-y-0.5',
+                          !available && 'opacity-40 cursor-not-allowed hover:border-ink/10'
                         )}
                       >
-                        <span className={cn('text-[11px] uppercase font-semibold', selected ? 'text-gold-light' : 'text-on-surface-variant')}>
+                        <span className={cn('text-[11px] uppercase font-semibold', selected ? 'text-gold-light' : 'text-ink/70')}>
                           {isToday(d) ? 'Hoy' : isTomorrow(d) ? 'Mañ.' : noDots(format(d, 'EEE', { locale: es }))}
                         </span>
                         <span className="font-body-semibold tabular-nums">{format(d, 'd')}</span>
-                        <span className={cn('text-[11px]', selected ? 'text-gold-light' : 'text-on-surface-variant')}>{noDots(format(d, 'MMM', { locale: es }))}</span>
+                        <span className={cn('text-[11px]', selected ? 'text-gold-light' : 'text-ink/70')}>{noDots(format(d, 'MMM', { locale: es }))}</span>
                       </button>
                     )
                   })}
                 </div>
 
                 {!date ? (
-                  <p className="text-body-sm text-on-surface-variant">Elige un día para ver los horarios disponibles.</p>
+                  <p className="text-body-sm text-ink/70">Elige un día para ver los horarios disponibles.</p>
                 ) : slotMap == null ? (
-                  <div className="py-space-lg flex justify-center text-on-surface-variant"><Spinner /></div>
+                  <div className="py-space-lg flex justify-center text-ink/70"><Spinner /></div>
                 ) : slotMap.size === 0 ? (
-                  <Card>
+                  <PortalCard>
                     <EmptyState
                       icon={Clock}
                       title="No quedan horarios este día"
                       description={barber ? `Prueba otro día o elige "Cualquier barbero".` : 'Prueba con otro día.'}
                     />
-                  </Card>
+                  </PortalCard>
                 ) : (
                   <div className="flex flex-col gap-space-md" role="radiogroup" aria-label="Hora">
                     {[['Mañana', Sun, morning], ['Tarde', Sunset, afternoon]].map(([label, Icon, list]) =>
                       list.length ? (
                         <div key={label} className="flex flex-col gap-space-sm">
-                          <p className="flex items-center gap-1.5 text-body-sm font-body-semibold text-on-surface-variant"><Icon size={16} strokeWidth={1.75} aria-hidden /> {label}</p>
+                          <p className="flex items-center gap-1.5 text-body-sm font-body-semibold text-ink/70"><Icon size={16} strokeWidth={1.75} aria-hidden /> {label}</p>
                           <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-1.5">
                             {list.map((s) => (
                               <button
@@ -361,7 +400,7 @@ export default function Reservar() {
                                 onClick={() => update({ hora: s }, 4)}
                                 className={cn(
                                   'h-10 rounded-lg border text-body-sm font-body-medium tabular-nums transition-all duration-200',
-                                  time === s ? 'bg-ink border-ink text-white scale-105 shadow-lg' : 'bg-surface-container-lowest border-outline-variant hover:border-gold hover:text-gold-deep hover:-translate-y-0.5'
+                                  time === s ? 'bg-ink border-ink text-gold-light' : 'bg-white border-ink/10 hover:border-gold hover:text-gold-deep hover:-translate-y-0.5'
                                 )}
                               >
                                 {s}
@@ -381,30 +420,30 @@ export default function Reservar() {
               <section className="flex flex-col gap-space-md">
                 <h2 className="font-display text-[22px] font-semibold text-ink">4. Revisa y confirma tu cita</h2>
                 {!session ? (
-                  <Card className="flex flex-col gap-space-md">
+                  <PortalCard className="flex flex-col gap-space-md">
                     <p className="text-body-default">Para confirmar necesitas una cuenta. Así podrás ver, cambiar o cancelar tu cita después.</p>
                     <div className="flex flex-wrap gap-space-sm">
-                      <Button as={Link} to={`/login?volver=${encodeURIComponent(location.pathname + location.search)}`} icon={LogIn}>
+                      <Button as={Link} to={`/login?volver=${encodeURIComponent(location.pathname + location.search)}`} variant="gold" icon={LogIn}>
                         Iniciar sesión o registrarme
                       </Button>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant">Tu selección se conserva: al entrar regresarás a este paso.</p>
-                  </Card>
+                    <p className="text-body-sm text-ink/70">Tu selección se conserva: al entrar regresarás a este paso.</p>
+                  </PortalCard>
                 ) : profile?.role === 'banned' ? (
-                  <Card>
+                  <PortalCard>
                     <EmptyState
                       icon={CircleAlert}
                       title="No puedes reservar en línea"
                       description={`Tu cuenta no tiene habilitadas las reservas en línea. Comunícate con ${business.name} para agendar tu cita.`}
                     />
-                  </Card>
+                  </PortalCard>
                 ) : (
-                  <Card className="flex flex-col gap-space-md">
+                  <PortalCard className="flex flex-col gap-space-md">
                     <div className="flex items-center gap-space-sm">
-                      <Avatar name={profile?.full_name || 'Cliente'} />
+                      <Avatar name={profile?.full_name || 'Cliente'} tone="premium" />
                       <div>
                         <p className="font-body-semibold">{profile?.full_name || 'Cliente'}</p>
-                        <p className="text-body-sm text-on-surface-variant tabular-nums">{profile?.phone || session.user.email}</p>
+                        <p className="text-body-sm text-ink/70 tabular-nums">{profile?.phone || session.user.email}</p>
                       </div>
                       <Link to={`/${business.slug}/perfil`} className="ml-auto text-body-sm text-gold-deep hover:underline">Editar mis datos</Link>
                     </div>
@@ -413,6 +452,7 @@ export default function Reservar() {
                       placeholder="Ej. Degradado bajo, solo tijera arriba."
                       rows={3}
                       maxLength={300}
+                      tone="premium"
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                     />
@@ -423,51 +463,30 @@ export default function Reservar() {
                     <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned || notes.length > 300} icon={CalendarCheck} className="justify-center h-11">
                       Confirmar reserva{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
                     </Button>
-                    <p className="text-body-sm text-on-surface-variant text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
-                  </Card>
+                    <p className="text-body-sm text-ink/70 text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
+                  </PortalCard>
                 )}
               </section>
             )}
 
             {step > 1 && (
-              <Button variant="ghost" icon={ArrowLeft} className="self-start" onClick={() => update({}, step - 1)}>
-                Volver al paso anterior
-              </Button>
+              <button
+                type="button"
+                onClick={() => update({}, step - 1)}
+                className="self-start inline-flex items-center gap-space-xs h-9 text-body-medium text-ink/70 hover:text-gold-deep transition-colors"
+              >
+                <ArrowLeft size={18} strokeWidth={1.75} aria-hidden /> Volver al paso anterior
+              </button>
             )}
           </div>
 
-          {/* Resumen */}
+          {/* Resumen: comprobante carbón */}
           <aside className="lg:sticky lg:top-24">
-            <Card className="flex flex-col gap-space-md">
-              <h2 className="font-display text-[20px] font-semibold text-ink">Resumen de tu cita</h2>
-              <dl className="flex flex-col gap-space-sm text-body-sm">
-                {[
-                  [Scissors, 'Servicio', service ? `${service.name} · ${formatDuration(service.duration)}` : null, 1],
-                  [User, 'Barbero', barberParam === ANY ? (assigned ? `${assigned.name} (asignado)` : 'Cualquier barbero') : barber?.name, 2],
-                  [CalendarDays, 'Fecha', date ? formatDateLong(date) : null, 3],
-                  [Clock, 'Hora', time ? `${time} h` : null, 3],
-                  [MapPin, 'Lugar', `${business.name}, ${business.city}`, null],
-                ].map(([Icon, label, value, editStep]) => (
-                  <div key={label} className="flex gap-space-sm">
-                    <Icon size={16} strokeWidth={1.75} className="text-on-surface-variant mt-0.5 shrink-0" aria-hidden />
-                    <div className="min-w-0 flex-1">
-                      <dt className="text-on-surface-variant">{label}</dt>
-                      <dd className={cn('first-letter:uppercase', value ? 'text-on-surface font-body-medium' : 'text-outline')}>{value ?? 'Por elegir'}</dd>
-                    </div>
-                    {value && editStep && editStep < step && (
-                      <button type="button" onClick={() => update({}, editStep)} className="text-gold-deep text-[12px] hover:underline self-start">Cambiar</button>
-                    )}
-                  </div>
-                ))}
-              </dl>
-              <div className="border-t border-outline-variant pt-space-md flex items-baseline justify-between">
-                <span className="text-body-sm text-on-surface-variant">Total a pagar en el local</span>
-                <span className="font-headline-section text-headline-section tabular-nums">{service ? formatMoneyMXN(service.price) : '—'}</span>
-              </div>
+            <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)}>
               {step < 4 && step < maxStep && (
-                <Button variant="secondary" iconRight={ArrowRight} className="justify-center" onClick={() => update({}, step + 1)}>Continuar</Button>
+                <Button variant="gold" iconRight={ArrowRight} className="justify-center h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
               )}
-            </Card>
+            </Summary>
           </aside>
         </div>
       )}

@@ -10,6 +10,7 @@ const VARIANTS = {
   // Estilo premium (landing y portal público)
   gold:      'btn-shine bg-gold text-ink hover:bg-gold-hover hover:shadow-[0_8px_24px_-6px_rgba(201,164,92,0.6)] font-body-semibold focus-visible:ring-gold',
   'outline-light': 'border border-white/25 text-white hover:bg-white/10 hover:border-white/40 focus-visible:ring-white focus-visible:ring-offset-ink',
+  'outline-dark': 'border border-ink/20 bg-white text-ink hover:border-gold hover:text-gold-deep focus-visible:ring-gold',
 }
 
 const SIZES = {
@@ -21,7 +22,7 @@ const SIZES = {
 
 /**
  * Botón estándar.
- * - variant: primary | secondary | ghost | danger | gold | outline-light
+ * - variant: primary | secondary | ghost | danger | gold | outline-light | outline-dark
  * - size: sm | md | icon | icon-sm
  * - icon / iconRight: componente de lucide-react
  * - as: elemento o componente a renderizar (por ejemplo Link de react-router)

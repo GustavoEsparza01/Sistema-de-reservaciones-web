@@ -99,7 +99,7 @@ export default function PortalLayout() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-background font-sans text-on-surface">
+    <div className="min-h-screen flex flex-col bg-cream font-sans text-on-surface">
       <ScrollProgress />
       <header className={cn('sticky top-0 z-40 backdrop-blur border-b text-white transition-all duration-300', scrolled ? 'bg-ink/95 border-ink-line shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]' : 'bg-ink border-ink-line')}>
         <div className={`max-w-[1200px] mx-auto px-margin-mobile md:px-margin flex items-center gap-space-md transition-all duration-300 ${scrolled ? 'h-14' : 'h-16'}`}>
@@ -152,7 +152,8 @@ export default function PortalLayout() {
         )}
       </header>
 
-      <main className="flex-1">
+      {/* overflow-x-clip: lo que entra animado desde un costado no genera scroll horizontal en celular */}
+      <main className="flex-1 overflow-x-clip">
         <Outlet />
       </main>
 

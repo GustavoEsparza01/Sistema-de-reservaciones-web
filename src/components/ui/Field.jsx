@@ -22,11 +22,13 @@ export default function Field({ id, label, hint, error, required, className, chi
   )
 }
 
-export const controlClasses = (error) =>
+// tone="premium": colores del portal público (carbón y dorado) en lugar del azul del panel
+export const controlClasses = (error, tone) =>
   cn(
     'w-full h-9 rounded-lg bg-surface-container-lowest border text-body-default text-on-surface',
     'placeholder:text-outline transition-colors',
-    'focus:outline-none focus:ring-2 focus:ring-primary/20',
+    'focus:outline-none focus:ring-2',
+    tone === 'premium' ? 'focus:ring-gold/30' : 'focus:ring-primary/20',
     'disabled:bg-surface-container-low disabled:text-outline disabled:cursor-not-allowed',
-    error ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+    error ? 'border-error focus:border-error' : tone === 'premium' ? 'border-ink/15 focus:border-gold' : 'border-outline-variant focus:border-primary'
   )

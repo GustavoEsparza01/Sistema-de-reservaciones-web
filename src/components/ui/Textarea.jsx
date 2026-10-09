@@ -4,7 +4,7 @@ import Field, { controlClasses } from './Field'
 
 /** Texto largo con etiqueta, ayuda, error y contador opcional (maxLength). */
 const Textarea = forwardRef(function Textarea(
-  { id, label, hint, error, required, maxLength, value, rows = 3, className, ...props },
+  { id, label, hint, error, required, maxLength, value, rows = 3, tone, className, ...props },
   ref
 ) {
   const autoId = useId()
@@ -22,7 +22,7 @@ const Textarea = forwardRef(function Textarea(
           required={required}
           aria-invalid={error ? true : undefined}
           aria-describedby={error || hint ? `${inputId}-msg` : undefined}
-          className={cn(controlClasses(error), 'h-auto px-3 py-2 resize-y', maxLength && 'pb-6')}
+          className={cn(controlClasses(error, tone), 'h-auto px-3 py-2 resize-y', maxLength && 'pb-6')}
           {...props}
         />
         {maxLength && (

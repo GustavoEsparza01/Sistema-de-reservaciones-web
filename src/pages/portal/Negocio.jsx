@@ -6,7 +6,8 @@ import { openStatus, useBusiness } from '../../hooks/useBusiness'
 import { fetchPublicBarbers, fetchPublicServices } from '../../lib/publicData'
 import { formatDuration, formatMoneyMXN } from '../../lib/format'
 import { cn } from '../../lib/cn'
-import { Avatar, Button, Card, EmptyState, Skeleton } from '../../components/ui'
+import { Avatar, Button, EmptyState, Skeleton } from '../../components/ui'
+import PortalCard from '../../components/portal/PortalCard'
 import { Marquee, Reveal, trackPointer } from '../../components/motion'
 
 function usePublicData() {
@@ -30,13 +31,13 @@ function SectionTitle({ id, eyebrow, title, description }) {
         </span>
       )}
       <h2 className="font-display text-[30px] md:text-[40px] leading-[1.1] font-semibold text-ink">{title}</h2>
-      {description && <p className="text-body-default md:text-[16px] text-on-surface-variant max-w-2xl">{description}</p>}
+      {description && <p className="text-body-default md:text-[16px] text-ink/70 max-w-2xl">{description}</p>}
     </Reveal>
   )
 }
 
 // Tarjeta clara con borde que se vuelve dorado al pasar el cursor
-const premiumCard = 'rounded-2xl border border-outline-variant bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-[0_18px_40px_-22px_rgba(15,15,16,0.3)]'
+const premiumCard = 'rounded-xl border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-[0_18px_40px_-22px_rgba(15,15,16,0.3)]'
 
 export default function Negocio() {
   const business = useBusiness()
@@ -114,9 +115,9 @@ export default function Negocio() {
 
       <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[64px] md:py-[80px] flex flex-col gap-[72px]">
         {error && (
-          <Card>
+          <PortalCard>
             <EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." />
-          </Card>
+          </PortalCard>
         )}
 
         {/* Servicios */}
@@ -124,7 +125,7 @@ export default function Negocio() {
           <SectionTitle id="servicios" eyebrow="Servicios" title="Lo que hacemos" description="Elige el servicio para ver los horarios disponibles y reservar." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
             {loading
-              ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-48 w-full rounded-2xl" />)
+              ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-48 w-full rounded-xl" />)
               : services.map((s, i) => (
                   <Reveal key={s.id} delay={(i % 3) * 120}>
                   <div onMouseMove={trackPointer} className={cn(premiumCard, 'spotlight group h-full p-space-lg flex flex-col gap-space-sm')}>
@@ -132,10 +133,10 @@ export default function Negocio() {
                       <h3 className="font-display text-[21px] font-semibold text-ink">{s.name}</h3>
                       <span className="font-display text-[21px] font-semibold text-gold-deep tabular-nums whitespace-nowrap">{formatMoneyMXN(s.price)}</span>
                     </div>
-                    <p className="flex items-center gap-1.5 text-body-sm text-on-surface-variant">
+                    <p className="flex items-center gap-1.5 text-body-sm text-ink/70">
                       <Timer size={14} strokeWidth={1.75} aria-hidden /> {formatDuration(s.duration)}
                     </p>
-                    {s.description && <p className="text-body-sm text-on-surface-variant leading-6 flex-1">{s.description}</p>}
+                    {s.description && <p className="text-body-sm text-ink/70 leading-6 flex-1">{s.description}</p>}
                     <Link
                       to={`${base}/reservar?servicio=${s.id}`}
                       className="mt-auto pt-space-sm inline-flex items-center gap-1.5 text-body-semibold text-ink group-hover:text-gold-deep transition-colors"
@@ -147,7 +148,7 @@ export default function Negocio() {
                 ))}
           </div>
           {!loading && !error && services.length === 0 && (
-            <Card><EmptyState icon={Store} title="Aún no hay servicios publicados" /></Card>
+            <PortalCard><EmptyState icon={Store} title="Aún no hay servicios publicados" /></PortalCard>
           )}
         </section>
 
@@ -156,18 +157,18 @@ export default function Negocio() {
           <SectionTitle id="equipo" eyebrow="Barberos" title="Nuestro equipo" description="Elige con quién quieres atenderte." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
             {loading
-              ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-56 w-full rounded-2xl" />)
+              ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-56 w-full rounded-xl" />)
               : barbers.map((b, i) => (
                   <Reveal key={b.id} from="scale" delay={(i % 4) * 110}>
                   <div onMouseMove={trackPointer} className={cn(premiumCard, 'spotlight group h-full p-space-lg flex flex-col items-center text-center gap-space-sm')}>
                     <span className="relative rounded-full p-1.5">
                       {/* Aro punteado que gira al pasar el cursor */}
                       <span className="absolute inset-0 rounded-full border-2 border-dashed border-gold/60 transition-colors group-hover:border-gold spin-on-hover" aria-hidden />
-                      <Avatar name={b.name} src={b.photo} className="!w-24 !h-24 !text-[30px] transition-transform duration-500 group-hover:scale-105" />
+                      <Avatar name={b.name} src={b.photo} tone="premium" className="!w-24 !h-24 !text-[30px] transition-transform duration-500 group-hover:scale-105" />
                     </span>
                     <h3 className="font-display text-[20px] font-semibold text-ink mt-space-xs">{b.name}</h3>
-                    <p className="text-body-sm text-on-surface-variant flex-1">{b.bio || 'Barbero de Peludos Barber Shop.'}</p>
-                    <Button as={Link} to={`${base}/reservar?barbero=${b.id}`} variant="secondary" size="sm" className="hover:!border-gold">
+                    <p className="text-body-sm text-ink/70 flex-1">{b.bio || 'Barbero de Peludos Barber Shop.'}</p>
+                    <Button as={Link} to={`${base}/reservar?barbero=${b.id}`} variant="outline-dark" size="sm">
                       Reservar con {b.name === 'Barbero' ? 'este barbero' : b.name.split(' ')[0]}
                     </Button>
                   </div>
@@ -180,7 +181,7 @@ export default function Negocio() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-[40px] items-start">
           <div className="flex flex-col gap-space-xl">
             <SectionTitle id="horarios" eyebrow="Visítanos" title="Horarios y ubicación" />
-            <Reveal from="left" className="rounded-2xl border border-outline-variant bg-white flex flex-col divide-y divide-outline-variant overflow-hidden">
+            <Reveal from="left" className="rounded-xl border border-ink/10 bg-white flex flex-col divide-y divide-ink/10 overflow-hidden">
               {business.hours.map((h) => {
                 const today = h.days.includes(new Date().getDay())
                 return (
@@ -199,7 +200,7 @@ export default function Negocio() {
               href={`https://www.google.com/maps/search/${encodeURIComponent(`${business.name} ${business.city}`)}`}
               target="_blank"
               rel="noreferrer"
-              variant="secondary"
+              variant="outline-dark"
               icon={MapPin}
               className="self-start"
             >
@@ -208,7 +209,7 @@ export default function Negocio() {
           </div>
 
           <Reveal from="right" className="lg:mt-[76px]">
-          <div onMouseMove={trackPointer} className="spotlight overflow-hidden rounded-2xl bg-ink text-white p-space-lg md:p-space-xl flex flex-col gap-space-lg">
+          <div onMouseMove={trackPointer} className="spotlight overflow-hidden rounded-xl bg-ink text-white p-space-lg md:p-space-xl flex flex-col gap-space-lg">
             <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-gold/15 blur-[80px] animate-drift" aria-hidden />
             {[
               { icon: CalendarCheck, title: 'Reserva en minutos', text: 'Elige servicio, barbero y horario disponible desde tu celular.' },
