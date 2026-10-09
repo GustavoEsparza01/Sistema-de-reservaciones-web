@@ -1,5 +1,5 @@
 // Contenido del landing de Barber OS (textos, planes, preguntas y datos de ejemplo).
-// Lo comparten el landing actual y el nuevo. Solo describe funciones que el sistema ya tiene.
+// Solo describe funciones que el sistema ya tiene.
 import { addMinutes, startOfDay } from 'date-fns'
 import { BarChart3, CalendarDays, Globe } from 'lucide-react'
 import { Avatar } from '../ui'
