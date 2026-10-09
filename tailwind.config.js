@@ -73,9 +73,28 @@ export default {
         'on-error': '#FFFFFF',
         'error-container': '#FEE2E2',
         'on-error-container': '#7F1D1D',
+
+        // Estilo "barbería premium" (landing y portal público): carbón + dorado
+        ink: {
+          DEFAULT: '#0F0F10',
+          soft: '#18181B',
+          raised: '#222226',
+          line: '#2E2E33',
+          muted: '#A1A1AA',
+        },
+        gold: {
+          DEFAULT: '#C9A45C',
+          hover: '#B8914A',
+          light: '#E8D3A3',
+          soft: '#F6EEDC',
+          deep: '#8A6A2F',
+        },
+        cream: '#FAF8F4',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        // Títulos con presencia del landing y el portal público
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
         'headline-page': ['Inter', 'sans-serif'],
         'headline-page-mobile': ['Inter', 'sans-serif'],
         'headline-section': ['Inter', 'sans-serif'],

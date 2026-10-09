@@ -7,6 +7,9 @@ const VARIANTS = {
   secondary: 'bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface-container-low hover:border-outline',
   ghost:     'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low',
   danger:    'bg-error text-on-error hover:bg-red-800',
+  // Estilo premium (landing y portal público)
+  gold:      'bg-gold text-ink hover:bg-gold-hover font-body-semibold focus-visible:ring-gold',
+  'outline-light': 'border border-white/25 text-white hover:bg-white/10 hover:border-white/40 focus-visible:ring-white focus-visible:ring-offset-ink',
 }
 
 const SIZES = {
@@ -18,7 +21,7 @@ const SIZES = {
 
 /**
  * Botón estándar.
- * - variant: primary | secondary | ghost | danger
+ * - variant: primary | secondary | ghost | danger | gold | outline-light
  * - size: sm | md | icon | icon-sm
  * - icon / iconRight: componente de lucide-react
  * - as: elemento o componente a renderizar (por ejemplo Link de react-router)
