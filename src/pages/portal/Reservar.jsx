@@ -21,7 +21,7 @@ import PortalCard from '../../components/portal/PortalCard'
 
 const ANY = 'cualquiera'
 const DAYS_AHEAD = 30
-const STEPS = ['Servicio', 'Barbero', 'Fecha y hora', 'Confirmar']
+const STEPS = ['Servicio', 'Barbero', 'Fecha y hora', 'Solicitar']
 const noDots = (s) => s.replace(/\./g, '')
 
 /** Flechas, Inicio y Fin mueven el foco entre los radios habilitados del grupo (no eligen). */
@@ -124,7 +124,7 @@ function DemoDataToggle({ mode, onChange, onPreviewBooked }) {
           {label}
         </button>
       ))}
-      {/* Muestra la pantalla de cita registrada con datos de ejemplo; no guarda nada */}
+      {/* Muestra la pantalla de solicitud enviada con datos de ejemplo; no guarda nada */}
       <button type="button" onClick={onPreviewBooked} className="rounded-full px-2.5 py-1 whitespace-nowrap text-neutral-600">
         Pantalla final
       </button>
@@ -232,7 +232,7 @@ function Summary({ rows, step, total, onEdit, children }) {
 
 /**
  * Barra fija abajo en celular: lo elegido, el total y la acción del paso
- * ("Continuar", o en el paso 4 "Iniciar sesión" / "Confirmar").
+ * ("Continuar", o en el paso 4 "Entrar o registrarme" / "Solicitar").
  * Al tocarla se despliega el resumen completo. Es sticky dentro de la página,
  * así que al final se detiene antes del pie.
  */
@@ -361,8 +361,8 @@ export default function Reservar() {
     stepHeading.current?.focus({ preventScroll: true })
   }, [step])
 
-  // Con la cita registrada, el foco pasa al título "¡Tu cita quedó registrada!"
-  // (el botón Confirmar ya no existe y el lector de pantalla debe leer el resultado)
+  // Con la cita registrada, el foco pasa al título "¡Enviamos tu solicitud!"
+  // (el botón Solicitar ya no existe y el lector de pantalla debe leer el resultado)
   const bookedHeading = useRef(null)
   useEffect(() => {
     if (booked) bookedHeading.current?.focus({ preventScroll: true })
@@ -442,12 +442,12 @@ export default function Reservar() {
       showBooked({ id, start, barber: assigned, service })
     } catch (err) {
       const taken = /overlap|traslap|solap/i.test(err.message)
-      setSubmitError(taken ? 'Ese horario se acaba de ocupar. Elige otro, por favor.' : 'No se pudo registrar tu cita. Inténtalo de nuevo.')
+      setSubmitError(taken ? 'Ese horario se acaba de ocupar. Elige otro.' : 'No pudimos enviar tu solicitud. Revisa tu conexión e inténtalo de nuevo; lo que elegiste sigue aquí.')
       if (taken) {
         update({ hora: '' }, 3)
         setDayRetry((n) => n + 1)
       }
-      toast({ tone: 'error', title: 'No se pudo reservar', description: taken ? 'Ese horario ya no está disponible. Elige otro.' : 'Revisa tu conexión e inténtalo de nuevo.' })
+      toast({ tone: 'error', title: 'No se envió tu solicitud', description: taken ? 'Ese horario se acaba de ocupar. Elige otro.' : 'Revisa tu conexión e inténtalo de nuevo.' })
     } finally {
       setSaving(false)
     }
@@ -457,7 +457,7 @@ export default function Reservar() {
     setBooked({ id, start, end: new Date(start.getTime() + service.duration * 60000), barber, service })
     window.scrollTo({ top: 0 })
     const day = formatDateLong(start)
-    toast({ tone: 'gold', title: 'Cita registrada', description: `${day.charAt(0).toUpperCase()}${day.slice(1)}, ${format(start, 'HH:mm')} h` })
+    toast({ tone: 'gold', title: 'Solicitud enviada', description: `${day.charAt(0).toUpperCase()}${day.slice(1)}, ${format(start, 'HH:mm')} h` })
   }
 
   // Solo desarrollo: la pantalla final con datos de ejemplo, para revisar la animación sin crear citas
@@ -472,7 +472,7 @@ export default function Reservar() {
     })
   }
 
-  // ── Reserva registrada ───────────────────────────────────────
+  // ── Solicitud enviada ───────────────────────────────────────
   if (booked) {
     return (
       <div className="max-w-[640px] mx-auto px-margin-mobile md:px-margin py-space-xl">
@@ -484,9 +484,9 @@ export default function Reservar() {
             </svg>
           </span>
           <div className="confirm-item" style={{ '--i': 0 }}>
-            <h1 ref={bookedHeading} tabIndex={-1} className="font-display text-[30px] leading-tight font-semibold text-ink focus:outline-none">¡Tu cita quedó registrada!</h1>
+            <h1 ref={bookedHeading} tabIndex={-1} className="font-display text-[30px] leading-tight font-semibold text-ink focus:outline-none">¡Enviamos tu solicitud!</h1>
             <p className="text-body-default text-ink/70 mt-space-xs max-w-[46ch] mx-auto">
-              Queda pendiente hasta que la barbería la confirme; te avisarán por WhatsApp o llamada. También verás el cambio en "Mis citas".
+              Tu cita queda pendiente hasta que la barbería la confirme. Te avisarán por WhatsApp o llamada, y verás el cambio en "Mis citas".
             </p>
           </div>
           <dl className="w-full text-left rounded-xl border border-ink/10 divide-y divide-ink/10">
@@ -518,7 +518,7 @@ export default function Reservar() {
             </Button>
             <Button variant="gold" as={Link} to={`/${business.slug}/mis-citas`} icon={CalendarDays} className="justify-center">Ver mis citas</Button>
           </div>
-          <Link to={`/${business.slug}`} className="confirm-item text-body-sm text-gold-deep hover:underline" style={{ '--i': 7 }}>Volver a la página principal</Link>
+          <Link to={`/${business.slug}`} className="confirm-item text-body-sm text-gold-deep hover:underline" style={{ '--i': 7 }}>Volver al inicio</Link>
         </PortalCard>
       </div>
     )
@@ -549,9 +549,9 @@ export default function Reservar() {
   if (step < 4) {
     if (canContinue) mobileAction = <Button variant="gold" iconRight={ArrowRight} className="h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
   } else if (!session) {
-    mobileAction = <Button as={Link} to={loginUrl} variant="gold" icon={LogIn} className="h-11">Iniciar sesión</Button>
+    mobileAction = <Button as={Link} to={loginUrl} variant="gold" icon={LogIn} className="h-11">Entrar o registrarme</Button>
   } else if (profile?.role !== 'banned') {
-    mobileAction = <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="h-11">Confirmar</Button>
+    mobileAction = <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="h-11">Solicitar</Button>
   }
 
   return (
@@ -568,7 +568,14 @@ export default function Reservar() {
       </header>
 
       {catalog.error ? (
-        <PortalCard><EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." /></PortalCard>
+        <PortalCard role="alert">
+          <EmptyState
+            icon={CircleAlert}
+            title="No pudimos cargar los servicios"
+            description="Revisa tu conexión e inténtalo de nuevo."
+            action={<Button variant="outline-dark" icon={RotateCw} onClick={() => window.location.reload()}>Reintentar</Button>}
+          />
+        </PortalCard>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-gutter items-start">
           {/* key={step}: cada paso entra con animación, del lado que corresponde */}
@@ -617,7 +624,7 @@ export default function Reservar() {
                       <span className="w-12 h-12 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center shrink-0"><Users size={20} strokeWidth={1.75} aria-hidden /></span>
                       <div className="min-w-0">
                         <p className="font-body-semibold">Cualquier barbero</p>
-                        <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70">Te asignamos al primero disponible</p>
+                        <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70">Te atiende quien esté libre a la hora que elijas</p>
                         <NextSlot loading={nextSlots.loading} slot={nextSlots.map ? earliestSlot : undefined} />
                       </div>
                     </div>
@@ -758,21 +765,21 @@ export default function Reservar() {
             {/* Paso 4: confirmar */}
             {step === 4 && (
               <section className="flex flex-col gap-space-md">
-                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Revisa y confirma</h2>
+                <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Revisa y solicita tu cita</h2>
                 {/* En celular el resumen se revisa aquí, antes de confirmar */}
                 <div className="lg:hidden">
                   <Summary rows={summaryRows} step={step} total={service?.price} onEdit={(s) => update({}, s)} />
                 </div>
                 {!session ? (
                   <PortalCard className="flex flex-col gap-space-md">
-                    <p className="text-body-default">Para confirmar necesitas una cuenta. Así podrás ver, cambiar o cancelar tu cita después.</p>
+                    <p className="text-body-default">Para solicitar tu cita necesitas una cuenta. Con ella podrás verla, reprogramarla o cancelarla después.</p>
                     {/* En celular este botón vive en la barra de abajo */}
                     <div className="hidden lg:flex flex-wrap gap-space-sm">
                       <Button as={Link} to={loginUrl} variant="gold" icon={LogIn}>
-                        Iniciar sesión o registrarme
+                        Entrar o registrarme
                       </Button>
                     </div>
-                    <p className="text-body-sm text-ink/70">Tu selección se conserva: al entrar regresarás a este paso.</p>
+                    <p className="text-body-sm text-ink/70">No pierdes lo que elegiste: al entrar regresas a este paso.</p>
                   </PortalCard>
                 ) : profile?.role === 'banned' ? (
                   <PortalCard>
@@ -801,7 +808,7 @@ export default function Reservar() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                     />
-                    {/* Por qué "Confirmar" aún no está activo */}
+                    {/* Por qué "Solicitar" aún no está activo */}
                     {dayError ? (
                       <div role="alert" className="flex flex-wrap items-center gap-space-sm text-body-sm text-error bg-error-container rounded-lg px-3 py-2">
                         <span className="flex-1 min-w-[12rem]">No pudimos comprobar que el horario siga libre.</span>
@@ -812,11 +819,16 @@ export default function Reservar() {
                     ) : slotMap == null ? (
                       <p role="status" className="text-body-sm text-ink/70">Comprobando que el horario siga libre…</p>
                     ) : !assigned && (
-                      <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">Ese horario ya no está disponible. Elige otro.</p>
+                      <div role="alert" className="flex flex-wrap items-center gap-space-sm text-body-sm text-error bg-error-container rounded-lg px-3 py-2">
+                        <span className="flex-1 min-w-[12rem]">Ese horario ya se ocupó.</span>
+                        <button type="button" onClick={() => update({ hora: '' }, 3)} className="inline-flex items-center gap-1 font-body-semibold underline underline-offset-2">
+                          <Clock size={14} strokeWidth={1.75} aria-hidden /> Elegir otro horario
+                        </button>
+                      </div>
                     )}
                     {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
                     <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="max-lg:hidden justify-center h-11">
-                      Confirmar reserva{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
+                      Solicitar cita{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
                     </Button>
                     <p className="text-body-sm text-ink/70 text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
                   </PortalCard>
