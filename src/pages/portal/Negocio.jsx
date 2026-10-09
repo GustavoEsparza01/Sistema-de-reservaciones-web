@@ -54,12 +54,24 @@ export default function Negocio() {
   return (
     <>
       {/* Presentación */}
-      <section onMouseMove={trackPointer} className="spotlight relative overflow-hidden bg-ink text-white">
-        <div className="absolute -top-32 -right-24 w-[520px] h-[520px] rounded-full bg-gold/20 blur-[120px] animate-drift" aria-hidden />
-        <div className="absolute -bottom-40 left-1/4 w-[380px] h-[380px] rounded-full bg-gold-deep/20 blur-[110px] animate-drift [animation-delay:-9s]" aria-hidden />
-        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden />
-        <div className="relative max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[64px] md:py-[96px] flex flex-col md:flex-row md:items-end md:justify-between gap-space-xl">
-          <div className="flex flex-col gap-space-lg max-w-2xl">
+      <section className="relative overflow-hidden bg-ink text-white">
+        {/* Foto: en celular ocupa todo el fondo; en escritorio, la parte derecha */}
+        <img
+          src="/portal-hero-1024.jpg"
+          srcSet="/portal-hero-640.jpg 640w, /portal-hero-1024.jpg 1024w"
+          sizes="(min-width: 768px) 62vw, 100vw"
+          width={1024}
+          height={1024}
+          fetchpriority="high"
+          alt=""
+          className="hero-photo absolute inset-0 w-full h-full object-cover object-[55%_30%] md:left-auto md:right-0 md:w-[62%]"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-ink from-[30%] via-ink/70 to-ink/10 md:bg-gradient-to-r md:from-ink md:from-[38%] md:via-ink/60 md:via-[58%] md:to-ink/5"
+          aria-hidden
+        />
+        <div className="relative max-w-[1200px] mx-auto px-margin-mobile md:px-margin min-h-[540px] md:min-h-[600px] pt-[220px] pb-[48px] md:py-[96px] flex flex-col justify-end md:justify-center">
+          <div className="flex flex-col gap-space-lg max-w-xl">
             <span
               className={cn(
                 'animate-enter self-start inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold border',
@@ -70,18 +82,18 @@ export default function Negocio() {
               {status.text}
             </span>
             <h1 style={{ '--enter-delay': '120ms' }} className="animate-enter font-display text-[44px] md:text-[64px] leading-[1.02] font-semibold text-balance">{business.name}</h1>
-            <p style={{ '--enter-delay': '240ms' }} className="animate-enter text-[17px] md:text-[18px] leading-8 text-ink-muted">{business.tagline}</p>
+            <p style={{ '--enter-delay': '240ms' }} className="animate-enter text-[17px] md:text-[18px] leading-7 md:leading-8 text-white/80">{business.tagline}</p>
             <p style={{ '--enter-delay': '340ms' }} className="animate-enter flex items-center gap-1.5 text-body-sm text-gold-light">
               <MapPin size={16} strokeWidth={1.75} className="text-gold" aria-hidden /> {business.city}
             </p>
-          </div>
-          <div style={{ '--enter-delay': '440ms' }} className="animate-enter flex flex-wrap gap-space-sm self-start md:self-auto">
-            <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="h-12 px-space-lg text-[15px]">
-              Reservar cita
-            </Button>
-            <Button as="a" href="#servicios" variant="outline-light" className="h-12 px-space-lg text-[15px]">
-              Ver servicios
-            </Button>
+            <div style={{ '--enter-delay': '440ms' }} className="animate-enter grid grid-cols-2 sm:flex gap-space-sm mt-space-xs">
+              <Button as={Link} to={`${base}/reservar`} variant="gold" icon={CalendarPlus} className="h-12 px-space-lg text-[15px] justify-center">
+                Reservar cita
+              </Button>
+              <Button as="a" href="#servicios" variant="outline-light" className="h-12 px-space-lg text-[15px] justify-center backdrop-blur-sm">
+                Ver servicios
+              </Button>
+            </div>
           </div>
         </div>
       </section>
