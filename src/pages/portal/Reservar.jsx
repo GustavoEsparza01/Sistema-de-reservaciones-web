@@ -4,7 +4,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { addDays, format, isToday, parseISO, startOfDay, endOfDay, isTomorrow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import {
-  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, ChevronUp, CircleAlert, Clock, LogIn, MapPin, RotateCw,
+  ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, CalendarPlus, Check, ChevronRight, ChevronUp, CircleAlert, Clock, LogIn, MapPin, RotateCw,
   Scissors, Sun, Sunset, Timer, User, Users,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -55,7 +55,8 @@ const NEXT_SLOT_DAYS = 14
 /**
  * Próximo horario libre de cada barbero para el servicio elegido: revisa día por
  * día (máx. 2 semanas) y se detiene cuando ya encontró lugar para todos.
- * map: id → { date, time } o null si no hay lugar. Si falla, simplemente no se muestra.
+ * map: id → { date, time, times } (time = el primero; times = hasta 3 de ese día)
+ * o null si no hay lugar. Si falla, simplemente no se muestra.
  */
 function useNextSlots(barbers, service, enabled, loadDay) {
   const [state, setState] = useState({ loading: false, map: null })
@@ -74,9 +75,9 @@ function useNextSlots(barbers, service, enabled, loadDay) {
         const appointments = await loadDay(day)
         if (!alive) return
         for (const b of working) {
-          const [first] = availableSlots({ schedule: b.schedule, date: day, duration: service.duration, appointments: appointments.filter((a) => a.barberId === b.id) })
-          if (first) {
-            map.set(b.id, { date: day, time: first })
+          const free = availableSlots({ schedule: b.schedule, date: day, duration: service.duration, appointments: appointments.filter((a) => a.barberId === b.id) })
+          if (free.length) {
+            map.set(b.id, { date: day, time: free[0], times: free.slice(0, 3) })
             pending.delete(b.id)
           }
         }
@@ -89,22 +90,78 @@ function useNextSlots(barbers, service, enabled, loadDay) {
   return state
 }
 
-/** "Hoy 17:00", "Mañana 09:00" o "jue 10 oct, 09:00" */
-function slotLabel({ date, time }) {
-  if (isToday(date)) return `Hoy ${time}`
-  if (isTomorrow(date)) return `Mañana ${time}`
-  return `${noDots(format(date, 'EEE d MMM', { locale: es }))}, ${time}`
+/** "Hoy", "Mañana" o "jue 10 oct" */
+function dayWord(date) {
+  if (isToday(date)) return 'Hoy'
+  if (isTomorrow(date)) return 'Mañana'
+  return noDots(format(date, 'EEE d MMM', { locale: es }))
 }
 
-/** Línea "Próximo lugar" dentro de la tarjeta del barbero (cambia de tono si está elegida). */
-function NextSlot({ loading, slot }) {
-  if (loading) return <span className="block h-4 w-36 mt-1 rounded bg-ink/10 group-aria-pressed:bg-white/15 animate-pulse" aria-hidden />
-  if (slot === undefined) return null
-  if (slot === null) return <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 mt-1">Sin lugar en las próximas 2 semanas</p>
+/**
+ * Barbero en el paso 2: tocar la fila elige al barbero (va al paso 3, a su próximo día con lugar);
+ * tocar un horario elige barbero, día y hora de una vez (va al paso 4).
+ * La fila y los horarios son botones hermanos: un botón no puede contener otros botones.
+ */
+function BarberCard({ barber, selected, loading, slot, onChoose, onPick }) {
   return (
-    <p className="flex items-center gap-1 text-body-sm font-body-medium text-gold-deep group-aria-pressed:text-gold-light mt-1 tabular-nums">
-      <Clock size={14} strokeWidth={1.75} aria-hidden /> Próximo lugar: {slotLabel(slot)}
-    </p>
+    <div className={cn(
+      'rounded-xl border bg-white transition-[border-color,box-shadow] duration-150 ease-out-strong',
+      selected ? 'border-ink ring-1 ring-ink' : 'border-ink/10 hover:border-gold'
+    )}>
+      <button
+        type="button"
+        onClick={onChoose}
+        aria-pressed={selected}
+        className="w-full flex items-center gap-space-md p-space-md text-left rounded-xl transition-transform duration-150 ease-out-strong active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+      >
+        <Avatar name={barber.name} src={barber.photo} tone="premium" className="!w-14 !h-14 !text-[20px] font-display ring-1 ring-gold/40" />
+        <span className="min-w-0 flex-1">
+          <span className="font-display text-[19px] leading-tight font-semibold text-ink line-clamp-2 [overflow-wrap:anywhere]" title={barber.name}>{barber.name}</span>
+          {barber.bio && <span className="text-body-sm text-ink/70 mt-0.5 line-clamp-1">{barber.bio}</span>}
+        </span>
+        {selected
+          ? <span className="flex items-center gap-1 text-[12px] font-body-semibold text-ink shrink-0"><Check size={14} strokeWidth={2.5} aria-hidden /> Elegido</span>
+          : <ChevronRight size={18} strokeWidth={1.75} className="text-ink/40 shrink-0" aria-hidden />}
+      </button>
+      <SlotChips loading={loading} slot={slot} who={barber.name} onPick={onPick} className="px-space-md pb-space-md" />
+    </div>
+  )
+}
+
+/** Hasta 3 horarios del próximo día con lugar, como botones (o su esqueleto mientras cargan). */
+function SlotChips({ loading, slot, who, onPick, tone = 'light', className }) {
+  const dark = tone === 'ink'
+  if (loading) {
+    return (
+      <div className={cn('flex gap-1.5', className)} aria-hidden>
+        {[0, 1, 2].map((i) => <span key={i} className={cn('h-11 w-[4.5rem] rounded-lg animate-pulse', dark ? 'bg-white/10' : 'bg-ink/10')} />)}
+      </div>
+    )
+  }
+  if (slot === undefined) return null
+  if (slot === null) return <p className={cn('text-body-sm', dark ? 'text-white/70' : 'text-ink/70', className)}>Sin lugar en las próximas 2 semanas</p>
+  const day = dayWord(slot.date)
+  return (
+    <div className={cn('flex flex-wrap items-center gap-1.5', className)}>
+      <span className={cn('text-body-sm font-body-medium mr-1 first-letter:uppercase', dark ? 'text-gold-light' : 'text-gold-deep')}>{day}</span>
+      {slot.times.map((t, i) => (
+        <button
+          key={t}
+          type="button"
+          onClick={() => onPick(t)}
+          aria-label={`${day} a las ${t}${who ? ` con ${who}` : ''}`}
+          style={{ '--i': i }}
+          className={cn(
+            'chip-enter h-11 px-3.5 rounded-lg border text-body-sm font-body-medium tabular-nums transition-[transform,background-color,border-color,color] duration-150 ease-out-strong active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2',
+            dark
+              ? 'border-white/20 text-white hover:border-gold hover:text-gold-light focus-visible:ring-gold'
+              : 'border-ink/15 bg-cream text-ink hover:border-gold hover:text-gold-deep focus-visible:ring-ink'
+          )}
+        >
+          {t}
+        </button>
+      ))}
+    </div>
   )
 }
 
@@ -398,12 +455,26 @@ export default function Reservar() {
   const earliestSlot = nextSlots.map
     ? [...nextSlots.map.values()].filter(Boolean).sort((a, b) => a.date - b.date || toMinutes(a.time) - toMinutes(b.time))[0] ?? null
     : undefined
+  // "Lo antes posible": los 3 primeros horarios de ese día juntando a todos los barberos
+  const anySlot = earliestSlot && {
+    date: earliestSlot.date,
+    times: [...new Set([...nextSlots.map.values()].filter((s) => s && s.date.getTime() === earliestSlot.date.getTime()).flatMap((s) => s.times))]
+      .sort((a, b) => toMinutes(a) - toMinutes(b))
+      .slice(0, 3),
+  }
+  // Con un solo barbero el atajo repetiría su tarjeta; sin lugar para nadie no hay nada que ofrecer
+  const showAnyShortcut = catalog.barbers.length > 1 && (nextSlots.loading || !!anySlot)
 
   // Al elegir barbero, el paso 3 abre en el día de su próximo lugar
   // (salvo que ya haya un día elegido en el que ese barbero trabaje)
   function chooseBarber(id, next) {
     const keep = date && (id === ANY ? catalog.barbers : catalog.barbers.filter((b) => b.id === id)).some((b) => shiftFor(b.schedule, date))
     update({ barbero: id, hora: '', ...(!keep && next ? { fecha: format(next.date, 'yyyy-MM-dd') } : {}) }, 3)
+  }
+
+  // Horario tocado en el paso 2: barbero, día y hora de una vez, directo a revisar y solicitar
+  function pickSlot(id, slot, time) {
+    update({ barbero: id, fecha: format(slot.date, 'yyyy-MM-dd'), hora: time }, 4)
   }
 
   // Horario → barbero que lo atiende (con "cualquiera", el primero libre)
@@ -617,29 +688,38 @@ export default function Reservar() {
             {step === 2 && (
               <section className="flex flex-col gap-space-md">
                 <h2 ref={stepHeading} tabIndex={-1} className="font-display text-[22px] font-semibold text-ink focus:outline-none">Elige a tu barbero</h2>
-                {/* grid-cols-1 explícito: con una columna implícita, un texto largo ensancha la pista más que la pantalla */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
-                  <Choice selected={barberParam === ANY} onClick={() => chooseBarber(ANY, earliestSlot)}>
-                    <div className="flex items-center gap-space-sm">
-                      <span className="w-12 h-12 rounded-full bg-ink text-gold ring-1 ring-gold/40 flex items-center justify-center shrink-0"><Users size={20} strokeWidth={1.75} aria-hidden /></span>
-                      <div className="min-w-0">
-                        <p className="font-body-semibold">Cualquier barbero</p>
-                        <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70">Te atiende quien esté libre a la hora que elijas</p>
-                        <NextSlot loading={nextSlots.loading} slot={nextSlots.map ? earliestSlot : undefined} />
-                      </div>
+                {/* Lo antes posible: con más de un barbero, los primeros horarios de quien esté libre */}
+                {showAnyShortcut && (
+                  <PortalCard tone="ink" className="flex flex-col gap-space-md">
+                    <div>
+                      <h3 className="font-display text-[20px] font-semibold">Lo antes posible</h3>
+                      <p className="text-body-sm text-white/70">Te atiende quien esté libre a esa hora.</p>
                     </div>
-                  </Choice>
+                    <SlotChips tone="ink" loading={nextSlots.loading} slot={anySlot} onPick={(t) => pickSlot(ANY, anySlot, t)} />
+                    <button
+                      type="button"
+                      onClick={() => chooseBarber(ANY, earliestSlot)}
+                      aria-pressed={barberParam === ANY}
+                      className="self-start inline-flex items-center gap-1.5 min-h-11 -my-2 text-body-sm font-body-semibold text-gold-light hover:text-gold underline-offset-4 hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                    >
+                      {barberParam === ANY && <Check size={14} strokeWidth={2.5} aria-hidden />}
+                      Ver más horarios con cualquier barbero <ArrowRight size={14} aria-hidden />
+                    </button>
+                  </PortalCard>
+                )}
+                {showAnyShortcut && <h3 className="text-body-semibold text-ink/70 mt-space-xs">O elige con quién</h3>}
+                {/* grid-cols-1 explícito: con una columna implícita, un texto largo ensancha la pista más que la pantalla */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-space-sm">
                   {catalog.barbers.map((b) => (
-                    <Choice key={b.id} selected={barber?.id === b.id} onClick={() => chooseBarber(b.id, nextSlots.map?.get(b.id))}>
-                      <div className="flex items-center gap-space-sm">
-                        <Avatar name={b.name} src={b.photo} size="lg" tone="premium" className="ring-1 ring-gold/40" />
-                        <div className="min-w-0">
-                          <p className="font-body-semibold line-clamp-2 [overflow-wrap:anywhere]" title={b.name}>{b.name}</p>
-                          {b.bio && <p className="text-body-sm text-ink/70 group-aria-pressed:text-white/70 line-clamp-2">{b.bio}</p>}
-                          <NextSlot loading={nextSlots.loading} slot={nextSlots.map?.get(b.id)} />
-                        </div>
-                      </div>
-                    </Choice>
+                    <BarberCard
+                      key={b.id}
+                      barber={b}
+                      selected={barber?.id === b.id}
+                      loading={nextSlots.loading}
+                      slot={nextSlots.map?.get(b.id)}
+                      onChoose={() => chooseBarber(b.id, nextSlots.map?.get(b.id))}
+                      onPick={(t) => pickSlot(b.id, nextSlots.map.get(b.id), t)}
+                    />
                   ))}
                 </div>
               </section>
