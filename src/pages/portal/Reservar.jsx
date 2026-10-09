@@ -115,11 +115,12 @@ function Summary({ rows, step, total, onEdit, children }) {
 }
 
 /**
- * Barra fija abajo en celular (pasos 1 a 3): lo elegido, el total y "Continuar".
+ * Barra fija abajo en celular: lo elegido, el total y la acción del paso
+ * ("Continuar", o en el paso 4 "Iniciar sesión" / "Confirmar").
  * Al tocarla se despliega el resumen completo. Es sticky dentro de la página,
  * así que al final se detiene antes del pie.
  */
-function MobileSummaryBar({ rows, step, total, onEdit, onContinue }) {
+function MobileSummaryBar({ rows, step, total, onEdit, action }) {
   const [open, setOpen] = useState(false)
   useEffect(() => setOpen(false), [step])
   const service = rows[0][2]
@@ -152,9 +153,7 @@ function MobileSummaryBar({ rows, step, total, onEdit, onContinue }) {
             </span>
           </button>
           {total != null && <span className="font-display text-[22px] font-semibold text-gold tabular-nums">{formatMoneyMXN(total)}</span>}
-          {onContinue && (
-            <Button variant="gold" iconRight={ArrowRight} className="h-11" onClick={onContinue}>Continuar</Button>
-          )}
+          {action}
         </div>
       </div>
     </div>
@@ -348,6 +347,17 @@ export default function Reservar() {
     [MapPin, 'Lugar', `${business.name}, ${business.city}`, null],
   ]
   const canContinue = step < 4 && step < maxStep
+  const loginUrl = `/login?volver=${encodeURIComponent(location.pathname + location.search)}`
+
+  // Acción de la barra de abajo en celular: siempre al alcance del pulgar
+  let mobileAction = null
+  if (step < 4) {
+    if (canContinue) mobileAction = <Button variant="gold" iconRight={ArrowRight} className="h-11" onClick={() => update({}, step + 1)}>Continuar</Button>
+  } else if (!session) {
+    mobileAction = <Button as={Link} to={loginUrl} variant="gold" icon={LogIn} className="h-11">Iniciar sesión</Button>
+  } else if (profile?.role !== 'banned') {
+    mobileAction = <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="h-11">Confirmar</Button>
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col gap-space-lg min-h-[calc(100dvh-4rem)] lg:min-h-0">
@@ -526,8 +536,9 @@ export default function Reservar() {
                 {!session ? (
                   <PortalCard className="flex flex-col gap-space-md">
                     <p className="text-body-default">Para confirmar necesitas una cuenta. Así podrás ver, cambiar o cancelar tu cita después.</p>
-                    <div className="flex flex-wrap gap-space-sm">
-                      <Button as={Link} to={`/login?volver=${encodeURIComponent(location.pathname + location.search)}`} variant="gold" icon={LogIn}>
+                    {/* En celular este botón vive en la barra de abajo */}
+                    <div className="hidden lg:flex flex-wrap gap-space-sm">
+                      <Button as={Link} to={loginUrl} variant="gold" icon={LogIn}>
                         Iniciar sesión o registrarme
                       </Button>
                     </div>
@@ -574,7 +585,7 @@ export default function Reservar() {
                       <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">Ese horario ya no está disponible. Elige otro.</p>
                     )}
                     {submitError && <p role="alert" className="text-body-sm text-error bg-error-container rounded-lg px-3 py-2">{submitError}</p>}
-                    <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned || notes.length > 300} icon={CalendarCheck} className="justify-center h-11">
+                    <Button variant="gold" onClick={confirm} loading={saving} disabled={!assigned} icon={CalendarCheck} className="max-lg:hidden justify-center h-11">
                       Confirmar reserva{service ? ` · ${formatMoneyMXN(service.price)}` : ''}
                     </Button>
                     <p className="text-body-sm text-ink/70 text-center">Sin pago por adelantado: pagas en el local al terminar.</p>
@@ -605,13 +616,13 @@ export default function Reservar() {
         </div>
       )}
 
-      {!catalog.error && step < 4 && (
+      {!catalog.error && (
         <MobileSummaryBar
           rows={summaryRows}
           step={step}
           total={service?.price}
           onEdit={(s) => update({}, s)}
-          onContinue={canContinue ? () => update({}, step + 1) : null}
+          action={mobileAction}
         />
       )}
     </div>
