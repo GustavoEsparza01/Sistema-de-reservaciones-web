@@ -53,3 +53,11 @@ No hay tests, linter ni formateador configurados. Para comprobar un cambio: `npm
 ## Skills del proyecto
 
 En `.claude/skills/` hay skills de diseño y animación (`impeccable`, `design-taste-frontend`, `animate`, `review-animations`, …). Úsalas para auditar o pulir la interfaz respetando las convenciones de arriba.
+
+# Peludos Barber Shop · Barber OS
+- Diseño: respetar tailwind.config.js y design/stitch/DESIGN.md. No inventar colores ni fuentes.
+- Portal público (/peludos/*): estilo premium carbón (ink) + dorado (gold), títulos font-display.
+- Panel (/app/*): estilo azul/slate, sobrio y funcional.
+- Animaciones: CSS + utilidades de src/components/motion. No agregar Framer Motion sin preguntar.
+- Respetar prefers-reduced-motion.
+- La mayoría de clientes reserva desde el celular.
