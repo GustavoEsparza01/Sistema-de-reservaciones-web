@@ -1,6 +1,7 @@
 // Piezas de movimiento del estilo premium (landing y portal público).
 // Los estilos viven en src/index.css; con "reducir movimiento" activado todo queda estático.
 import { useEffect, useRef, useState } from 'react'
+import { Pause, Play } from 'lucide-react'
 import { cn } from '../../lib/cn'
 
 /** Avisa una sola vez cuando el elemento entra en pantalla. */
@@ -93,14 +94,30 @@ export function CountUp({ to, duration = 1400, prefix = '', suffix = '', classNa
   return <span ref={ref} className={cn('tabular-nums', className)}>{prefix}{value}{suffix}</span>
 }
 
-/** Cinta que se desplaza sin fin; se pausa al pasar el cursor. */
+/**
+ * Cinta que se desplaza sin fin (sobre fondo carbón). Se pausa al pasar el cursor,
+ * al recibir foco con el teclado y con su botón de pausa, que también sirve en celular
+ * (WCAG 2.2.2: lo que se mueve más de 5 s debe poder detenerse).
+ * La copia que completa el giro es solo visual: ni el lector de pantalla ni el Tab la alcanzan.
+ */
 export function Marquee({ duration = 40, className, children }) {
+  const [paused, setPaused] = useState(false)
   return (
-    <div className={cn('marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]', className)}>
-      <div className="marquee-track" style={{ '--marquee-duration': `${duration}s` }}>
-        <div className="flex shrink-0">{children}</div>
-        <div className="flex shrink-0" aria-hidden>{children}</div>
+    <div className={cn('marquee relative', paused && 'is-paused', className)}>
+      <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="marquee-track" style={{ '--marquee-duration': `${duration}s` }}>
+          <div className="flex shrink-0">{children}</div>
+          <div className="flex shrink-0" aria-hidden inert="">{children}</div>
+        </div>
       </div>
+      <button
+        type="button"
+        onClick={() => setPaused((p) => !p)}
+        aria-label={paused ? 'Reanudar el movimiento de la cinta' : 'Pausar el movimiento de la cinta'}
+        className="motion-reduce:hidden absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border border-white/15 bg-ink/85 text-white/80 flex items-center justify-center transition-colors hover:text-white hover:border-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      >
+        {paused ? <Play size={16} strokeWidth={1.75} aria-hidden /> : <Pause size={16} strokeWidth={1.75} aria-hidden />}
+      </button>
     </div>
   )
 }

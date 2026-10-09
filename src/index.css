@@ -195,6 +195,9 @@
 @media (hover: hover) and (pointer: fine) {
   .marquee:hover .marquee-track { animation-play-state: paused; }
 }
+/* Pausa con el botón o mientras algo de la cinta tiene el foco del teclado */
+.marquee.is-paused .marquee-track,
+.marquee:focus-within .marquee-track { animation-play-state: paused; }
 
 /* Franjas de poste de barbería en movimiento */
 .barber-pole {

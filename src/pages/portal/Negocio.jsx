@@ -1,7 +1,7 @@
 // Página pública del negocio (design/stitch/10-pagina-publica), con el estilo premium del portal.
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowRight, CalendarCheck, CalendarPlus, Clock, CircleAlert, MapPin, Scissors, Store, Timer, Undo2 } from 'lucide-react'
+import { ArrowRight, CalendarCheck, CalendarPlus, Clock, CircleAlert, MapPin, RotateCw, Scissors, Store, Timer, Undo2 } from 'lucide-react'
 import { openStatus, useBusiness } from '../../hooks/useBusiness'
 import { fetchPublicBarbers, fetchPublicServices } from '../../lib/publicData'
 import { formatDuration, formatMoneyMXN } from '../../lib/format'
@@ -104,7 +104,13 @@ export default function Negocio() {
         <section className="bg-ink-soft border-y border-ink-line py-space-md" aria-label="Servicios">
           <Marquee duration={35}>
             {[...services, ...services, ...services].map((s, i) => (
-              <Link key={`${s.id}-${i}`} to={`${base}/reservar?servicio=${s.id}`} className="flex items-center gap-space-md pr-space-xl font-display italic text-[20px] md:text-[24px] text-white/85 hover:text-gold transition-colors whitespace-nowrap">
+              <Link
+                key={`${s.id}-${i}`}
+                to={`${base}/reservar?servicio=${s.id}`}
+                // Se repiten para llenar la cinta; solo la primera vuelta se anuncia y recibe Tab
+                aria-hidden={i >= services.length || undefined}
+                tabIndex={i >= services.length ? -1 : undefined}
+                className="flex items-center gap-space-md py-2 pr-space-xl font-display italic text-[20px] md:text-[24px] text-white/85 hover:text-gold transition-colors whitespace-nowrap">
                 {s.name} <span className="not-italic font-sans text-body-sm text-gold">{formatMoneyMXN(s.price)}</span>
                 <Scissors size={16} className="text-gold/70" aria-hidden />
               </Link>
@@ -115,8 +121,13 @@ export default function Negocio() {
 
       <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin py-[64px] md:py-[80px] flex flex-col gap-[72px]">
         {error && (
-          <PortalCard>
-            <EmptyState icon={CircleAlert} title="No se pudo cargar la información" description="Revisa tu conexión y recarga la página." />
+          <PortalCard role="alert">
+            <EmptyState
+              icon={CircleAlert}
+              title="No pudimos cargar los servicios y el equipo"
+              description="Revisa tu conexión e inténtalo de nuevo."
+              action={<Button variant="outline-dark" icon={RotateCw} onClick={() => window.location.reload()}>Reintentar</Button>}
+            />
           </PortalCard>
         )}
 
@@ -139,7 +150,7 @@ export default function Negocio() {
                     {s.description && <p className="text-body-sm text-ink/70 leading-6 flex-1">{s.description}</p>}
                     <Link
                       to={`${base}/reservar?servicio=${s.id}`}
-                      className="mt-auto pt-space-sm inline-flex items-center gap-1.5 text-body-semibold text-ink group-hover:text-gold-deep transition-colors"
+                      className="mt-auto self-start min-h-11 inline-flex items-center gap-1.5 text-body-semibold text-ink group-hover:text-gold-deep transition-colors"
                     >
                       Reservar <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" aria-hidden />
                     </Link>
@@ -168,7 +179,7 @@ export default function Negocio() {
                     </span>
                     <h3 className="font-display text-[20px] font-semibold text-ink mt-space-xs">{b.name}</h3>
                     <p className="text-body-sm text-ink/70 flex-1">{b.bio || 'Barbero de Peludos Barber Shop.'}</p>
-                    <Button as={Link} to={`${base}/reservar?barbero=${b.id}`} variant="outline-dark" size="sm">
+                    <Button as={Link} to={`${base}/reservar?barbero=${b.id}`} variant="outline-dark" size="lg">
                       Reservar con {b.name === 'Barbero' ? 'este barbero' : b.name.split(' ')[0]}
                     </Button>
                   </div>
@@ -213,7 +224,7 @@ export default function Negocio() {
             <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-gold/15 blur-[80px] animate-drift" aria-hidden />
             {[
               { icon: CalendarCheck, title: 'Reserva en minutos', text: 'Elige servicio, barbero y horario disponible desde tu celular.' },
-              { icon: Undo2, title: 'Cancela desde tu cuenta', text: 'Consulta o cancela tus citas en "Mis citas" cuando lo necesites.' },
+              { icon: Undo2, title: 'Cambia de planes sin llamar', text: 'Consulta, reprograma o cancela tus citas desde "Mis citas".' },
               { icon: Clock, title: 'Pagas en el local', text: 'No se cobra nada por adelantado al reservar.' },
             ].map(({ icon: Icon, title, text }) => (
               <div key={title} className="group relative flex gap-space-md items-start">
